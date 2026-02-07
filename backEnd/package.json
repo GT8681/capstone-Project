@@ -1,18 +1,23 @@
 {
-  "name": "backend",
+  "name": "capstone-be",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": ""
   },
   "keywords": [],
-  "author": "",
+  "author": "Gianni toscano",
   "license": "ISC",
-  "description": "",
+  "description": "backEnd for capstone project",
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "mongoose": "^9.1.5"
+    "mongoose": "^9.1.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
   }
 }
