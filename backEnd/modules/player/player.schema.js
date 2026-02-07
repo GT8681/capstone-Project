@@ -39,14 +39,17 @@ const playerSchema = new mongoose.Schema({
         required:false
     },
     height: {
-        type : String,
+        type : Number,
         required:false
 
     },
     weight:{
-        type:String,
+        type: Number,
         required:false
     },
+    avatar:{
+        type: String,
+    }
 
 
 },{timestamps : true});

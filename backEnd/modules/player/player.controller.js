@@ -1,4 +1,5 @@
 import { getAllPlayers,createPlayer,updatePlayer,deletePlayer,findRolePlayer} from "./player.service.js";
+import Player from '../player/player.schema.js';
 
 
 
@@ -21,16 +22,18 @@ export const getPlayers = async (req, res) => {
 
 
 export const createPlayers = async (req, res) => {
-    const {body} = req;
+    
     try {
-        const player = await createPlayer(body);
-        console.log(player);
+
+        const playerData = req.body;
+        if(req.file){
+            playerData.avatar = req.file.path;
+        }
+        const newPlayer = new Player(PlayerData);
+        await newPlayer.save();
+
         res.status(201)
-            .json({
-                statusCode : 201,
-                player,
-                message : 'Player created successfully'
-            })
+            .json(newPlayer)
 
     } catch (error) {
         res.status(400)
