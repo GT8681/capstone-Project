@@ -1,7 +1,9 @@
-import mongoose from 'mongoose'
+
+import {Schema,model} from 'mongoose';
 
 
-const playerSchema = new mongoose.Schema({
+const playerSchema = new Schema(
+    {
     name: {
         type: String,
         required: true
@@ -49,9 +51,15 @@ const playerSchema = new mongoose.Schema({
     },
     avatar:{
         type: String,
-    }
+        required : true
+    },
 
 
-},{timestamps : true});
+},{ timestamps: true,
+    collection: 'players', 
+  }
+);
 
-export default mongoose.model('player',playerSchema,'players')
+
+
+export default model('player',playerSchema)

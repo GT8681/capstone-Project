@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import {initDatabaseConnection} from './database/index.js';
 import playerRoutes from './modules/player/player.routes.js';
+import authRoutes from './modules/auth/auth.routes.js';
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 
 
 app.use('/players',playerRoutes);
+app.use('/auth',authRoutes);
 
 
 
