@@ -1,4 +1,4 @@
-import { getAllPlayers, createPlayer, updatePlayer, deletePlayer, findRolePlayer } from "./player.service.js";
+import { getAllPlayers, updatePlayer, deletePlayer, findRolePlayer } from "./player.service.js";
 import Player from '../player/player.schema.js';
 
 
