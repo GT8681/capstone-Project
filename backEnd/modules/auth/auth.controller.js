@@ -7,9 +7,10 @@ export const register = async (req, res) => {
 
         const { name, surname, email, password } = req.body;
         const userExists = await findUserByEmail(email);
+        
         //controllo se esiste email
         if(userExists){
-            return res.status(400).json({maessage: 'email gia esistente'})
+            return res.status(409).json({maessage: 'email gia esistente'})
           }
          //Hash della password
         const salt = await bcrypt.genSalt(10);

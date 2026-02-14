@@ -1,4 +1,4 @@
-import { getAllPlayers, updatePlayer, deletePlayer, findRolePlayer } from "./player.service.js";
+import { getAllPlayers, updatePlayer, deletePlayer, findRolePlayer,findPlayerById} from "./player.service.js";
 import Player from '../player/player.schema.js';
 
 
@@ -104,5 +104,26 @@ export const findPlayerRole = async (req, res) => {
             message: error.message
         })
     }
+
+}
+
+export const playerById = async(req,res) =>{
+    try {
+        const { id } = req.params;
+        const player = await findPlayerById(id);
+        if (!player) {
+            return res.status(404).json({
+                message: 'Player not found'
+            })
+        }
+        res.json(player)
+        
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        })
+        
+    }
+
 }
 

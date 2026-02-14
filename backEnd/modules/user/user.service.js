@@ -19,3 +19,7 @@ export const uploadUserPassword = async (userId,oldPassword,newPassword) => {
        return await user.save();
 
 }
+export const getUserById = async (userId) => {
+      const user = await User.findById(userId).select(-password);
+      return user;
+} 

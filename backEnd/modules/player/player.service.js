@@ -23,3 +23,6 @@ export const findRolePlayer = async (role) => {
     const query = role ? {role : role} : {};
     return await Player.find(query);
 }
+export const findPlayerById = async (id) => {
+    return await Player.findById(id);
+}

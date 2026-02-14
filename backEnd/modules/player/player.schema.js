@@ -25,7 +25,7 @@ const playerSchema = new Schema(
         type: Number,
         min: 1,
         max: 10,
-        required:true
+        required:false
     },
 
     description: {
@@ -51,8 +51,16 @@ const playerSchema = new Schema(
     },
     avatar:{
         type: String,
-        required : true
+        required : false
     },
+    team:{
+        type: String,
+        required: false
+    },
+    rating:{
+        type: Number,
+        required: false
+    }
 
 
 },{ timestamps: true,
