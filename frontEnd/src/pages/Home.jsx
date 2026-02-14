@@ -1,19 +1,105 @@
-import React from "react";
-import { Container,Row,Col } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { customFetch } from '../API/api';
+import { Container, Row, Col, Card, Badge, Spinner, Button } from "react-bootstrap";
+import TopCarousel from '../components/caruselWelcome/carusel.jsx';
+import { Link } from "react-router-dom";
 
 const Home = () => {
+    const [players, setPlayer] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [playersForPage, setPlayersForPage] = useState(3);
+
+    useEffect(() => {
+        const fectchPlayer = async () => {
+            try {
+                const response = await customFetch('players', {
+                    method: 'GET'
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    const playersArray = Array.isArray(data) ? data : (data.players || []);
+                    setPlayer(playersArray);
+
+                }
+            } catch (error) {
+                console.error('Errore durante il fetch dei giocatori:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fectchPlayer();
+    }, []);
+    if (loading)
+        return
+    <Container className="text-center mt-4">
+        <Spinner animation="border" variant="success" />
+        <p className="text-light mt-2 ">Caricamento Talenti</p>
+    </Container>
+
+    const indexOfLastPlayer = currentPage * playersForPage;
+    const indexOfFirstPlayer = indexOfLastPlayer - playersForPage;
+    const currentPlayers = players.slice(indexOfFirstPlayer, indexOfLastPlayer);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     return (
-        <Container>
-            <Row>
-                <Col>
-                <div className='home-container d-flex flex-column align-items-center justify-content-center text-center'>
-                <h1>SoccerScout</h1>
-                    <p>Questa è la pagina principale del nostro progetto. Qui potrai trovare tutte le funzionalità e i servizi offerti dalla nostra applicazione.</p>
-                    <p>Esplora le diverse sezioni, accedi alle tue funzionalità preferite e goditi l'esperienza unica che abbiamo creato per te!</p>
+        <>
+            <TopCarousel />
+            <Container className="mt-4">
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                    <h2 className="text-white">TOP PLAYER</h2>
                 </div>
-               </Col>
-            </Row>
-        </Container>
+
+                <Row>
+                    {currentPlayers.length > 0 ? (
+                        currentPlayers.map((player) => (
+                            <Col key={player._id} xs={12} md={6} lg={4} className="mb-4">
+                                <Card className="h-100 box-shadow bg-dark text-white border-secondary">
+                                    <Card.Body>
+                                        <div className="d-flex justify-content-center mb-3">
+                                            <Card.Img variant='top' src={player.avatar} style={{height:'240px',objectFit:'cover'}} />
+                                        </div>
+
+                                        <div className="d-flex flex-column justify-content-between align-items-start mb-2">
+                                            <Card.Title className="text-success">{player.firstname}</Card.Title>
+                                            <Card.Title className="text-success">{player.surname}</Card.Title>
+                                            <Badge pill bg="info" text="dark">{player.role}</Badge>
+                                        </div>
+                                       
+                                        <hr className="border-secondary" />
+                                        <div className="d-flex justify-content-between align-items-center">
+                                           <Link to={`/player-details/${player._id}`} className="btn btn-primary">
+                                           Vedi Dettaglio
+                                           </Link>
+                                        </div>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        ))
+                    ) : (
+                        <Col className="text-center">
+                            <p className="text-muted">Nessun giocatore trovato.</p>
+                            <p className="text-muted">Inizia ad aggiungere i tuoi report di scouting!</p>
+                        </Col>
+                    )}
+                </Row>
+                <div className="d-flex justify-content-center mt-4">
+                    <nav>
+                        <ul className="pagination">
+                            {Array.from({ length: Math.ceil(players.length / playersForPage) }).map((_, index) => (
+
+                                <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                                    <Button variant="outline-secondary" size="sm" onClick={() => paginate(index + 1)}>
+                                        {index + 1}
+                                    </Button>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+
+                </div>
+            </Container>
+        </>
     )
 }
 export default Home;

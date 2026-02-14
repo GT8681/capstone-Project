@@ -21,20 +21,21 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const data = await customFetch('auth/login', {
+            const response  = await customFetch('auth/login', {
                 method: 'POST',
-                body: JSON.stringify(credential)
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                 body: JSON.stringify(credential)
             })
-              const userToken = data.token;
+              const data = await response.json();
 
-            if (userToken) {
-                localStorage.setItem('token', userToken);
+            if (response.ok && data.token) {
+                localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
                 window.location.href = '/';
                 navigate('/');
                 alert('Login effettuato con successo!');
-               
-
                 
             } else {
                 console.log('Login fallito: token non ricevuto', data);
@@ -76,7 +77,7 @@ const Login = () => {
                         ACCEDI
                     </Button>
                     <div className="mt-3 text-center">
-                        <span>Non hai un account? </span>
+                        <span className="text-dark">Non hai un account? </span>
                         <Link to="/register">Registrati</Link>
                     </div>
                 </Form>

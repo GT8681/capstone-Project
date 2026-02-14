@@ -12,7 +12,7 @@ const MyNavbar = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         localStorage.clear();
-        navigate("/login");
+        navigate("/");
         window.location.reload();
 
     };
