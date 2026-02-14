@@ -1,0 +1,62 @@
+.navbar {
+    padding: 0.6rem;
+    border-bottom: 2px solid #198754;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+}
+.avatar-circle{
+    width: 38px;
+    height: 38px;
+    background-color: #198754;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgb(0,0,0,0.2);
+}
+.nav-link:hover .avatar-circle {
+    transform: scale(1.05);
+    background-color: #157347;
+}
+
+/*DROPDOWN MENU*/
+
+.dropdown-menu {
+    margin-top: 10px !important;
+    border: none !important;
+    box-shadow: 0 5px 15px rgb(0,0,0,0.2) !important;
+    border-radius: 8px !important;
+}
+.dropdown-item{
+    padding: 10px 20px !important;
+    font-size: 0.9rem !important;
+    transition: background-color 0.2s;
+}
+.dropdown-item:hover {
+    background-color: #f8f9fa !important;
+    color: #198754 !important;
+}
+.text-danger:hover{
+    background-color: #fff5f5 !important;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width:991px){
+    .user-section{
+        padding-top:15px;
+        border-top: 1px solid #444;
+        margin-top: 10px;
+    }
+    .avatar-circle{
+        width: 32px;
+        height: 32px;
+    }
+}

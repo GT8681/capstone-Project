@@ -1,0 +1,12 @@
+body{
+    background-color: hsl(96, 50%, 54%);
+    min-height: 100vh;
+}
+.card{
+
+    box-shadow: 0 4px 12px rgba(210, 228, 96, 0.1);
+}
+.navbar-brand{
+    font-weight: bold;
+    letter-spacing: 1px;
+}

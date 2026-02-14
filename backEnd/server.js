@@ -19,12 +19,9 @@ app.use(cors());
 app.use(express.json());
 
 
-
 app.use('/players',playerRoutes);
 app.use('/auth',authRoutes);
 app.use('/users',usersRoutes);
-
-
 
 
 app.listen(PORT, () => {
