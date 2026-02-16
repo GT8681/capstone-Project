@@ -7,8 +7,10 @@ const router = express.Router();
 
 
 router.get('/',verifyToken,visualizzazionUser);
+router.get('/me',verifyToken,visualizzazionUserById);
 router.get('/:id',verifyToken,visualizzazionUserById);
 router.post('/update-password',verifyToken,updateUserLogPassword);
+
 
 
 export default router;

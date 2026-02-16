@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Card, Row, Col, ListGroup, Badge,Button } from 'react-bootstrap';
+import { Container, Card, Row, Col, ListGroup, Nav, Badge } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -7,6 +8,7 @@ const Profile = () => {
   useEffect(() => {
     // Recuperiamo l'utente salvato al login
     const savedUser = localStorage.getItem('user');
+    console.log('utente salvato', savedUser);
     if (savedUser) {
       setUserData(JSON.parse(savedUser));
     }
@@ -19,7 +21,7 @@ const Profile = () => {
       </Container>
     );
   }
-console.log('dati caricati',userData);
+  console.log('dati caricati', userData);
   return (
     <Container className="mt-5">
       <Row className="justify-content-center mb-4">
@@ -30,23 +32,32 @@ console.log('dati caricati',userData);
             </Card.Header>
             <Card.Body className="p-4">
               <div className="text-center mb-4">
-                <div className="d-inline-flex align-items-center justify-content-center rounded-circle bg-info text-dark fw-bold" 
-                     style={{ width: '80px', height: '80px', fontSize: '2rem' }}>
+                <div className="d-inline-flex align-items-center justify-content-center rounded-circle bg-info text-dark fw-bold"
+                  style={{ width: '80px', height: '80px', fontSize: '2rem' }}>
                   {userData.name?.charAt(0)}{userData.surname?.charAt(0)}
                 </div>
               </div>
-              
+
               <ListGroup variant="flush">
                 <ListGroup.Item className="bg-dark text-white border-secondary d-flex justify-content-between">
                   <strong>Nome:</strong> <span>{userData.name}</span>
                 </ListGroup.Item>
-                
+                <ListGroup.Item className="bg-dark text-white border-secondary d-flex justify-content-between">
+                  <strong>cognome:</strong> <span>{userData.surname}</span>
+                </ListGroup.Item>
+
                 <ListGroup.Item className="bg-dark text-white border-secondary d-flex justify-content-between">
                   <strong>Email:</strong> <span>{userData.email}</span>
                 </ListGroup.Item>
+                <div className='Role mt-3'>
+                  <Badge bg={userData.role === 'admin' ? 'danger' : 'info'} className="mb-3 text-blacks">
+                    {userData.role === 'admin' ? 'Amministratore' : 'Utente standard'}
+                  </Badge>
+                </div>
+
                 <ListGroup>
                   <div className='d-flex justify-content-center mt-4'>
-                  <Button>HOME</Button>
+                    <Nav.Link as={Link} to="/">HOME</Nav.Link>
                   </div>
                 </ListGroup>
               </ListGroup>

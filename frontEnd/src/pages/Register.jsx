@@ -7,11 +7,13 @@ import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [error1,setError1] = useState(''); 
+    const [role,setRole] = useState('user'); 
     const [formData, setFormData] = useState({
         name: "",
         surname: "",
         email: "",
-        password: ""
+        password: "",
+        role:"user"
     })
     const navigate = useNavigate();
 
@@ -55,11 +57,24 @@ const Register = () => {
                             <Form.Label>Email</Form.Label>
                             <Form.Control type="email" placeholder="Inserisci email" name="email" onChange={handleChange} className="custom-input" />
                         </Form.Group>
+                       
                         <Form.Group className="mb-3">
                             <Form.Label>Password</Form.Label>
                             <Form.Control type="password" placeholder="inserisci la Password" name="password" onChange={handleChange} className="custom-input" />
                         </Form.Group>
                     </Form.Group>
+
+
+                    <Form.Group className="mb-4">
+                            <Form.Label>Tipo DI Utente</Form.Label>
+                                <Form.Select
+                                 value={role} 
+                                 onChange={(e) => setRole(e.target.value)}
+                                  className="custom-input bg-dark text-white border-secondary">
+                                    <option value="user">User</option>
+                                    <option value="admin">Admin</option>
+                                </Form.Select>
+                        </Form.Group>
 
                     <Button variant="success" type="submit" className="custom-button w-100">
                         REGISTRATI

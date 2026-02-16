@@ -8,8 +8,10 @@ import { Link } from "react-router-dom";
 
 
 
-const Login = () => {
+
+const Login = ({setUser}) => {
     const [credential, setCredential] = useState({ email: '', password: '' })
+     const [error1,setError1] = useState(''); 
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -20,25 +22,31 @@ const Login = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response  = await customFetch('auth/login', {
-                method: 'POST',
-                headers:{
-                    'Content-Type': 'application/json'
-                },
-                 body: JSON.stringify(credential)
-            })
-              const data = await response.json();
+            setError1('');
 
-            if (response.ok && data.token) {
-                localStorage.setItem('token', data.token);
+        if(localStorage.getItem('token')){
+            alert('Sei gia loggato');
+            navigate('/');
+            return;
+
+        }
+        try {
+              const response = await customFetch('auth/login', {
+                method: 'POST',
+                headers:{'Content-Type': 'application/json' },
+                 body: JSON.stringify(credential)
+            }) 
+        
+           const data = await response.json();
+           
+            if (data.token) {
+                localStorage.setItem('token',data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
-                window.location.href = '/';
+                setUser(data.user);
                 navigate('/');
-                alert('Login effettuato con successo!');
-                
             } else {
-                console.log('Login fallito: token non ricevuto', data);
+                setError1(data.message || 'Credenziali sbagliate');
+                return;
             }
         } catch (error) {
             alert(error.message || 'Si e verificato un errore durante il login');
@@ -72,6 +80,13 @@ const Login = () => {
                             className="custom-input"
                             onChange={handleChange} />
                     </Form.Group>
+                    {error1 && (
+                        <div className="alert alert-danger py-2 shadow-sm" role="alert" >
+                            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                            {error1}
+
+                        </div>
+                    )}
 
                     <Button variant="primary" type="submit" className="custom-button w-100">
                         ACCEDI

@@ -21,12 +21,7 @@ const playerSchema = new Schema(
         enum: ['POR', 'DIF', 'CEN', 'ATT'],
         required: true
     },
-    vote: {
-        type: Number,
-        min: 1,
-        max: 10,
-        required:false
-    },
+   
 
     description: {
         type: String,
@@ -59,7 +54,9 @@ const playerSchema = new Schema(
     },
     rating:{
         type: Number,
-        required: false
+        required: true,
+        min:1,
+        max:10
     }
 
 

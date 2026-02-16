@@ -33,8 +33,8 @@ export const updateUserLogPassword = async (req, res) => {
 
 export const visualizzazionUserById = async (req, res) => {
     try {
-        const userId = req.params.id;
-        const user = await getUserById(userId);
+        const userId = req.params.id || req.user.id;
+        const user = await getUserById(userId)
         if (!user) {
             return res.status(404).json({ message: 'Utente non trovato' });
         }

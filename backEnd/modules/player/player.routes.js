@@ -8,7 +8,7 @@ const router = express.Router();
 
 
 router.get('/',getPlayers);
-router.get('/:id',playerById);
+router.get('/:id',verifyToken,playerById);
 router.get('/findRole',findPlayerRole);
 router.post('/add',verifyToken,uploadCloud.single('foto'),createPlayers);
 router.patch('/:id',patchPlayer);

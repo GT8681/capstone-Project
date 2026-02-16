@@ -4,10 +4,9 @@ import { Navbar, Nav, Container, Button, NavDropdown } from "react-bootstrap";
 import './navbar.css'
 
 
-const MyNavbar = () => {
+const MyNavbar = ({user}) => {
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem("user"));
-
+    
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");

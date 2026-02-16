@@ -3,12 +3,15 @@ import { customFetch } from '../API/api';
 import { Container, Row, Col, Card, Badge, Spinner, Button } from "react-bootstrap";
 import TopCarousel from '../components/caruselWelcome/carusel.jsx';
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Stars from "../components/stars/Stars.jsx";
 
 const Home = () => {
     const [players, setPlayer] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [playersForPage, setPlayersForPage] = useState(3);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fectchPlayer = async () => {
@@ -55,22 +58,41 @@ const Home = () => {
                         currentPlayers.map((player) => (
                             <Col key={player._id} xs={12} md={6} lg={4} className="mb-4">
                                 <Card className="h-100 box-shadow bg-dark text-white border-secondary">
+                                    <div className="position-absolute top-0 end-0 p-2">
+                                        <Badge pill bg="warning" text="dark" className="">
+                                            {player.rating} / 10
+                                        </Badge>
+
+                                    </div>
                                     <Card.Body>
                                         <div className="d-flex justify-content-center mb-3">
-                                            <Card.Img variant='top' src={player.avatar} style={{height:'240px',objectFit:'cover'}} />
+                                            <Card.Img variant='top' src={player.avatar} style={{ height: '240px', objectFit: 'cover' }} />
                                         </div>
 
                                         <div className="d-flex flex-column justify-content-between align-items-start mb-2">
-                                            <Card.Title className="text-success">{player.firstname}</Card.Title>
+                                            <Card.Title className="text-success">{player.name}</Card.Title>
                                             <Card.Title className="text-success">{player.surname}</Card.Title>
                                             <Badge pill bg="info" text="dark">{player.role}</Badge>
+
+                                            <Badge bg="" className="">
+                                                <Stars rating={player.rating} />
+                                            </Badge>
                                         </div>
-                                       
+
                                         <hr className="border-secondary" />
                                         <div className="d-flex justify-content-between align-items-center">
-                                           <Link to={`/player-details/${player._id}`} className="btn btn-primary">
-                                           Vedi Dettaglio
-                                           </Link>
+
+                                            <Button onClick={() => {
+                                                if (!localStorage.getItem('token')) {
+                                                    alert('Per visualizzare i dettagli del giocatore è necessario effettuare il login');
+                                                    navigate('/login');
+                                                } else {
+                                                    navigate(`/player-details/${player._id}`);
+                                                }
+                                            }}>
+                                                Dettagli
+
+                                            </Button>
                                         </div>
                                     </Card.Body>
                                 </Card>

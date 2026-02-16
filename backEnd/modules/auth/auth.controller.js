@@ -5,7 +5,7 @@ import { findUserByEmail,createUser } from './auth.service.js';
 export const register = async (req, res) => {
     try {
 
-        const { name, surname, email, password } = req.body;
+        const { name, surname, email, password,role} = req.body;
         const userExists = await findUserByEmail(email);
         
         //controllo se esiste email
@@ -21,11 +21,12 @@ export const register = async (req, res) => {
             name,
             surname,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            role: 'user'
         });
         await newUser.save();
         res.status(201).json({
-            message: 'Utente registrato correttamente!!!'
+            message: 'Utente registrato correttamente!!!' + role
         })
 
     } catch (error) {
@@ -49,9 +50,7 @@ export const login = async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ message: 'Email o Password sbagliata' });
         }
-        const token = jwt.sign({ 
-            id: user._id },
-            process.env.CHIAVE_JWT, 
+        const token = jwt.sign({ id: user._id},process.env.CHIAVE_JWT, 
              { expiresIn: '1d' });
 
 
@@ -59,15 +58,16 @@ export const login = async (req, res) => {
             token,
             user: {
                 name: user.name,
+                surname: user.surname,
+                role: user.role,
                 email: user.email
+
             }
         })
     } catch (error) {
         res.status(500).json({ message: error.message })
 
     }
-
-
 }
 
 
