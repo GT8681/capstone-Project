@@ -17,7 +17,7 @@ const MyNavbar = ({user}) => {
     };
 
     return (
-        <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark' className="shadow">
+        <Navbar collapseOnSelect expand='lg' sticky="top" bg="dark" variant='dark' className="shadow">
             <Container>
                 <Navbar.Brand as={Link} to="/">
                     <img
@@ -36,11 +36,11 @@ const MyNavbar = ({user}) => {
                             <NavDropdown
                                 title={
                                     <div className="d-inline-flex align-items-center">
-                                        <div className=" avatar-circle rounded-circle bg-success text-white d-flex align-items-center justify-content-center" style={{ width: '30px', height: '30px', fontSize: '0.8rem', border: '2px solid white' }}>
+                                        <div className=" avatar-circle rounded-circle bg-success text-dark d-flex align-items-center justify-content-center" style={{ width: '30px', height: '30px', fontSize: '0.8rem', border: '2px solid white' }}>
                                             {user?.name?.[0]}{user?.surname?.[0]}
                                         </div>
-                                        <span className="ms-2">{user?.name}</span>
-                                        <span className="ms-2">{user?.surname}</span>
+                                        <span className="ms-2 text-black">{user?.name}</span>
+                                        <span className="ms-2 text-black">{user?.surname}</span>
                                     </div>
                                 }
                                 id="user-dropdown"

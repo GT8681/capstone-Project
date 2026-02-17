@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { customFetch } from '../API/api';
 import { Container, Row, Col, Card, Badge, Spinner, Button } from "react-bootstrap";
 import TopCarousel from '../components/caruselWelcome/carusel.jsx';
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Stars from "../components/stars/Stars.jsx";
 
@@ -10,7 +9,7 @@ const Home = () => {
     const [players, setPlayer] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const [playersForPage, setPlayersForPage] = useState(3);
+    const [playersForPage, setPlayersForPage] = useState(9);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -50,14 +49,14 @@ const Home = () => {
             <TopCarousel />
             <Container className="mt-4">
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                    <h2 className="text-white">TOP PLAYER</h2>
+                    <h2 className="text-danger">TOP PLAYER........</h2>
                 </div>
 
                 <Row>
                     {currentPlayers.length > 0 ? (
                         currentPlayers.map((player) => (
                             <Col key={player._id} xs={12} md={6} lg={4} className="mb-4">
-                                <Card className="h-100 box-shadow bg-dark text-white border-secondary">
+                                <Card className="h-100 box-shadow  text-white border-secondary">
                                     <div className="position-absolute top-0 end-0 p-2">
                                         <Badge pill bg="warning" text="dark" className="">
                                             {player.rating} / 10
@@ -66,7 +65,7 @@ const Home = () => {
                                     </div>
                                     <Card.Body>
                                         <div className="d-flex justify-content-center mb-3">
-                                            <Card.Img variant='top' src={player.avatar} style={{ height: '240px', objectFit: 'cover' }} />
+                                            <Card.Img variant='top' src={player.avatar} style={{ height: '240px', objectFit: 'cover'}} />
                                         </div>
 
                                         <div className="d-flex flex-column justify-content-between align-items-start mb-2">

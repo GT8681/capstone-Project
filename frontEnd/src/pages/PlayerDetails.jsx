@@ -44,7 +44,7 @@ const PlayerDetails = () => {
                     <div className='imag-wrapper d-flex justify-content-center mt-5 me-5'>
                         <img src={player.avatar} alt={player.surname} style={{ width: '300px' }} />
                     </div>
-                    <div className="wrapper-details  d-flex flex-column justify-content-center mt-5">
+                    <div className="wrapper-details text-dark d-flex flex-column justify-content-center mt-5">
 
                         <h1>{player.firstname} {player.surname}</h1>
                         <p>Ruolo: {player.role}</p>

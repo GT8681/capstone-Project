@@ -21,8 +21,6 @@ const playerSchema = new Schema(
         enum: ['POR', 'DIF', 'CEN', 'ATT'],
         required: true
     },
-   
-
     description: {
         type: String,
     },

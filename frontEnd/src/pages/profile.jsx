@@ -27,7 +27,7 @@ const Profile = () => {
       <Row className="justify-content-center mb-4">
         <Col md={6}>
           <Card bg="dark" text="white" className="border-secondary shadow-lg">
-            <Card.Header className="bg-dark border-secondary text-info text-center py-3">
+            <Card.Header className="bg-dark border-secondary text-white text-center py-3">
               <h2 className="mb-0">Area Personale</h2>
             </Card.Header>
             <Card.Body className="p-4">
