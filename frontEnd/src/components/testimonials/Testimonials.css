@@ -1,0 +1,75 @@
+.section-body{
+    
+    background-size: cover !important;
+    background-position: center;
+    display: flex;
+    align-items: center center !important;
+    position: relative;
+    background-repeat: no-repeat !important;
+    padding:  100px 0;
+
+
+}
+
+
+/* Forza lo sfondo della sezione a essere grigio chiaro */
+.section .dicono-di-me {
+    background-color: #f0f2f5 !important; 
+    padding: 80px 0 !important;
+    display: block !important;
+    visibility: visible !important;
+}
+
+/* Forza le card a essere BIANCHE e VISIBILI */
+.dicono-di-me .testimone-card {
+    background-color: #ffffff !important; 
+    border: 2px solid #dee2e6 !important; /* Bordo grigio scuro per vederlo bene */
+    padding: 30px !important;
+    margin-bottom: 20px;
+    display: flex !important;
+    flex-direction: column;
+    min-height: 250px;
+    opacity: 1 !important; /* Assicura che non sia trasparente */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    transition: all 0.6s ease;
+}
+
+/* Forza il TESTO a essere NERO (altrimenti non si legge) */
+.dicono-di-me .testo {
+    color: #212529 !important; 
+    font-size: 1.1rem !important;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.dicono-di-me .nome {
+    color: #000000 !important;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+}
+
+/* La card azzurra (quella del template Tigers) */
+.dicono-di-me .card-featured {
+    background-color: #00b4ff !important; 
+    border: none !important;
+}
+
+.dicono-di-me .card-featured .testo, 
+.dicono-di-me .card-featured .nome {
+    color: #700e0e !important; /* Qui forziamo il bianco */
+}
+.custom-t-card {
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+}
+
+.custom-t-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+}
+
+/* Sistema il colore delle virgolette di Bootstrap se necessario */
+.blockquote-footer::before {
+    color: inherit !important;
+}
+
+

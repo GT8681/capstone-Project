@@ -9,6 +9,9 @@ import MyFooter from './components/Footer/Footer';
 import PlayerDetails from './pages/PlayerDetails';
 import Profile from './pages/profile';
 import PromisingPlayers from './components/playerPromising/PlayersPromising';
+import SectionSponsor from './components/sectionSponsor/sectionSponsor';
+import Contactpage from './pages/Contactpage';
+import Testimonials from './components/testimonials/Testimonials.jsx';
 
 
 
@@ -51,10 +54,15 @@ export default function App() {
         <MyNavbar user={user} setUser={setUser} />
         <main className='flex-grow-1'>
           <Routes>
+         
             <Route path='/' element={
               <>
+                 
                 <Home />
                 <PromisingPlayers players={players} />
+                <SectionSponsor/>
+                <Testimonials/>
+               
               </>
             }
             />
@@ -62,8 +70,9 @@ export default function App() {
             <Route path='/register' element={<Register />} />
             <Route path='player-details/:id' element={<PlayerDetails />} />
             <Route path='/profile' element={<Profile />} />
+            <Route path='/contatti' element={<Contactpage/>} />
           </Routes>
-
+      
         </main>
         <MyFooter />
       </div>

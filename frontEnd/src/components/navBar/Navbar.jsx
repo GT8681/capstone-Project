@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container, Button, NavDropdown } from "react-bootstrap";
 import './navbar.css'
 
 
-const MyNavbar = ({user}) => {
+const MyNavbar = ({ user }) => {
     const navigate = useNavigate();
-    
+    const [showUserMenu,setShowUserMenu] = useState(false);
+    let timeoutId = null;
+
+    const handleMouseEnter = () => {
+        clearTimeout(timeoutId);
+        setShowUserMenu(true);
+    }
+
+    const handleMouseLeave = () =>{
+        timeoutId = setTimeout(() =>{
+            setShowUserMenu(false);
+        },150);
+    }
+
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
@@ -17,7 +30,7 @@ const MyNavbar = ({user}) => {
     };
 
     return (
-        <Navbar collapseOnSelect expand='lg' sticky="top" bg="dark" variant='dark' className="shadow">
+        <Navbar collapseOnSelect expand='lg' sticky="top">
             <Container>
                 <Navbar.Brand as={Link} to="/">
                     <img
@@ -32,19 +45,29 @@ const MyNavbar = ({user}) => {
 
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="ms-auto align-items-center">
+                        <Nav.Link className="btn-contact" as={Link} to='/contatti' >Contact us</Nav.Link>
                         {user ? (
                             <NavDropdown
                                 title={
-                                    <div className="d-inline-flex align-items-center">
+                                    <div className="d-inline-flex align-items-center p-2">
                                         <div className=" avatar-circle rounded-circle bg-success text-dark d-flex align-items-center justify-content-center" style={{ width: '30px', height: '30px', fontSize: '0.8rem', border: '2px solid white' }}>
                                             {user?.name?.[0]}{user?.surname?.[0]}
                                         </div>
-                                        <span className="ms-2 text-black">{user?.name}</span>
-                                        <span className="ms-2 text-black">{user?.surname}</span>
+                                        <div className="btn-profilo  d-flex align-items-center">
+                                            <span className="ms-2">{user?.name}</span>
+                                            <span className="ms-2">{user?.surname}</span>
+                                        </div>
+
                                     </div>
                                 }
+                                className="user-dropdown-container"
                                 id="user-dropdown"
-                                align='end'>
+                                align='end'
+                                show={showUserMenu}
+                                onMouseEnter={() => setShowUserMenu(handleMouseEnter)}
+                                onMouseLeave={() => setShowUserMenu(handleMouseLeave)}
+                                >
+
 
                                 <NavDropdown.Item as={Link} to="/profile"> Il mio Profilo</NavDropdown.Item>
 
@@ -60,6 +83,7 @@ const MyNavbar = ({user}) => {
                                 <Nav.Link as={Link} to="/">HOME</Nav.Link>
                             </>
                         )}
+
                     </Nav>
                 </Navbar.Collapse>
             </Container>

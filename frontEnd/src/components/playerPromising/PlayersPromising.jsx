@@ -20,13 +20,7 @@ const PromisingPlayers = ({ players }) => {
 
                             <Card className="bg-dark text-white shadow-sm border-0 h-100 overflow-hidden  " style={{ minHeight: '200px' }}>
                                 <Row className='g-0 h-100'>
-
-
-
-
                                     <Col xs={5}>
-
-
                                         <Card.Img
                                             src={player.avatar}
                                             style={{
@@ -36,23 +30,18 @@ const PromisingPlayers = ({ players }) => {
                                                 objectPosition: 'top center' // Mantiene i visi visibili
                                             }}
                                         />
-
                                     </Col>
-
                                     <Col xs={7} className="d-flex flex-column justify-content-center p-3">
                                         <div className="mb-1">
                                             <Badge bg="primary" style={{ fontSize: '0.7rem' }}>TOP PROSPECT</Badge>
                                         </div>
-
                                         <Card.Title className="h5 mb-1 text-truncate">
                                             {player.name} {player.surname}
                                         </Card.Title>
-
                                         <div className="mb-3">
                                             <small className="text-secondary">Rating: </small>
                                             <span className="text-warning fw-bold">{player.rating}/10</span>
                                         </div>
-
                                         <Button
                                             variant="outline-light"
                                             size="sm"
@@ -69,10 +58,8 @@ const PromisingPlayers = ({ players }) => {
                                             Dettagli
                                         </Button>
                                     </Col>
-
                                 </Row>
                             </Card>
-
                         </Col>
                     ))}
                 </div>

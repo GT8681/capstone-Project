@@ -3,7 +3,8 @@ import { customFetch } from '../API/api';
 import { Container, Row, Col, Card, Badge, Spinner, Button } from "react-bootstrap";
 import TopCarousel from '../components/caruselWelcome/carusel.jsx';
 import { useNavigate } from "react-router-dom";
-import Stars from "../components/stars/Stars.jsx";
+import RoleBadge from '../RoleBadge/RoleBadge.jsx';
+
 
 const Home = () => {
     const [players, setPlayer] = useState([]);
@@ -49,7 +50,7 @@ const Home = () => {
             <TopCarousel />
             <Container className="mt-4">
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                    <h2 className="text-danger">TOP PLAYER........</h2>
+                    <h2 className="text-danger">THE PLAYERS........</h2>
                 </div>
 
                 <Row>
@@ -65,19 +66,14 @@ const Home = () => {
                                     </div>
                                     <Card.Body>
                                         <div className="d-flex justify-content-center mb-3">
-                                            <Card.Img variant='top' src={player.avatar} style={{ height: '240px', objectFit: 'cover'}} />
+                                            <Card.Img variant='top' src={player.avatar} className="shadow-sm border-0 h-100 overflow-hidden " style={{ height: '240px', objectFit: 'cover' }} />
                                         </div>
 
                                         <div className="d-flex flex-column justify-content-between align-items-start mb-2">
                                             <Card.Title className="text-success">{player.name}</Card.Title>
                                             <Card.Title className="text-success">{player.surname}</Card.Title>
-                                            <Badge pill bg="info" text="dark">{player.role}</Badge>
-
-                                            <Badge bg="" className="">
-                                                <Stars rating={player.rating} />
-                                            </Badge>
+                                            <RoleBadge role={player.role} />
                                         </div>
-
                                         <hr className="border-secondary" />
                                         <div className="d-flex justify-content-between align-items-center">
 

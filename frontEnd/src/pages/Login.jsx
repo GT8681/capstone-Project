@@ -56,7 +56,7 @@ const Login = ({setUser}) => {
     return (
         <div className="login-page">
             <div className="login-card">
-                <h2>BENTORNATO</h2>
+                <h2>LOGIN</h2>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group
                         className="mb-3"
