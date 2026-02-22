@@ -6,6 +6,7 @@ const PlayerDetails = () => {
     const { id } = useParams();
     const [player, setPlayer] = useState(null);
     const [error, setError] = useState(false);
+    const user = JSON.parse(localStorage.getItem('user'));
 
 
     useEffect(() => {
@@ -37,6 +38,18 @@ const PlayerDetails = () => {
 
     if (!player) return <p>Caricamento...</p>;
 
+    if (!user || user.role !== 'PartnerPro') {
+        return (
+          <div className="container mt-5">
+            <div className="alert alert-danger">
+              <h3>Accesso Negato</h3>
+              <p>Solo i PartnerPro possono visualizzare i dettagli dei calciatori.</p>
+            </div>
+          </div>
+        );
+      }
+    
+
     return (
         <Container>
             <Row>
@@ -59,10 +72,7 @@ const PlayerDetails = () => {
                             </Button>
                         </div>
                     </div>
-
-
                 </Col>
-
             </Row>
         </Container>
     );

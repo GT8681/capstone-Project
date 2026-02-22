@@ -2,6 +2,8 @@
     padding: 0.6rem;
     border-bottom: 2px solid #198754;
     background-color: aquamarine;
+    background-color: #18a680 !important;
+    cursor: pointer;
 }
 
 .navbar-brand {
@@ -42,38 +44,40 @@
     display: flex !important;
     align-items: center !important;
     height: 100% !important;
-    padding: 10px 20px !important; /* Regola questo per l'altezza del blocco nero */
+    padding: 10px 20px !important; 
     background-color: transparent !important;
     color: #000 !important;
-    /* TRANSIZIONE LENTA: 0.4 secondi per diventare nero */
     transition: background-color 0.3s ease-out, color 0.3s ease !important;
+    cursor: pointer;
 }
 
-/* 2. Allineamento del contenuto dentro il titolo */
+/* Allineamento del contenuto dentro il titolo */
 .user-dropdown-container .dropdown-toggle div {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* 3. L'EFFETTO HOVER COMBINATO */
-/* Quando passi il mouse, il titolo e il menu diventano neri insieme lentamente */
+/* EFFETTO HOVER COMBINATO */
+
 .user-dropdown-container:hover .nav-link {
-    background-color: #111111 !important;
+    background-color: #18a680 !important;
     color: #ffc107 !important; /* Giallo o Bianco */
 }
 
-/* 4. Il Menu Dropdown (Allineato e Nero) */
-.user-dropdown-container .dropdown-menu {
-    background-color: #111111 !important;
+/* Il Menu Dropdown (Allineato e Nero) */
+.user-dropdown-container .dropdown-menu  {
+    
+    background-color: #18a680 !important;
     border: none !important;
     border-radius: 0 !important;
-    margin-top: 0 !important; /* Incollato senza buchi */
+    margin-top: 0 !important; 
     padding: 0 !important;
-    min-width: 100% !important; /* Largo esattamente come il titolo sopra */
-    /* Dissolvenza anche per la comparsa della tendina */
+    min-width: 100% !important; 
     animation: fadeIn 0.4s ease-out;
 }
+
+
 
 /* Animazione per la tendina che appare */
 @keyframes fadeIn {
@@ -81,14 +85,15 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* 5. Le voci interne */
+/* Le voci interne */
 .user-dropdown-container .dropdown-item {
     
     color: #ffc107 !important;
     padding: 15px 20px !important;
     text-transform: uppercase;
     font-weight: 700;
-    border-bottom: 1px solid #222;
+    
+    background-color: #18a680 !important;
     transition: background 0.3s ease !important;
 }
 
@@ -97,17 +102,28 @@
     font-weight: 600;
     transition: all 0.3s ease-in-out;
     position: relative;
+    cursor: pointer;
 
 }
 
 .btn-contact:hover {
-    background-color: #111111 !important;
+    background-color: #18a680 !important;
     color: #ffc107 !important; /* Giallo o Bianco */
-  
     transform: translateY(-2px);
 }
+.dashboard{
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    cursor: pointer;
 
+}
+.dashboard:hover{
+    background-color: #18a680 !important;
+    color: #ffc107 !important; /* Giallo o Bianco */
+    transform: translateY(-2px);
 
+}
 /* RESPONSIVE DESIGN */
 @media (max-width:991px) {
     .user-section {

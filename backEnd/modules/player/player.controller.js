@@ -24,9 +24,9 @@ export const getPlayers = async (req, res) => {
 export const createPlayers = async (req, res) => {
 
     try {
-        const { name, surname, age } = req.body;
+        const { name, surname,role,foot,rating} = req.body;
 
-        const duplicatePlayer = await Player.findOne({ name, surname, age });
+        const duplicatePlayer = await Player.findOne({ name, surname,rating,role,foot});
         if (duplicatePlayer) {
             return res.status(400).json({
                 message: 'Questo giocatore e gia presente nel database'
@@ -77,7 +77,10 @@ export const deleteOnePlayer = async (req, res) => {
     try {
 
         const { id } = req.params;
-        await deletePlayer(id)
+        const deletePlayers = await deletePlayer(id)
+         if(!deletePlayers){
+              return res.status(404).json({message: 'Player non trovato'});
+         }
 
         res.status(200).json({
             statusCode: 200,

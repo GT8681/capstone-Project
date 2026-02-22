@@ -20,3 +20,12 @@ export const verifyToken = (req, res, next) => {
         return res.status(401).json({ error: 'Invalid or expired token' })
     }
 }
+export const isPartner = (req, res, next) => {
+   
+    if (req.user && req.user.role === 'PartnerPro') {
+      next(); 
+    } else {
+      return res.status(403).json({ message: "Accesso negato: solo i Partner possono eseguire questa azione" });
+    }
+  };
+  

@@ -3,7 +3,8 @@ import { customFetch } from '../API/api';
 import { Container, Row, Col, Card, Badge, Spinner, Button } from "react-bootstrap";
 import TopCarousel from '../components/caruselWelcome/carusel.jsx';
 import { useNavigate } from "react-router-dom";
-import RoleBadge from '../RoleBadge/RoleBadge.jsx';
+import RoleBadge from '../components/RoleBadge/RoleBadge.jsx';
+
 
 
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [playersForPage, setPlayersForPage] = useState(9);
     const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem('user'));
 
     useEffect(() => {
         const fectchPlayer = async () => {
@@ -78,7 +80,7 @@ const Home = () => {
                                         <div className="d-flex justify-content-between align-items-center">
 
                                             <Button onClick={() => {
-                                                if (!localStorage.getItem('token')) {
+                                                if (!localStorage.getItem('token') && (user.role === PatnerPro)) {
                                                     alert('Per visualizzare i dettagli del giocatore è necessario effettuare il login');
                                                     navigate('/login');
                                                 } else {

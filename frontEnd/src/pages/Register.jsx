@@ -13,7 +13,7 @@ const Register = () => {
         surname: "",
         email: "",
         password: "",
-        role:"user"
+        role:""
     })
     const navigate = useNavigate();
 
@@ -27,9 +27,14 @@ const Register = () => {
         e.preventDefault();
         setError1('');
         try {
+            const dataToSend ={
+                ...formData,
+                role:role
+            };
+            console.log('dataSend',dataToSend)
           const data = await customFetch('auth/register', {
                 method: 'POST',
-                body: JSON.stringify(formData)
+                body: JSON.stringify(dataToSend)
             })
             if(data.status ===409){
                 setError1('Attenzione email gia associata ad un User');
@@ -57,22 +62,19 @@ const Register = () => {
                             <Form.Label>Email</Form.Label>
                             <Form.Control type="email" placeholder="Inserisci email" name="email" onChange={handleChange} className="custom-input" />
                         </Form.Group>
-                       
-                        <Form.Group className="mb-3">
+                          <Form.Group className="mb-3">
                             <Form.Label>Password</Form.Label>
                             <Form.Control type="password" placeholder="inserisci la Password" name="password" onChange={handleChange} className="custom-input" />
                         </Form.Group>
                     </Form.Group>
-
-
                     <Form.Group className="mb-4">
                             <Form.Label>Tipo DI Utente</Form.Label>
                                 <Form.Select
                                  value={role} 
                                  onChange={(e) => setRole(e.target.value)}
                                   className="custom-input bg-dark text-white border-secondary">
-                                    <option value="user">User</option>
-                                    <option value="admin">Patner</option>
+                                    <option value="user">user</option>
+                                    <option value="PatnerPro">PatnerPro</option>
                                 </Form.Select>
                         </Form.Group>
 

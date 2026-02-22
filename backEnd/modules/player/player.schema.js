@@ -31,7 +31,7 @@ const playerSchema = new Schema(
     foot : {
         type : String,
         enum: ['DESTRO','SINISTRO','AMBIDESTRO'],
-        required:false
+        required:true
     },
     height: {
         type : Number,
@@ -44,7 +44,7 @@ const playerSchema = new Schema(
     },
     avatar:{
         type: String,
-        required : false
+        required : true
     },
     team:{
         type: String,

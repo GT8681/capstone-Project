@@ -12,6 +12,8 @@ import PromisingPlayers from './components/playerPromising/PlayersPromising';
 import SectionSponsor from './components/sectionSponsor/sectionSponsor';
 import Contactpage from './pages/Contactpage';
 import Testimonials from './components/testimonials/Testimonials.jsx';
+import PatnerDashboard from './components/PatnerDashboard/PatnerDashboard.jsx';
+import ProtectedRoute from './middleware/ProtectdRoute.jsx';
 
 
 
@@ -57,22 +59,21 @@ export default function App() {
          
             <Route path='/' element={
               <>
-                 
                 <Home />
                 <PromisingPlayers players={players} />
                 <SectionSponsor/>
                 <Testimonials/>
-               
               </>
             }
             />
+            <Route path='/Patner-dashboard' element={<ProtectedRoute><PatnerDashboard/></ProtectedRoute>}/>
+
             <Route path='/login' element={<Login setUser={setUser} />} />
             <Route path='/register' element={<Register />} />
             <Route path='player-details/:id' element={<PlayerDetails />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/contatti' element={<Contactpage/>} />
           </Routes>
-      
         </main>
         <MyFooter />
       </div>

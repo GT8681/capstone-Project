@@ -6,7 +6,7 @@ import './navbar.css'
 
 const MyNavbar = ({ user }) => {
     const navigate = useNavigate();
-    const [showUserMenu,setShowUserMenu] = useState(false);
+    const [showUserMenu, setShowUserMenu] = useState(false);
     let timeoutId = null;
 
     const handleMouseEnter = () => {
@@ -14,10 +14,10 @@ const MyNavbar = ({ user }) => {
         setShowUserMenu(true);
     }
 
-    const handleMouseLeave = () =>{
-        timeoutId = setTimeout(() =>{
+    const handleMouseLeave = () => {
+        timeoutId = setTimeout(() => {
             setShowUserMenu(false);
-        },150);
+        }, 150);
     }
 
     const handleLogout = () => {
@@ -30,14 +30,16 @@ const MyNavbar = ({ user }) => {
     };
 
     return (
+       
         <Navbar collapseOnSelect expand='lg' sticky="top">
+           
             <Container>
                 <Navbar.Brand as={Link} to="/">
                     <img
                         src='./logo2.png'
                         alt="logo"
-                        width='70'
-                        height='70'
+                        width='100'
+                        height='100'
                         className='d-inline-block align-top'
                     />
                 </Navbar.Brand>
@@ -45,7 +47,8 @@ const MyNavbar = ({ user }) => {
 
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="ms-auto align-items-center">
-                        <Nav.Link className="btn-contact" as={Link} to='/contatti' >Contact us</Nav.Link>
+                    <Nav.Link className="btn-contact fw-bold" as={Link} to='/' >Home</Nav.Link>
+                        <Nav.Link className="btn-contact fw-bold" as={Link} to='/contatti' >Contact us</Nav.Link>
                         {user ? (
                             <NavDropdown
                                 title={
@@ -53,7 +56,7 @@ const MyNavbar = ({ user }) => {
                                         <div className=" avatar-circle rounded-circle bg-success text-dark d-flex align-items-center justify-content-center" style={{ width: '30px', height: '30px', fontSize: '0.8rem', border: '2px solid white' }}>
                                             {user?.name?.[0]}{user?.surname?.[0]}
                                         </div>
-                                        <div className="btn-profilo  d-flex align-items-center">
+                                        <div className="btn-profilo  d-flex align-items-center fw-bold ">
                                             <span className="ms-2">{user?.name}</span>
                                             <span className="ms-2">{user?.surname}</span>
                                         </div>
@@ -66,7 +69,7 @@ const MyNavbar = ({ user }) => {
                                 show={showUserMenu}
                                 onMouseEnter={() => setShowUserMenu(handleMouseEnter)}
                                 onMouseLeave={() => setShowUserMenu(handleMouseLeave)}
-                                >
+                            >
 
 
                                 <NavDropdown.Item as={Link} to="/profile"> Il mio Profilo</NavDropdown.Item>
@@ -75,15 +78,21 @@ const MyNavbar = ({ user }) => {
 
                                 <NavDropdown.Divider />
 
-                                <NavDropdown.Item onClick={handleLogout} className="text-danger">Logout</NavDropdown.Item>
+                                <NavDropdown.Item onClick={handleLogout} className="text-danger fw-bold ">Logout</NavDropdown.Item>
                             </NavDropdown>
+
                         ) : (
                             <>
                                 <Nav.Link as={Link} to="/login">ACCEDI</Nav.Link>
-                                <Nav.Link as={Link} to="/">HOME</Nav.Link>
+                                
                             </>
                         )}
-
+                         {user?.role === 'PatnerPro' && (
+                                <Nav.Link as={Link} to="/Patner-dashboard" className="nav-link fw-bold text-black m-2 dashboard">
+                                    Dashboard
+                                </Nav.Link>
+                            )}
+                       
                     </Nav>
                 </Navbar.Collapse>
             </Container>

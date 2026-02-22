@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { findUserByEmail,createUser } from './auth.service.js';
+import { sendWelcomeEmail } from '../../services/mail.service.js';
 
 export const register = async (req, res) => {
     try {
@@ -22,11 +23,15 @@ export const register = async (req, res) => {
             surname,
             email,
             password: hashedPassword,
-            role: 'user'
+            role
         });
         await newUser.save();
+        await sendWelcomeEmail(email,name)
+        
+
         res.status(201).json({
-            message: 'Utente registrato correttamente!!!' + role
+            message: 'Utente registrato correttamente!!! Controlla la tua email....',
+            user:newUser 
         })
 
     } catch (error) {
@@ -59,8 +64,9 @@ export const login = async (req, res) => {
             user: {
                 name: user.name,
                 surname: user.surname,
+                email: user.email,
                 role: user.role,
-                email: user.email
+               
 
             }
         })
