@@ -79,14 +79,15 @@ const Home = () => {
                                         <hr className="border-secondary" />
                                         <div className="d-flex justify-content-between align-items-center">
 
-                                            <Button onClick={() => {
-                                                if (!localStorage.getItem('token') && (user.role === PatnerPro)) {
-                                                    alert('Per visualizzare i dettagli del giocatore è necessario effettuare il login');
-                                                    navigate('/login');
-                                                } else {
-                                                    navigate(`/player-details/${player._id}`);
-                                                }
-                                            }}>
+                                            <Button
+                                                onClick={() => {
+                                                    if (!localStorage.getItem('token')) {
+                                                        alert('Effettua il login per i dettagli');
+                                                        navigate('/login');
+                                                    } else {
+                                                        navigate(`/player-details/${player._id}`);
+                                                    }
+                                                }}>
                                                 Dettagli
 
                                             </Button>

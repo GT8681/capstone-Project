@@ -55,7 +55,7 @@ export const login = async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ message: 'Email o Password sbagliata' });
         }
-        const token = jwt.sign({ id: user._id},process.env.CHIAVE_JWT, 
+        const token = jwt.sign({ id: user._id, role: user.role},process.env.CHIAVE_JWT, 
              { expiresIn: '1d' });
 
 

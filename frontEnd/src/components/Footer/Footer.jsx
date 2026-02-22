@@ -8,7 +8,8 @@ const MyFooter = () => {
         <Row className="align-items-center">
 
           <Col md={4} className="text-center text-md-start mb-3 mb-md-0">
-            <h5 className="text-success fw-bold mb-1">SCOUT MASTER PRO</h5>
+            <h5 className="text-success fw-bold mb-1">
+            Soccer Scout Pro</h5>
             <small className="text-muted">Capstone Project 2026</small>
           </Col>
           <Col md={4} className="text-center mb-3 mb-md-0">

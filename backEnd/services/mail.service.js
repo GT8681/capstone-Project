@@ -13,7 +13,7 @@ export const sendWelcomeEmail = async (userEmail, userName) => {
     from: '"Soccer Scout Pro" <noreply@soccerscout.com>',
     to: userEmail,
     subject: 'Benvenuto in Soccer Scout Pro!',
-     htmlContent : `
+     html : `
        <div style="max-width: 600px; margin: 0 auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden;">
     <div style="background-color: #007bff; padding: 20px; text-align: center;">
       <h1 style="color: #ffffff; margin: 0;">Benvenuto in Soccer Scout Pro! ⚽</h1>
@@ -25,7 +25,7 @@ export const sendWelcomeEmail = async (userEmail, userName) => {
         Ora hai accesso a tutti i nostri strumenti per scoprire e gestire i migliori talenti del calcio.
       </p>
       <div style="text-align: center; margin: 30px 0;">
-        <a href="http://localhost:3000/login" style="background-color: #28a745; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Accedi alla tua Dashboard</a>
+        <a href="http://localhost:4545/login" style="background-color: #28a745; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Accedi alla tua Dashboard</a>
       </div>
       <p style="font-size: 14px; color: #888;">Se non hai creato tu questo account, puoi ignorare questa email.</p>
     </div>

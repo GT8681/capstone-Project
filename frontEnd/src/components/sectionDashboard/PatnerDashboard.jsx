@@ -1,17 +1,19 @@
 import React from 'react';
-import { customFetch } from '../../API/api';
+import { customFetch } from '../../API/api.js';
 import { useEffect, useState } from 'react';
-import { Container, Table, Button, Spinner, Modal, Form, Row, Col } from 'react-bootstrap';
+import { Container, Table, Button, Spinner, Modal, Form, Row, Col,Card} from 'react-bootstrap';
+import StatsCardsDashboard from './StatsCardsDashboard.jsx';
 
 const PatnerDashboard = () => {
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [filterRole, setFilterRole] = useState('All');
   const [newPlayer, setNewPlayer] = useState({
     name: '',
     surname: '',
     role: '',
-    rating:'',
+    rating: '',
     foot: ''
   });
 
@@ -37,33 +39,31 @@ const PatnerDashboard = () => {
     e.preventDefault();
     const token = localStorage.getItem('token');
     const dataToSend = new FormData();
-    dataToSend.append('name',newPlayer.name);
-    dataToSend.append('surname',newPlayer.surname);
-    dataToSend.append('role',newPlayer.role);
-    dataToSend.append('rating',newPlayer.rating);
-    dataToSend.append('foot',newPlayer.foot);
-    if(newPlayer.image){
-      dataToSend.append('foto',newPlayer.image);
+    dataToSend.append('name', newPlayer.name);
+    dataToSend.append('surname', newPlayer.surname);
+    dataToSend.append('role', newPlayer.role);
+    dataToSend.append('rating', newPlayer.rating);
+    dataToSend.append('foot', newPlayer.foot);
+    if (newPlayer.image) {
+      dataToSend.append('foto', newPlayer.image);
     }
-    console.log('dataToSend',newPlayer.image);
-    
     try {
       const response = await fetch('http://localhost:4545/players/add', {
         method: 'POST',
         headers: {
-          
+
           'Authorization': `Bearer ${token}`
         },
-        body:dataToSend    
+        body: dataToSend
       });
-       if (response.ok) {
-        
+      if (response.ok) {
+
         setShowModal(false); // Chiudi il modal
         fetchPlayers(); // Ricarica la tabella automaticamente!
         alert("Giocatore salvato con successo!");
       } else {
         const errorData = await response.json();
-        console.log('Errore dettagliato;',errorData);
+        console.log('Errore dettagliato;', errorData);
 
       }
     } catch (error) {
@@ -71,38 +71,55 @@ const PatnerDashboard = () => {
     }
   };
 
-  const handleDeletePlayer =  async(playerId) =>{
-    if(window.confirm('Sei sicuro di voler eliminarlo')){
+  const handleDeletePlayer = async (playerId) => {
+    if (window.confirm('Sei sicuro di voler eliminarlo')) {
       const token = localStorage.getItem('token');
-        try {
-          const response = await fetch(`http://localhost:4545/players/${playerId}`,{
-            method: 'DELETE',
-            headers:{
-              'Authorization':`Bearer ${token}`
-            }
-          })
-          if(response.ok){
-                 setPlayers(players.filter(p =>p._id !== playerId))
-                 alert('Player Rimosso....');
-          }else{
-            alert("Errore durante l'eliminazione");
+      try {
+        const response = await fetch(`http://localhost:4545/players/${playerId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
           }
-        } catch (error) {
-          console.log("errore delete",error);
+        })
+        if (response.ok) {
+          const upDatePlayer = players.filter(player => player._id !== id);
+
+          setPlayers(upDatePlayer)
+          alert('Player Rimosso....');
+        } else {
+          alert("Errore durante l'eliminazione");
         }
+      } catch (error) {
+        console.log("errore delete", error);
+      }
     }
   }
-
+  const filteredPlyers = filterRole === 'All' ? players : players.filter(p => p.role === filterRole);
 
   return (
     <Container className="mt-5 text-white">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Area Gestione Calciatori (PRO)</h2>
+
+
+      <StatsCardsDashboard
+        players={players}
+        setFilterRole={setFilterRole}
+        currentFilter={filterRole}
+      />
+
+      <div className="d-flex gap-5 align-items-center mb-4">
+
+      <Button
+      onClick={() => setFilterRole('All')}
+      className={`btn ${filterRole === 'All' ? 'btn-primary' : 'btn-outline-dark'}`}
+      >
+          <i className="bi bi-plus-circle me-4 fw-bold fs-4">ALL PLAYERS :  {players.length}</i>
+        </Button>
+
         <Button variant="info" className="fw-bold" onClick={() => setShowModal(true)} >
-          <i className="bi bi-plus-circle me-2"></i>Aggiungi Talento
+          <i className="bi bi-plus-circle me-4 fw-bold fs-4">ADD PLAYER</i>
         </Button>
       </div>
-
       {loading ? (
         <Spinner animation="border" variant="info" />
       ) : (
@@ -117,7 +134,8 @@ const PatnerDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {players.map((player) => (
+
+            {filteredPlyers.map((player) => (
               <tr key={player._id}>
                 <td><img src={player.avatar} alt="player" style={{ width: '60px', borderRadius: '100%' }} /></td>
                 <td>{player.name} {player.surname}</td>
@@ -125,11 +143,11 @@ const PatnerDashboard = () => {
                 <td>{player.foot} </td>
                 <td>
                   <Button variant="outline-warning" size="sm" className="me-2">Edit</Button>
-                  <Button 
-                  variant="outline-danger"
-                   size="sm"
-                   onClick={() => handleDeletePlayer(player._id)}
-                   >Elimina</Button>
+                  <Button
+                    variant="outline-danger"
+                    size="sm"
+                    onClick={() => handleDeletePlayer(player._id)}
+                  >Elimina</Button>
                 </td>
               </tr>
             ))}
@@ -213,11 +231,9 @@ const PatnerDashboard = () => {
             <Form.Group className="mb-3">
               <Form.Label>Foto Player</Form.Label>
               <Form.Control
-              type='file' 
-              onChange={(e) => setNewPlayer({ ...newPlayer, image: e.target.files[0] })}/>
+                type='file'
+                onChange={(e) => setNewPlayer({ ...newPlayer, image: e.target.files[0] })} />
             </Form.Group>
-
-
 
             <Button variant="info" type="submit" className="w-100 fw-bold mt-3">
               Salva nel Database

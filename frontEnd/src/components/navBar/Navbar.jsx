@@ -30,9 +30,9 @@ const MyNavbar = ({ user }) => {
     };
 
     return (
-       
+
         <Navbar collapseOnSelect expand='lg' sticky="top">
-           
+
             <Container>
                 <Navbar.Brand as={Link} to="/">
                     <img
@@ -46,8 +46,9 @@ const MyNavbar = ({ user }) => {
                 <Navbar.Toggle aria-controls='responsive-navbar-nav' />
 
                 <Navbar.Collapse id="responsive-navbar-nav">
+                    <h1 className="text-dark">Soccer Scout Pro</h1>
                     <Nav className="ms-auto align-items-center">
-                    <Nav.Link className="btn-contact fw-bold" as={Link} to='/' >Home</Nav.Link>
+                        <Nav.Link className="btn-contact fw-bold" as={Link} to='/' >Home</Nav.Link>
                         <Nav.Link className="btn-contact fw-bold" as={Link} to='/contatti' >Contact us</Nav.Link>
                         {user ? (
                             <NavDropdown
@@ -84,15 +85,15 @@ const MyNavbar = ({ user }) => {
                         ) : (
                             <>
                                 <Nav.Link as={Link} to="/login">ACCEDI</Nav.Link>
-                                
+
                             </>
                         )}
-                         {user?.role === 'PatnerPro' && (
-                                <Nav.Link as={Link} to="/Patner-dashboard" className="nav-link fw-bold text-black m-2 dashboard">
-                                    Dashboard
-                                </Nav.Link>
-                            )}
-                       
+                        {user?.role === 'PatnerPro' && (
+                            <Nav.Link as={Link} to="/Patner-dashboard" className="nav-link fw-bold text-black m-2 dashboard">
+                                Dashboard
+                            </Nav.Link>
+                        )}
+
                     </Nav>
                 </Navbar.Collapse>
             </Container>

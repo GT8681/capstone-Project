@@ -12,7 +12,7 @@ import PromisingPlayers from './components/playerPromising/PlayersPromising';
 import SectionSponsor from './components/sectionSponsor/sectionSponsor';
 import Contactpage from './pages/Contactpage';
 import Testimonials from './components/testimonials/Testimonials.jsx';
-import PatnerDashboard from './components/PatnerDashboard/PatnerDashboard.jsx';
+import PatnerDashboard from './components/sectionDashboard/PatnerDashboard.jsx';
 import ProtectedRoute from './middleware/ProtectdRoute.jsx';
 
 
