@@ -1,5 +1,5 @@
 
-import {Schema,model} from 'mongoose';
+import mongoose, {Schema,model} from 'mongoose';
 
 
 const playerSchema = new Schema(
@@ -35,7 +35,8 @@ const playerSchema = new Schema(
     },
     height: {
         type : Number,
-        required:false
+        required:false,
+        dafault:0
 
     },
     weight:{
@@ -55,6 +56,11 @@ const playerSchema = new Schema(
         required: true,
         min:1,
         max:10
+    },
+    author:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'user',
+        required:true
     }
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { customFetch } from '../../API/api.js';
 import { useEffect, useState } from 'react';
-import { Container, Table, Button, Spinner, Modal, Form, Row, Col,Card} from 'react-bootstrap';
+import { Container, Table, Button, Spinner, Modal, Form, Row, Col, Card } from 'react-bootstrap';
 import StatsCardsDashboard from './StatsCardsDashboard.jsx';
 
 const PatnerDashboard = () => {
@@ -14,13 +14,20 @@ const PatnerDashboard = () => {
     surname: '',
     role: '',
     rating: '',
-    foot: ''
+    foot: '',
+    team:'',
+    height:'',
+    weight:'',
+    nationality:''
+
   });
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
 
   // 1. Funzione per leggere i giocatori (READ)
   const fetchPlayers = async () => {
     try {
-      const response = await customFetch('players'); // Assicurati che l'URL sia corretto
+      const response = await customFetch('players/my-players');
       const data = await response.json();
       setPlayers(data);
     } catch (error) {
@@ -44,6 +51,14 @@ const PatnerDashboard = () => {
     dataToSend.append('role', newPlayer.role);
     dataToSend.append('rating', newPlayer.rating);
     dataToSend.append('foot', newPlayer.foot);
+    dataToSend.append('description', newPlayer.description);
+    dataToSend.append('nationality', newPlayer.nationality);
+    dataToSend.append('weight', newPlayer.weight);
+    dataToSend.append('height', newPlayer.height);
+    dataToSend.append('team', newPlayer.team);
+    dataToSend.append('age', newPlayer.age);
+
+
     if (newPlayer.image) {
       dataToSend.append('foto', newPlayer.image);
     }
@@ -63,6 +78,7 @@ const PatnerDashboard = () => {
         alert("Giocatore salvato con successo!");
       } else {
         const errorData = await response.json();
+        alert('ATTENZIONE PLAYER GIA INSERITO DA UN ALTRO UTENTE');
         console.log('Errore dettagliato;', errorData);
 
       }
@@ -83,9 +99,7 @@ const PatnerDashboard = () => {
           }
         })
         if (response.ok) {
-          const upDatePlayer = players.filter(player => player._id !== id);
-
-          setPlayers(upDatePlayer)
+          setPlayers((upDatePlayers) => upDatePlayers.filter(player => player._id !== playerId));
           alert('Player Rimosso....');
         } else {
           alert("Errore durante l'eliminazione");
@@ -109,15 +123,15 @@ const PatnerDashboard = () => {
 
       <div className="d-flex gap-5 align-items-center mb-4">
 
-      <Button
-      onClick={() => setFilterRole('All')}
-      className={`btn ${filterRole === 'All' ? 'btn-primary' : 'btn-outline-dark'}`}
-      >
-          <i className="bi bi-plus-circle me-4 fw-bold fs-4">ALL PLAYERS :  {players.length}</i>
+        <Button
+          onClick={() => setFilterRole('All')}
+          className={`btn ${filterRole === 'All' ? 'btn-primary' : 'btn-outline-dark'}`}
+        >
+          <i className="bi bi-plus-circle me-4 fw-bold fs-4">    ALL PLAYERS :  {players.length}</i>
         </Button>
 
         <Button variant="info" className="fw-bold" onClick={() => setShowModal(true)} >
-          <i className="bi bi-plus-circle me-4 fw-bold fs-4">ADD PLAYER</i>
+          <i className="bi bi-plus-circle me-4 fw-bold fs-4">     ADD PLAYER</i>
         </Button>
       </div>
       {loading ? (
@@ -129,8 +143,8 @@ const PatnerDashboard = () => {
               <th></th>
               <th>Name Surname</th>
               <th>Role</th>
-              <th>Rating</th>
               <th>Foot</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -142,6 +156,15 @@ const PatnerDashboard = () => {
                 <td>{player.role}</td>
                 <td>{player.foot} </td>
                 <td>
+                  <Button className='btn btn-info btn-sm me-2'
+                    onClick={() => {
+                      setSelectedPlayer(player);
+                      setShowDetailsModal(true);
+                    }}
+                  >
+                    Dettagli
+
+                  </Button>
                   <Button variant="outline-warning" size="sm" className="me-2">Edit</Button>
                   <Button
                     variant="outline-danger"
@@ -206,27 +229,101 @@ const PatnerDashboard = () => {
               </Col>
 
             </Row>
+            <Row>
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Role</Form.Label>
+                  <Form.Select onChange={(e) => setNewPlayer({ ...newPlayer, role: e.target.value })}>
+                    <option>Seleziona Ruolo</option>
+                    <option value="ATT">Attaccante</option>
+                    <option value="CEN">Centrocampista</option>
+                    <option value="DIF">Difensore</option>
+                    <option value="POR">Portiere</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Role</Form.Label>
-              <Form.Select onChange={(e) => setNewPlayer({ ...newPlayer, role: e.target.value })}>
-                <option>Seleziona Ruolo</option>
-                <option value="ATT">Attaccante</option>
-                <option value="CEN">Centrocampista</option>
-                <option value="DIF">Difensore</option>
-                <option value="POR">Portiere</option>
-              </Form.Select>
-            </Form.Group>
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Foot</Form.Label>
+                  <Form.Select onChange={(e) => setNewPlayer({ ...newPlayer, foot: e.target.value })}>
+                    <option>Seleziona Foot</option>
+                    <option value="DESTRO">DESTRO</option>
+                    <option value="SINISTRO">SINISTRO</option>
+                    <option value="AMBIDESTRO">AMBIDESTRO</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Foot</Form.Label>
-              <Form.Select onChange={(e) => setNewPlayer({ ...newPlayer, foot: e.target.value })}>
-                <option>Seleziona Foot</option>
-                <option value="DESTRO">DESTRO</option>
-                <option value="SINISTRO">SINISTRO</option>
-                <option value="AMBIDESTRO">AMBIDESTRO</option>
-              </Form.Select>
-            </Form.Group>
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Nationality</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Es: Italia"
+                    onChange={(e) => setNewPlayer({ ...newPlayer, nationality: e.target.value })}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+            <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Team</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="inserisci il tuo Team..."
+                    onChange={(e) => setNewPlayer({ ...newPlayer, team: e.target.value })}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Height</Form.Label>
+                  <Form.Control
+                    type="number"
+                    step='0.01'
+                    min='1.00'
+                    max='2.50'
+                    name='heigth'
+                    placeholder="la tua altezza..."
+                    onChange={(e) => setNewPlayer({ ...newPlayer, height: e.target.value })}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Weight</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name='weight'
+                    placeholder="il tuo peso..."
+                    onChange={(e) => setNewPlayer({ ...newPlayer, weight: e.target.value })}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+
+            </Row>
+            <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Age</Form.Label>
+                  <Form.Control
+                    type="number"
+                    min='1'
+                    max='100'
+                    placeholder="la tua eta'...."
+                    onChange={(e) => setNewPlayer({ ...newPlayer, age: e.target.value })}
+                    required
+                  />
+                </Form.Group>
+              </Col>
 
             <Form.Group className="mb-3">
               <Form.Label>Foto Player</Form.Label>
@@ -235,12 +332,51 @@ const PatnerDashboard = () => {
                 onChange={(e) => setNewPlayer({ ...newPlayer, image: e.target.files[0] })} />
             </Form.Group>
 
+            <Form.Group className="mb-3">
+              <Form.Label>Descrizione Talento</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Inserisci le caratteristiche tecniche..."
+                name="description"
+                value={newPlayer.description}
+                onChange={(e) => setNewPlayer({ ...newPlayer, description: e.target.value })} // Assicurati che gestisca il valore
+              />
+            </Form.Group>
             <Button variant="info" type="submit" className="w-100 fw-bold mt-3">
               Salva nel Database
             </Button>
+
           </Form>
         </Modal.Body>
       </Modal>
+
+      {/* MODALE DETTAGLI */}
+      <Modal show={showDetailsModal} onHide={() => setShowDetailsModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Scheda di {selectedPlayer?.name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p><strong>Cognome:</strong> {selectedPlayer?.surname}</p>
+          <p><strong>Ruolo:</strong> {selectedPlayer?.role}</p>
+          <p><strong>Age:</strong> {selectedPlayer?.age}</p>
+          <p><strong>nationality:</strong> {selectedPlayer?.nationality}</p>
+          <p><strong>Foot:</strong> {selectedPlayer?.foot}</p>
+          <p><strong>Rating:</strong> {selectedPlayer?.rating}</p>
+          <p><strong>Age:</strong> {selectedPlayer?.age}</p>
+          <p><strong>Peso:</strong> {selectedPlayer?.weight}</p>
+          <p><strong>Altezza:</strong> {selectedPlayer?.height}</p>
+          <hr />
+          <h5>Descrizione:</h5>
+          <p>{selectedPlayer?.description || "Nessuna descrizione inserita per questo giocatore."}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDetailsModal(false)}>
+            Chiudi
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
 
     </Container>
   );

@@ -6,6 +6,7 @@ const PlayerDetails = () => {
     const { id } = useParams();
     const [player, setPlayer] = useState(null);
     const [error, setError] = useState(false);
+    
     const user = JSON.parse(localStorage.getItem('user'));
 
 

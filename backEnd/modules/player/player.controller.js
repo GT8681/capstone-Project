@@ -1,4 +1,4 @@
-import { getAllPlayers, updatePlayer, deletePlayer, findRolePlayer,findPlayerById} from "./player.service.js";
+import { getAllPlayers, updatePlayer, deletePlayer, findRolePlayer, findPlayerById } from "./player.service.js";
 import Player from '../player/player.schema.js';
 
 
@@ -8,8 +8,6 @@ export const getPlayers = async (req, res) => {
 
         const players = await getAllPlayers();
         res.json(players);
-
-
     } catch (error) {
         res.status(500)
             .json({
@@ -17,38 +15,48 @@ export const getPlayers = async (req, res) => {
                 message: error.message
             })
     }
+}
 
+export const getMyPlayers = async (req, res) => {
+    try {
+        const players = await Player.find({ author: req.user.id })
+        res.json(players);
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
 }
 
 
 export const createPlayers = async (req, res) => {
 
     try {
-        const { name, surname,role,foot,rating} = req.body;
+        const { name, surname } = req.body;
 
-        const duplicatePlayer = await Player.findOne({ name, surname,rating,role,foot});
+        // CONTROLLO GLOBALE: Cerchiamo se esiste già nel DB (per TUTTI gli autori)
+        const duplicatePlayer = await Player.findOne({
+            name: { $regex: new RegExp(`^${name}$`, "i") },
+            surname: { $regex: new RegExp(`^${surname}$`, "i") }
+        });
+
         if (duplicatePlayer) {
             return res.status(400).json({
-                message: 'Questo giocatore e gia presente nel database'
-            })
+                
+                message: 'Questo talento è già stato inserito da un altro Partner ed è presente nella Home!'
+            });
         }
 
-        const playerData = req.body;
-        if (req.file) {
-            playerData.avatar = req.file.path;
-        }
+        const playerData = { ...req.body, author: req.user.id };
+        if (req.file) playerData.avatar = req.file.path;
+
         const newPlayer = new Player(playerData);
         await newPlayer.save();
 
-        res.status(201)
-            .json(newPlayer)
-
+        res.status(201).json(newPlayer);
     } catch (error) {
-        res.status(400)
-            .json({
-                message: error.message
-            })
+        res.status(400).json({ message: error.message });
     }
+
 }
 
 export const patchPlayer = async (req, res) => {
@@ -67,33 +75,32 @@ export const patchPlayer = async (req, res) => {
         res.status(500).json({
             message: error.message
         })
-
     }
-
 }
 
 export const deleteOnePlayer = async (req, res) => {
 
     try {
-
         const { id } = req.params;
-        const deletePlayers = await deletePlayer(id)
-         if(!deletePlayers){
-              return res.status(404).json({message: 'Player non trovato'});
-         }
 
-        res.status(200).json({
-            statusCode: 200,
-            message: 'Player deleted successfully'
-        })
+        // Troviamo il giocatore
+        const player = await Player.findById(id);
+
+        if (!player) {
+            return res.status(404).json({ message: "Giocatore non trovato" });
+        }
+        // Verifichiamo se l'ID dell'utente nel token corrisponde all'author del player
+        if (player.author.toString() !== req.user.id) {
+            return res.status(403).json({
+                message: "Non sei autorizzato a cancellare questo giocatore. Non l'hai creato tu!"
+            });
+        }
+        await Player.findByIdAndDelete(id);
+
+        res.json({ message: "Giocatore eliminato con successo dalla tua Dashboard" });
     } catch (error) {
-
-        res.status(500).json({
-            message: error.message
-        })
-
+        res.status(500).json({ message: error.message });
     }
-
 }
 
 export const findPlayerRole = async (req, res) => {
@@ -110,7 +117,7 @@ export const findPlayerRole = async (req, res) => {
 
 }
 
-export const playerById = async(req,res) =>{
+export const playerById = async (req, res) => {
     try {
         const { id } = req.params;
         const player = await findPlayerById(id);
@@ -120,12 +127,12 @@ export const playerById = async(req,res) =>{
             })
         }
         res.json(player)
-        
+
     } catch (error) {
         res.status(500).json({
             message: error.message
         })
-        
+
     }
 
 }
