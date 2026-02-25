@@ -1,14 +1,18 @@
 import { Card, Badge, Container, Row, Col, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from "react";
+import { customFetch } from '../../API/api';
+import React, { useEffect, useState } from "react";
+import '../../App.css';
 
-const PromisingPlayers = ({ players }) => {
+
+const PromisingPlayers = ({ players}) => {
     // Filtriamo solo i "promettenti" (voto >8)
     const topProspects = (players || []).filter(player => Number(player.rating) > 8);
 
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const [playersForPage, setPlayersForPage] = useState(9);
+     const [userFavorites, setUserFavorites] = useState([]);
 
 
     const indexOfLastPlayer = currentPage * playersForPage;
@@ -16,19 +20,61 @@ const PromisingPlayers = ({ players }) => {
     const currentPlayers = players.slice(indexOfFirstPlayer, indexOfLastPlayer);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    useEffect(() => {
+
+          const fetchUserFavorites = async () => {
+                    const token = localStorage.getItem('token');
+                    if (!token) return;
+        
+                    const resp = await customFetch('users/me', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const data = await resp.json();
+                    setUserFavorites(data.favorites  || []);
+                }
+        
+                fetchUserFavorites();
+                
+            }, []);
+
+              const handleFavorite = async (playerId) => {
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                        alert("Accedi per salvare i tuoi preferiti!");
+                        return;
+                    }
+            
+                    try {
+                        const response = await customFetch(`users/favorites/${playerId}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            }
+                        });
+            
+                        if (response.ok) {
+                            // Se il backend risponde OK, aggiorniamo la lista locale dei preferiti
+                            setUserFavorites(prev =>
+                                prev.includes(playerId)
+                                    ? prev.filter(id => id !== playerId) // Lo togliamo
+                                    : [...prev, playerId] // Lo aggiungiamo
+                            );
+                        }
+                    } catch (err) {
+                        console.error("Errore preferiti:", err);
+                    }
+                };
+
 
     return (
         <Container>
             <div className="">
                 <h2 className="text-danger text-center mb-5">🌟 PLAYERS PROSPECTS..... 🌟 </h2>
-
                 <div className='d-flex justify-content-center align-items-center gap-5 flex-wrap'>
-
-
                     {currentPlayers.map(player => (
                         <Col key={player._id} md={4} lg={3} className="mb-4">
-
-                            <Card className="bg-dark text-white shadow-sm border-0 h-100 overflow-hidden  " style={{ minHeight: '200px' }}>
+                            <Card className="text-white shadow-sm border-0 h-100 overflow-hidden bg-transparent" style={{ minHeight: '200px' }}>
                                 <Row className='g-0 h-100'>
                                     <Col xs={6}>
                                         <Card.Img
@@ -36,8 +82,8 @@ const PromisingPlayers = ({ players }) => {
                                             style={{
                                                 width: '100%',
                                                 height: '100%',
-                                                objectFit: 'cover', // Taglia la foto in eccesso senza schiacciarla
-                                                objectPosition: 'top center' // Mantiene i visi visibili
+                                                objectFit: 'cover',
+                                                objectPosition: 'top center'
                                             }}
                                         />
                                     </Col>
@@ -52,10 +98,27 @@ const PromisingPlayers = ({ players }) => {
                                             <small className="text-secondary">Rating: </small>
                                             <span className="text-warning fw-bold">{player.rating}/10</span>
                                         </div>
+
+                                        <div className="d-flex justify-content-between align-items-center mb-2">
+                                            <small className="text-secondary">Salva nei preferiti:</small>
+                                            <div
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleFavorite(player._id);
+                                                }}
+                                                style={{ cursor: 'pointer',
+                                                         outline:'none',
+                                                         userSelect:'none'
+                                                }}
+                                            >
+                                                <i className={`bi ${userFavorites.includes(player._id) ? 'bi-heart-fill text-danger neon-heart' : 'bi-heart text-muted'}`}
+                                                    style={{ fontSize: '1.4rem' }}></i>
+                                            </div>
+                                        </div>
                                         <Button
                                             variant="outline-light"
                                             size="sm"
-                                            className="mt-auto align-self-start w-100"
+                                            className="mt-auto align-self-start w-100 btn-neon-cyan"
                                             onClick={() => {
                                                 if (!localStorage.getItem('token')) {
                                                     alert('Effettua il login per i dettagli');

@@ -75,7 +75,7 @@ const MyNavbar = ({ user }) => {
 
                                 <NavDropdown.Item as={Link} to="/profile"> Il mio Profilo</NavDropdown.Item>
 
-                                <NavDropdown.Item as={Link} to="/MyReport">I miei Report</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/preferiti">Player Preferiti</NavDropdown.Item>
 
                                 <NavDropdown.Divider />
 

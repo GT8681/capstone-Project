@@ -6,9 +6,8 @@ const Profile = () => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    // Recuperiamo l'utente salvato al login
+  
     const savedUser = localStorage.getItem('user');
-    console.log('utente salvato', savedUser);
     if (savedUser) {
       setUserData(JSON.parse(savedUser));
     }
@@ -21,7 +20,7 @@ const Profile = () => {
       </Container>
     );
   }
-  console.log('dati caricati', userData);
+  
   return (
     <Container className="mt-5">
       <Row className="justify-content-center mb-4">

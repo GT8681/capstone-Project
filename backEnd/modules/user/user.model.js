@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 
 const userSchema = new Schema({
     name: {
@@ -26,7 +26,11 @@ const userSchema = new Schema({
         type: String,
         enum: ['user', 'PatnerPro'],
         default: 'user'
-    }
+    },
+    favorites:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Player'
+    }]
 
 
 },{timestamps:true});

@@ -14,7 +14,7 @@ import Contactpage from './pages/Contactpage';
 import Testimonials from './components/testimonials/Testimonials.jsx';
 import PatnerDashboard from './components/sectionDashboard/PatnerDashboard.jsx';
 import ProtectedRoute from './middleware/ProtectdRoute.jsx';
-
+import FavoritesPage from './pages/FavoritesPage.jsx'
 
 
 
@@ -66,6 +66,7 @@ export default function App() {
               </>
             }
             />
+            <Route path='/preferiti' element={<FavoritesPage/>}/>
             <Route path='/Patner-dashboard' element={<ProtectedRoute><PatnerDashboard/></ProtectedRoute>}/>
 
             <Route path='/login' element={<Login setUser={setUser} />} />

@@ -38,7 +38,7 @@ const Login = ({setUser}) => {
             }) 
         
            const data = await response.json();
-           console.log('data',data)
+        
             if (data.token) {
                 localStorage.setItem('token',data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));

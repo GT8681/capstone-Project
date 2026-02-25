@@ -1,12 +1,50 @@
-body{
+body {
 
-    min-height: 100vh;
+  min-height: 100vh;
 }
-.card{
 
-    box-shadow: 0 4px 12px rgba(154, 53, 163, 0.1);
+.card {
+
+  box-shadow: 0 4px 12px rgba(154, 53, 163, 0.1);
 }
-.navbar-brand{
-    font-weight: bold;
-    letter-spacing: 1px;
+
+.navbar-brand {
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Bottone Neon Ciano (Dettagli/Paginazione) */
+.btn-neon-cyan {
+  background: transparent;
+  color: #284aa5;
+  border: 2px solid #00f2ff;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 5px #00f2ff, inset 0 0 5px #00f2ff;
+  text-shadow: 0 0 5px #00f2ff;
+}
+
+.btn-neon-cyan:hover {
+  background: #00f2ff;
+  color: #000;
+  box-shadow: 0 0 20px #00f2ff, 0 0 40px #00f2ff;
+}
+
+/* Bottone Neon Rosso (Cancella) */
+.btn-neon-red {
+  background: transparent;
+  color: rgb(0, 0, 0);
+  border: 2px solid #ff003c;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 5px #ff003c, inset 0 0 5px #ff003c;
+  text-shadow: 0 0 5px #ff003c;
+}
+
+.btn-neon-red:hover {
+  background: #ff003c;
+  color: #fff;
+  box-shadow: 0 0 20px #ff003c, 0 0 40px #ff003c;
 }

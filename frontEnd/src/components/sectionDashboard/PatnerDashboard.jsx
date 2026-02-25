@@ -112,9 +112,8 @@ const PatnerDashboard = () => {
   const filteredPlyers = filterRole === 'All' ? players : players.filter(p => p.role === filterRole);
 
   return (
+
     <Container className="mt-5 text-white">
-
-
       <StatsCardsDashboard
         players={players}
         setFilterRole={setFilterRole}
@@ -125,19 +124,19 @@ const PatnerDashboard = () => {
 
         <Button
           onClick={() => setFilterRole('All')}
-          className={`btn ${filterRole === 'All' ? 'btn-primary' : 'btn-outline-dark'}`}
+          className={`btn ${filterRole === 'All' ? 'btn-neon-cyan' : 'btn-neon-cyan'}`}
         >
-          <i className="bi bi-plus-circle me-4 fw-bold fs-4">    ALL PLAYERS :  {players.length}</i>
+          <i className="me-4 fw-bold fs-4">    ALL PLAYERS :  {players.length}</i>
         </Button>
 
-        <Button variant="info" className="fw-bold" onClick={() => setShowModal(true)} >
+        <Button variant="info" className="fw-bold btn-neon-red" onClick={() => setShowModal(true)} >
           <i className="bi bi-plus-circle me-4 fw-bold fs-4">     ADD PLAYER</i>
         </Button>
       </div>
       {loading ? (
         <Spinner animation="border" variant="info" />
       ) : (
-        <Table striped bordered hover variant="dark" responsive>
+        <Table striped bordered hover variant="" responsive>
           <thead>
             <tr>
               <th></th>
@@ -156,7 +155,7 @@ const PatnerDashboard = () => {
                 <td>{player.role}</td>
                 <td>{player.foot} </td>
                 <td>
-                  <Button className='btn btn-info btn-sm me-2'
+                  <Button className='btn btn-info btn-sm me-2 btn-neon-cyan'
                     onClick={() => {
                       setSelectedPlayer(player);
                       setShowDetailsModal(true);
@@ -165,8 +164,9 @@ const PatnerDashboard = () => {
                     Dettagli
 
                   </Button>
-                  <Button variant="outline-warning" size="sm" className="me-2">Edit</Button>
+                  <Button variant="outline-warning btn-neon-red " size="sm" className="me-2">Edit</Button>
                   <Button
+                  className='btn-neon-red '
                     variant="outline-danger"
                     size="sm"
                     onClick={() => handleDeletePlayer(player._id)}
@@ -371,7 +371,7 @@ const PatnerDashboard = () => {
           <p>{selectedPlayer?.description || "Nessuna descrizione inserita per questo giocatore."}</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDetailsModal(false)}>
+          <Button variant="secondary btn-neon-red " onClick={() => setShowDetailsModal(false)}>
             Chiudi
           </Button>
         </Modal.Footer>

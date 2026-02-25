@@ -59,7 +59,7 @@ const playerSchema = new Schema(
     },
     author:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'user',
+        ref:'User',
         required:true
     }
 
@@ -71,4 +71,4 @@ const playerSchema = new Schema(
 
 
 
-export default model('player',playerSchema)
+export default model('Player',playerSchema)

@@ -1,4 +1,4 @@
-import { getUsers, uploadUserPassword,getUserById } from './user.service.js';
+import { getUsers, uploadUserPassword,getUserById,toggleFavoriteService,toggleFavoriteServiceList,getFavoritePlayersService} from './user.service.js';
 
 export const visualizzazionUser = async (req, res) => {
     try {
@@ -49,3 +49,44 @@ export const visualizzazionUserById = async (req, res) => {
         
     }
 }
+
+export const updateFavoritesController = async (req,res) =>{
+    try {
+        const userId = req.user.id;
+        const {playerId} = req.params;
+        
+        const updateUser = await toggleFavoriteService(userId,playerId);
+
+        res.status(200).json({
+            message: updateUser.favorites
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            message: error.message || "Errore durante l'aggiornamento dei preferiti"
+        })
+        
+    }
+    
+}
+
+export const handleFavorite = async (req, res) => {
+    try {
+      // req.user.id arriva dal tuo middleware di autenticazione (il token)
+      const updatedFavorites = await toggleFavoriteServiceList(req.user.id, req.params.playerId);
+      res.status(200).send(updatedFavorites);
+    } catch (error) {
+      res.status(500).send({ message: error.message });
+    }
+  };
+
+  export const getFavorites = async (req, res) => {
+    try {
+      const favorites = await getFavoritePlayersService(req.user.id);
+      res.status(200).send(favorites);
+    } catch (error) {
+      res.status(500).send({ message: error.message });
+    }
+  };
+  
+  

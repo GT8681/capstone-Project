@@ -4,6 +4,9 @@ import { Container, Row, Col, Card, Badge, Spinner, Button } from "react-bootstr
 import TopCarousel from '../components/caruselWelcome/carusel.jsx';
 import { useNavigate } from "react-router-dom";
 import RoleBadge from '../components/RoleBadge/RoleBadge.jsx';
+import '../App.css';
+import './Home.css'
+
 
 
 
@@ -12,6 +15,7 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [playersForPage, setPlayersForPage] = useState(9);
+    const [userFavorites, setUserFavorites] = useState();
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
 
@@ -33,8 +37,53 @@ const Home = () => {
                 setLoading(false);
             }
         }
+        const fetchUserFavorites = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+
+            const resp = await customFetch('users/me', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await resp.json();
+            setUserFavorites(data.favorites);
+        }
+
+        fetchUserFavorites();
         fectchPlayer();
     }, []);
+
+    const handleFavorite = async (playerId) => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert("Accedi per salvare i tuoi preferiti!");
+            return;
+        }
+
+        try {
+            const response = await customFetch(`users/favorites/${playerId}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                // Se il backend risponde OK, aggiorniamo la lista locale dei preferiti
+                setUserFavorites(prev =>
+                    prev.includes(playerId)
+                        ? prev.filter(id => id !== playerId) // Lo togliamo
+                        : [...prev, playerId] // Lo aggiungiamo
+                );
+            }
+        } catch (err) {
+            console.error("Errore preferiti:", err);
+        }
+    };
+
+
+
+
     if (loading)
         return
     <Container className="text-center mt-4">
@@ -60,13 +109,14 @@ const Home = () => {
                         currentPlayers.map((player) => (
                             <Col key={player._id} xs={12} md={6} lg={4} className="mb-4">
                                 <Card className="h-100 box-shadow  text-white border-secondary">
-                                    <div className="position-absolute top-0 end-0 p-2">
+                                    <div className="position-absolute top-0 end-0 p-2 d-flex flex-column align-items-end">
                                         <Badge pill bg="warning" text="dark" className="">
-                                            {player.rating} / 10
+                                            {player.rating}
                                         </Badge>
 
+
                                     </div>
-                                    <Card.Body>
+                                    <Card.Body className="position-relative">
                                         <div className="d-flex justify-content-center mb-3">
                                             <Card.Img variant='top' src={player.avatar} className="shadow-sm border-0 h-100 overflow-hidden " style={{ height: '240px', objectFit: 'cover' }} />
                                         </div>
@@ -75,11 +125,31 @@ const Home = () => {
                                             <Card.Title className="text-success">{player.name}</Card.Title>
                                             <Card.Title className="text-success">{player.surname}</Card.Title>
                                             <RoleBadge role={player.role} />
+
+
+                                            <div
+
+                                                style={{ cursor: 'pointer', transition: '0.3s' }}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleFavorite(player._id)
+                                                }}
+                                                className="position-absolute bottom-0 end-0 m-3 neon-heart-container d-flex justify-content-center gap-4 align-items-center"
+                                            >
+                                                <p className="text-dark">SALVA Preferito </p>
+                                                <i className={`bi ${userFavorites.includes(player._id) ? 'bi-heart-fill text-danger neon-heart' : 'bi-heart text-muted'}`}
+                                                    style={{ fontSize: '1.5rem', cursor: 'pointer' }}></i>
+
+
+                                            </div>
+
+
                                         </div>
                                         <hr className="border-secondary" />
                                         <div className="d-flex justify-content-between align-items-center">
 
                                             <Button
+                                                className="btn-neon-cyan "
                                                 onClick={() => {
                                                     if (!localStorage.getItem('token')) {
                                                         alert('Effettua il login per i dettagli');
@@ -118,6 +188,7 @@ const Home = () => {
                     </nav>
 
                 </div>
+
             </Container>
         </>
     )

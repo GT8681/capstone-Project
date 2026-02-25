@@ -31,7 +31,7 @@ const Register = () => {
                 ...formData,
                 role:role
             };
-            console.log('dataSend',dataToSend)
+            
           const data = await customFetch('auth/register', {
                 method: 'POST',
                 body: JSON.stringify(dataToSend)
