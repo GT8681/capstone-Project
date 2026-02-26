@@ -1,6 +1,7 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import { customFetch } from '../API/api';
 
 const PlayerDetails = () => {
     const { id } = useParams();
@@ -16,7 +17,7 @@ const PlayerDetails = () => {
             setError(true);
             return;
         }
-        fetch(`http://localhost:4545/players/${id}`, {
+        customFetch(`players/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

@@ -63,7 +63,7 @@ const PatnerDashboard = () => {
       dataToSend.append('foto', newPlayer.image);
     }
     try {
-      const response = await fetch('http://localhost:4545/players/add', {
+      const response = await customFetch('players/add', {
         method: 'POST',
         headers: {
 
@@ -91,7 +91,7 @@ const PatnerDashboard = () => {
     if (window.confirm('Sei sicuro di voler eliminarlo')) {
       const token = localStorage.getItem('token');
       try {
-        const response = await fetch(`http://localhost:4545/players/${playerId}`, {
+        const response = await customFetch(`players/${playerId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`,

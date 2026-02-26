@@ -15,6 +15,7 @@ import Testimonials from './components/testimonials/Testimonials.jsx';
 import PatnerDashboard from './components/sectionDashboard/PatnerDashboard.jsx';
 import ProtectedRoute from './middleware/ProtectdRoute.jsx';
 import FavoritesPage from './pages/FavoritesPage.jsx'
+import { customFetch } from './API/api.js';
 
 
 
@@ -32,7 +33,7 @@ export default function App() {
   useEffect(() => {
     const fetchPlayers = async () => {
       try {
-        const response = await fetch('http://localhost:4545/players');
+        const response = await customFetch('players');
         if (!response.ok) {
           throw new Error('Errore nel recupero dei giocatori');
         }

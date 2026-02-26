@@ -25,7 +25,7 @@ export const sendWelcomeEmail = async (userEmail, userName) => {
         Ora hai accesso a tutti i nostri strumenti per scoprire e gestire i migliori talenti del calcio.
       </p>
       <div style="text-align: center; margin: 30px 0;">
-        <a href="https://capstone-project-seven-nu.vercel.app/" style="background-color: #28a745; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Accedi alla tua Dashboard</a>
+        <a href="capstone-project-seven-nu.vercel.app" style="background-color: #28a745; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Accedi alla tua Dashboard</a>
       </div>
       <p style="font-size: 14px; color: #888;">Se non hai creato tu questo account, puoi ignorare questa email.</p>
     </div>

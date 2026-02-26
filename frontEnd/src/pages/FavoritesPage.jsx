@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import RoleBadge from '../components/RoleBadge/RoleBadge';
+import { customFetch } from '../API/api';
 
 const FavoritesPage = () => {
     const [favorites, setFavorites] = useState([]);
@@ -8,7 +9,7 @@ const FavoritesPage = () => {
     useEffect(() => {
         const getMyFavs = async () => {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:4545/users/favorites', {
+            const res = await customFetch('users/favorites', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await res.json();
@@ -21,7 +22,7 @@ const FavoritesPage = () => {
     const removeFavorite = async (playerId) => {
         const token = localStorage.getItem('token');
         try {
-            const res = await fetch(`http://localhost:4545/users/favorites/${playerId}`, {
+            const res = await customFetch(`users/favorites/${playerId}`, {
                 method: 'PUT', // Usiamo la stessa rotta del cuore!
                 headers: { 'Authorization': `Bearer ${token}` }
             });

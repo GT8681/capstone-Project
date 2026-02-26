@@ -81,9 +81,6 @@ const Home = () => {
         }
     };
 
-
-
-
     if (loading)
         return
     <Container className="text-center mt-4">
@@ -126,24 +123,22 @@ const Home = () => {
                                             <Card.Title className="text-success">{player.surname}</Card.Title>
                                             <RoleBadge role={player.role} />
 
-
+                                            <div className="d-flex justify-content-between align-items-center mb-2 gap-3">
+                                            <small className="text-secondary">Salva nei preferiti:</small>
                                             <div
-
-                                                style={{ cursor: 'pointer', transition: '0.3s' }}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    handleFavorite(player._id)
+                                                    handleFavorite(player._id);
                                                 }}
-                                                className="position-absolute bottom-0 end-0 m-3 neon-heart-container d-flex justify-content-center gap-4 align-items-center"
+                                                style={{ cursor: 'pointer',
+                                                         outline:'none',
+                                                         userSelect:'none'
+                                                }}
                                             >
-                                                <p className="text-dark">SALVA Preferito </p>
-                                                <i className={`bi ${user?.userFavorites?.includes(player._id) ? 'bi-heart-fill text-danger neon-heart' : 'bi-heart text-muted'}`}
-                                                    style={{ fontSize: '1.5rem', cursor: 'pointer' }}></i>
-
-
+                                                <i className={`bi ${userFavorites?.includes(player._id) ? 'bi-heart-fill text-danger neon-heart' : 'bi-heart text-muted'}`}
+                                                    style={{ fontSize: '1.4rem' }}></i>
                                             </div>
-
-
+                                        </div>
                                         </div>
                                         <hr className="border-secondary" />
                                         <div className="d-flex justify-content-between align-items-center">
@@ -189,7 +184,7 @@ const Home = () => {
 
                 </div>
 
-            </Container>
+            </Container >
         </>
     )
 }
