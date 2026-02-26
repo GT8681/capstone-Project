@@ -9,7 +9,7 @@ import MyFooter from './components/Footer/Footer.jsx';
 import PlayerDetails from './pages/PlayerDetails.jsx';
 import Profile from './pages/profile.jsx';
 import PromisingPlayers from './components/playerPromising/PlayersPromising.jsx';
-import SectionSponsor from './components/pippo/SectionSponsor.jsx';
+import SectionSponsor from './components/Sponsor/SectionSponsor.jsx';
 import Contactpage from './pages/Contactpage.jsx';
 import Testimonials from './components/testimonials/Testimonials.jsx';
 import PatnerDashboard from './components/sectionDashboard/PatnerDashboard.jsx';
