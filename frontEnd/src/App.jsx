@@ -20,7 +20,7 @@ import FavoritesPage from './pages/FavoritesPage.jsx'
 
 export default function App() {
 
-  useEffect(() => {
+  useEffect(() => {     
     const storedUser = localStorage.getItem('user');
     const token = localStorage.getItem('token');
 
