@@ -26,6 +26,6 @@ Se vuoi far girare il progetto sul tuo computer:
    git clone[https://github.com/GT8681/capstone-Project.git].
 
 Link al Progetto:
-- FrontEnd(Live Vercell) : capstone-project-seven-nu.vercel.app.
+- FrontEnd(Live Vercell) :  capstone-project-m2dy.vercel.app
 - BackEnd(API su Render) : https://capstone-project-awft.onrender.com.
 

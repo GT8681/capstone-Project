@@ -5,7 +5,7 @@ import TopCarousel from '../components/caruselWelcome/carusel.jsx';
 import { useNavigate } from "react-router-dom";
 import RoleBadge from '../components/RoleBadge/RoleBadge.jsx';
 import '../App.css';
-import './Home.css'
+
 
 
 
