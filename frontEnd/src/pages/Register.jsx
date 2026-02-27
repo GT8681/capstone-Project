@@ -32,7 +32,7 @@ const Register = () => {
                 role:role
             };
             
-          const data = await customFetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
+          const data = await customFetch('auth/register', {
                 method: 'POST',
                 body: JSON.stringify(dataToSend)
             })
