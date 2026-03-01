@@ -1,7 +1,7 @@
 import React from 'react';
 import { customFetch } from '../../API/api.js';
 import { useEffect, useState } from 'react';
-import { Container, Table, Button, Spinner, Modal, Form, Row, Col, Card } from 'react-bootstrap';
+import { Container, Table, Button, Spinner, Modal, Form, Row, Col, Card, Alert } from 'react-bootstrap';
 import StatsCardsDashboard from './StatsCardsDashboard.jsx';
 
 const PatnerDashboard = () => {
@@ -15,10 +15,13 @@ const PatnerDashboard = () => {
     role: '',
     rating: '',
     foot: '',
-    team:'',
-    height:'',
-    weight:'',
-    nationality:''
+    team: '',
+    height: '',
+    weight: '',
+    nationality: '',
+    age:'',
+    avatar: '',
+    description:''
 
   });
   const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -37,55 +40,73 @@ const PatnerDashboard = () => {
     }
   };
 
+
+
+
+
+  const openWidget = () => {
+    window.cloudinary.openUploadWidget(
+      {
+        cloudName: "db4uicads",
+        uploadPreset: "ml_dafault",
+        sources: ["local", "url", "camera"],
+        multiple: false,
+      },
+      (error, result) => {
+        if (!error && result && result.event === "success") {
+          console.log('Immagine caricata con successo', result.info.secure_url);
+          // Quando la foto è caricata, Cloudinary ci dà l'URL sicuro
+          setNewPlayer({ ...newPlayer, avatar: result.info.secure_url });
+        }
+      }
+    );
+  };
+
   useEffect(() => {
     fetchPlayers();
   }, []);
 
   // funzione per creare player
-  const handleSubmitPlayer = async (e) => {
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-    const dataToSend = new FormData();
-    dataToSend.append('name', newPlayer.name);
-    dataToSend.append('surname', newPlayer.surname);
-    dataToSend.append('role', newPlayer.role);
-    dataToSend.append('rating', newPlayer.rating);
-    dataToSend.append('foot', newPlayer.foot);
-    dataToSend.append('description', newPlayer.description);
-    dataToSend.append('nationality', newPlayer.nationality);
-    dataToSend.append('weight', newPlayer.weight);
-    dataToSend.append('height', newPlayer.height);
-    dataToSend.append('team', newPlayer.team);
-    dataToSend.append('age', newPlayer.age);
 
-
-    if (newPlayer.image) {
-      dataToSend.append('foto', newPlayer.image);
+    if (!newPlayer.name || !newPlayer.nationality || !newPlayer.avatar) {
+      alert('Per favore, compila tutti i campi e carica la foto! ⚠️');
+      return;
     }
+    const token = localStorage.getItem('token');
+    console.log('dati che sto invando', newPlayer);
     try {
       const response = await customFetch('players/add', {
         method: 'POST',
         headers: {
-
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
-        body: dataToSend
+        body: JSON.stringify(newPlayer) 
       });
-      if (response.ok) {
-
-        setShowModal(false); // Chiudi il modal
-        fetchPlayers(); // Ricarica la tabella automaticamente!
-        alert("Giocatore salvato con successo!");
+  
+      if (response.ok) { 
+        alert('Giocatore salvato con successo! ⚽️🔥');
+        window.location.reload();
       } else {
         const errorData = await response.json();
-        alert('ATTENZIONE PLAYER GIA INSERITO DA UN ALTRO UTENTE');
-        console.log('Errore dettagliato;', errorData);
-
+        console.error("Errore dal server:", errorData);
+        alert(`Errore: ${errorData.message || 'Controlla i dati'}`);
       }
+     
     } catch (error) {
-      console.error("Errore nell'invio:", error);
+      console.error("Errore salvataggio:", error);
+      alert(error.response?.data?.msg || 'Errore nel salvataggio. Riprova! ❌');
     }
   };
+
+
+
+
+
 
   const handleDeletePlayer = async (playerId) => {
     if (window.confirm('Sei sicuro di voler eliminarlo')) {
@@ -166,7 +187,7 @@ const PatnerDashboard = () => {
                   </Button>
                   <Button variant="outline-warning btn-neon-red " size="sm" className="me-2">Edit</Button>
                   <Button
-                  className='btn-neon-red '
+                    className='btn-neon-red '
                     variant="outline-danger"
                     size="sm"
                     onClick={() => handleDeletePlayer(player._id)}
@@ -184,7 +205,7 @@ const PatnerDashboard = () => {
           <Modal.Title>Aggiungi Nuovo Talento</Modal.Title>
         </Modal.Header>
         <Modal.Body className="bg-dark text-white">
-          <Form onSubmit={handleSubmitPlayer}>
+          <Form onSubmit={handleSubmit}>
             <Row>
               <Col md={4}>
                 <Form.Group className="mb-3">
@@ -269,7 +290,7 @@ const PatnerDashboard = () => {
             </Row>
 
             <Row>
-            <Col md={4}>
+              <Col md={4}>
                 <Form.Group className="mb-3">
                   <Form.Label>Team</Form.Label>
                   <Form.Control
@@ -312,25 +333,38 @@ const PatnerDashboard = () => {
 
             </Row>
             <Col md={4}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Age</Form.Label>
-                  <Form.Control
-                    type="number"
-                    min='1'
-                    max='100'
-                    placeholder="la tua eta'...."
-                    onChange={(e) => setNewPlayer({ ...newPlayer, age: e.target.value })}
-                    required
-                  />
-                </Form.Group>
-              </Col>
+              <Form.Group className="mb-3">
+                <Form.Label>Age</Form.Label>
+                <Form.Control
+                  type="number"
+                  min='1'
+                  max='100'
+                  placeholder="la tua eta'...."
+                  onChange={(e) => setNewPlayer({ ...newPlayer, age: e.target.value })}
+                  required
+                />
+              </Form.Group>
+            </Col>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Foto Player</Form.Label>
-              <Form.Control
-                type='file'
-                onChange={(e) => setNewPlayer({ ...newPlayer, image: e.target.files[0] })} />
-            </Form.Group>
+
+            <div className="container mt-4">
+              <button type="button" className="btn btn-primary mb-3" onClick={openWidget}>
+                Seleziona Foto Giocatore
+              </button>
+
+              {/* Anteprima per l'utente così vede che ha caricato */}
+              {newPlayer.avatar && (
+                <div className="mb-3">
+                  <img src={newPlayer.avatar} alt="Anteprima" style={{ width: '100px', borderRadius: '10px' }} />
+                  <p className="text-success small">Immagine caricata correttamente! ✅</p>
+                </div>
+              )}
+            </div>
+
+
+
+
+
 
             <Form.Group className="mb-3">
               <Form.Label>Descrizione Talento</Form.Label>

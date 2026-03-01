@@ -26,7 +26,7 @@ const playerSchema = new Schema(
     },
     nationality : {
         type : String,
-        required : false
+        required : true
     },
     foot : {
         type : String,

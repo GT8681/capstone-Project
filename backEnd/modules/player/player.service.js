@@ -26,3 +26,10 @@ export const findRolePlayer = async (role) => {
 export const findPlayerById = async (id) => {
     return await Player.findById(id);
 }
+
+export const findNationalityPlayer = async (id) => {
+
+    const query = id ? {id : id} : {};
+    return await Player.find(query);
+}
+

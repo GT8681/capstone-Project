@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4545';
+const BASE_URL = import.meta.env.VITE_API_URL || 'https://capstone-project-awft.onrender.com';
 
 export const customFetch = async (endpoint ,options = {}) => {
     const token = localStorage.getItem('token');

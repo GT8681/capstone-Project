@@ -1,17 +1,16 @@
 import React from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button} from "react-bootstrap";
+import { toast } from 'react-toastify'
 import './Login.css'
 import { customFetch } from '../API/api';
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-
-
-
-const Login = ({setUser}) => {
+const Login = ({ setUser }) => {
     const [credential, setCredential] = useState({ email: '', password: '' })
-     const [error1,setError1] = useState(''); 
+    const [error1, setError1] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -22,34 +21,43 @@ const Login = ({setUser}) => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-            setError1('');
+        const { email,password} = credential;
+        setError1('');
+        setErrorMessage('');
 
-        if(localStorage.getItem('token')){
+        if(!email && !password){
+            setErrorMessage('Per favore inserisci le credenziali, grazie!!!');
+            return;
+        }
+        if (localStorage.getItem('token')) {
             alert('Sei gia loggato');
             navigate('/');
             return;
 
         }
         try {
-              const response = await customFetch('auth/login', {
+
+            const response = await customFetch('auth/login', {
                 method: 'POST',
-                headers:{'Content-Type': 'application/json' },
-                 body: JSON.stringify(credential)
-            }) 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(credential)
+            })
         
-           const data = await response.json();
-        
+            const data = await response.json();
+
             if (data.token) {
-                localStorage.setItem('token',data.token);
+                localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
                 setUser(data.user);
+                toast.success('Accesso eseguito!!!');
                 navigate('/');
             } else {
-                setError1(data.message || 'Credenziali sbagliate');
+                setError1(data.message || 'Perfavore inserisci le credenziali');
                 return;
             }
         } catch (error) {
-            alert(error.message || 'Si e verificato un errore durante il login');
+            console.log(error);
+            setErrorMessage('Email o password errate. RIPROVA!!')
 
         }
     }
@@ -87,6 +95,13 @@ const Login = ({setUser}) => {
 
                         </div>
                     )}
+                    {
+                        errorMessage && (
+                            <p style={{color:'red', fontWeight:'bold',textAlign:'center'}}>
+                                {errorMessage}
+                            </p>
+                        )
+                    }
 
                     <Button variant="primary" type="submit" className="custom-button w-100">
                         ACCEDI
@@ -96,7 +111,7 @@ const Login = ({setUser}) => {
                         <Link to="/register">Registrati</Link>
                     </div>
                 </Form>
-                
+
             </div>
         </div>
     )

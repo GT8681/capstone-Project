@@ -1,6 +1,10 @@
-import './App.css';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
+import './App.css';
 import { useState, useEffect } from "react";
+import { customFetch } from './API/api.js';
 import MyNavbar from './components/navBar/Navbar.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
@@ -15,13 +19,18 @@ import Testimonials from './components/testimonials/Testimonials.jsx';
 import PatnerDashboard from './components/sectionDashboard/PatnerDashboard.jsx';
 import ProtectedRoute from './middleware/ProtectdRoute.jsx';
 import FavoritesPage from './pages/FavoritesPage.jsx'
-import { customFetch } from './API/api.js';
+import SectionNationality from './pages/sectionCardNationality/NationalityCard.jsx';
+import PlayersPageNationality from './pages/sectionCardNationality/PlayerPageNationality.jsx';
+
 
 
 
 export default function App() {
 
-  useEffect(() => {     
+  const [players, setPlayers] = useState([]);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
     const storedUser = localStorage.getItem('user');
     const token = localStorage.getItem('token');
 
@@ -48,37 +57,46 @@ export default function App() {
 
   }, [])
 
-  const [players, setPlayers] = useState([]);
-  const [user, setUser] = useState(null);
+
   return (
-
-    <BrowserRouter>
-      <div className='d-flex flex-column min-vh-100 text-white'>
-        <MyNavbar user={user} setUser={setUser} />
-        <main className='flex-grow-1'>
-          <Routes>
+    <>
+      <BrowserRouter>
+        <div className='d-flex flex-column min-vh-100 text-white'>
+          <MyNavbar user={user} setUser={setUser} />
+          
+          <main className='flex-grow-1'>
+            <Routes>
+              
+              <Route path='/' element={
+                <>
+                  <Home />
+                  <PromisingPlayers players={players} />
+                  <SectionSponsor />
+                  <Testimonials />
+                  <SectionNationality/>
+                
+                </>
+                
+              }
+              />
+             <Route path='/players/nationality/:nationality' element={<PlayersPageNationality/>}/>
+              <Route path='/preferiti' element={<FavoritesPage />} />
+              <Route path='/Patner-dashboard' element={<ProtectedRoute><PatnerDashboard /></ProtectedRoute>} />
+              <Route path='/login' element={<Login setUser={setUser} />} />
+              <Route path='/register' element={<Register />} />
+              <Route path='player-details/:id' element={<PlayerDetails />} />
+              <Route path='/profile' element={<Profile />} />
+              <Route path='/contatti' element={<Contactpage />} />
+            </Routes>
+           
+          </main>
          
-            <Route path='/' element={
-              <>
-                <Home />
-                <PromisingPlayers players={players} />
-                <SectionSponsor/>
-                <Testimonials/>
-              </>
-            }
-            />
-            <Route path='/preferiti' element={<FavoritesPage/>}/>
-            <Route path='/Patner-dashboard' element={<ProtectedRoute><PatnerDashboard/></ProtectedRoute>}/>
-
-            <Route path='/login' element={<Login setUser={setUser} />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='player-details/:id' element={<PlayerDetails />} />
-            <Route path='/profile' element={<Profile />} />
-            <Route path='/contatti' element={<Contactpage/>} />
-          </Routes>
-        </main>
-        <MyFooter />
-      </div>
-    </BrowserRouter >
+            
+            
+              
+          <MyFooter />
+        </div>
+      </BrowserRouter >
+    </>
   );
 }

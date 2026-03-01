@@ -1,4 +1,4 @@
-import { getAllPlayers, updatePlayer, deletePlayer, findRolePlayer, findPlayerById } from "./player.service.js";
+import { getAllPlayers, updatePlayer, deletePlayer, findRolePlayer, findPlayerById,findNationalityPlayer} from "./player.service.js";
 import Player from '../player/player.schema.js';
 
 
@@ -136,4 +136,24 @@ export const playerById = async (req, res) => {
     }
 
 }
+export const getPlayersNationality = async (req, res) => {
+    try {
+        const  {nationality } = req.query;
+        console.log(nationality)
+        if (!nationality) {
+            return res.status(404).json({
+                message: 'Player not found'
+            })
+        }
+       
+        const players = await findNationalityPlayer({nationality:{$regex: new RegExp("^" + nationality + "$", "i")}});
+        res.status(200).json({players});
+        
+    } catch (error) {
+        res.status(500).json({message: error.message})
+        
+    }
+  
+  };
+  
 

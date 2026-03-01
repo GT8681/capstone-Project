@@ -7,9 +7,6 @@ import RoleBadge from '../components/RoleBadge/RoleBadge.jsx';
 import '../App.css';
 
 
-
-
-
 const Home = () => {
     const [players, setPlayer] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -106,39 +103,43 @@ const Home = () => {
                         currentPlayers.map((player) => (
                             <Col key={player._id} xs={12} md={6} lg={4} className="mb-4">
                                 <Card className="h-100 box-shadow  text-white border-secondary">
-                                    <div className="position-absolute top-0 end-0 p-2 d-flex flex-column align-items-end">
-                                        <Badge pill bg="warning" text="dark" className="">
-                                            {player.rating}
-                                        </Badge>
 
-
-                                    </div>
                                     <Card.Body className="position-relative">
                                         <div className="d-flex justify-content-center mb-3">
                                             <Card.Img variant='top' src={player.avatar} className="shadow-sm border-0 h-100 overflow-hidden " style={{ height: '240px', objectFit: 'cover' }} />
                                         </div>
 
-                                        <div className="d-flex flex-column justify-content-between align-items-start mb-2">
+                                        <div className="d-flex flex-column justify-content-between align-items-start">
                                             <Card.Title className="text-success">{player.name}</Card.Title>
                                             <Card.Title className="text-success">{player.surname}</Card.Title>
+                                            <div className="d-flex flex-column align-items-end mb-3">
+                                                <Badge pill bg="warning" text="dark" className="">
+                                                    Vote: {player.rating}
+                                                </Badge>
+                                              
+                                            </div>
+                                            <p className="text-dark">Nazionality: {player.nationality}</p>
                                             <RoleBadge role={player.role} />
+                                          
+
 
                                             <div className="d-flex justify-content-between align-items-center mb-2 gap-3">
-                                            <small className="text-secondary">Salva nei preferiti:</small>
-                                            <div
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleFavorite(player._id);
-                                                }}
-                                                style={{ cursor: 'pointer',
-                                                         outline:'none',
-                                                         userSelect:'none'
-                                                }}
-                                            >
-                                                <i className={`bi ${userFavorites?.includes(player._id) ? 'bi-heart-fill text-danger neon-heart' : 'bi-heart text-muted'}`}
-                                                    style={{ fontSize: '1.4rem' }}></i>
+                                                <small className="text-secondary">Salva nei preferiti:</small>
+                                                <div
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleFavorite(player._id);
+                                                    }}
+                                                    style={{
+                                                        cursor: 'pointer',
+                                                        outline: 'none',
+                                                        userSelect: 'none'
+                                                    }}
+                                                >
+                                                    <i className={`bi ${userFavorites?.includes(player._id) ? 'bi-heart-fill text-danger neon-heart' : 'bi-heart text-muted'}`}
+                                                        style={{ fontSize: '1.4rem' }}></i>
+                                                </div>
                                             </div>
-                                        </div>
                                         </div>
                                         <hr className="border-secondary" />
                                         <div className="d-flex justify-content-between align-items-center">

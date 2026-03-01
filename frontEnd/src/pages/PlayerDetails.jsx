@@ -68,6 +68,7 @@ const PlayerDetails = () => {
                         <p>Altezza: {player.height} cm</p>
                         <p>Peso: {player.weight} kg</p>
                         <p>Descrizione: {player.description}</p>
+                        <p>Nationality: {player.nationality}</p>
                         <div>
                             <Button variant="success" href="/" className='mt-3'>
                                 Torna Home
