@@ -1,74 +1,74 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { customFetch } from '../../API/api';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { customFetch } from "../../API/api";
 
 
-const PlayersPage = () => {
-  // 1. Prende la nazionalità dall'URL (es: "italy")
-
+const PlayerPageNationality = () => {
+  const { nationality } = useParams(); // Prende "brasile" o "italiana" dall'URL
   const [players, setPlayers] = useState([]);
-  const { nationality } = useParams();
-  console.log('nazione arrivata',nationality)
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    // 2. Chiamata al database filtrata per nazionalità
-    const getPlayers = async () => {
-      
-      const token = localStorage.getItem('token');
-      if(!token) return;
+    const fetchAndFilter = async () => {
       try {
-        const response = await customFetch(`players/nationality/${nationality}`,{
-          method: 'GET',
-          headers: {'Authorization':`Bearer ${token}`}
-        });
+        setLoading(true);
+        // 1. Chiamiamo la rotta GENERALE (quella che non fallisce mai)
+        const response = await customFetch(`players`,{
+          method: 'GET'
+        })
         const data = await response.json();
-        console.log(data)
-        if(data.ok){
-          setPlayers(data.players);
+        console.log('dataaaaaaaaaaaaa',data);
 
+        if (response.ok) {
+          // 2. FILTRIAMO NEL FRONTEND
+          const filtered = data.filter((p) => {
+            // Se nel DB è tutto piccolo, usiamo .nationality
+            const nazioneDB = (p.nationality || "").toLowerCase();
+            console.log('nazioneDB',nazioneDB);
+            const nazioneCercata = (nationality || "").toLowerCase();
+            console.log('nazioneCercata',nazioneCercata);
+            
+            // Usiamo .includes così "brasile" trova "brasiliana"
+            return nazioneDB.includes(nazioneCercata);
+          });
+
+          console.log("Giocatori trovati dopo il filtro:", filtered);
+          setPlayers(filtered);
         }
-       
-      } catch (error) {
-        console.error("Errore nel caricamento", error);
+      } catch (err) {
+        console.error("Errore nel caricamento:", err);
+      } finally {
+        setLoading(false);
       }
-
     };
 
-    getPlayers();
-  }, [nationality]); // Se cambi card, lui ricarica i dati
+    if (nationality) fetchAndFilter();
+  }, [nationality]);
+
+  if (loading) return <p>Caricamento campioni...</p>;
 
   return (
-    <div className="container mt-4">
-      <h2 className="text-uppercase fw-bold mb-4">Giocatori: {nationality}</h2>
-      <div className="row">
-
-        {players && players.length > 0 ? (
-          players.map(player => (
-            <div key={player._id} className="col-md-3 mb-4">
-
-
-              <div className="card shadow-sm border-0 position-relative">
-                <img src={player.avatar} className="card-img-top" alt={player.name} />
-
-                {/* Il Voto (Badge) che non sparisce più */}
-                <span className="position-absolute top-0 end-0 m-2 badge rounded-pill bg-warning text-dark shadow">
-                  {player.rating} ★
-                </span>
-
-                <div className="card-body">
-                  <h5 className="card-title fw-bold m-0">{player.name}</h5>
-                  <p className="card-text small text-muted">{player.vote}</p>
-                </div>
-              </div>
-
+    <div style={{ padding: "20px" }}>
+      <h2 className="text-primary fst-italic fs-1">PLAYERS : {nationality.toUpperCase()}</h2>
+      <hr />
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+        {players.length > 0 ? (
+          players.map((p) => (
+            <div className="text-center" key={p._id} style={{ border: "1px solid #ddd", padding: "10px", borderRadius: "10px" }}>
+              <img src={p.avatar} alt="foto"  style={{ width: "120px", borderRadius: "50%" }} />
+              <h3 className="text-success">{p.name} {p.surname}</h3>
+              <p className="text-success" >NAZIONALITA': {p.nationality}</p>
+              <p className="text-success" >AGE': {p.age}</p>
+              <p className="text-success" >ROLE: {p.role}</p>
+              <p className="text-success" >FOOT: {p.foot}</p>
             </div>
-
           ))
         ) : (
-          <p>Nessun Giocatore trovato</p>
+          <p className="text-dark fs-1">Nessun giocatore trovato con questa nazione.</p>
         )}
       </div>
     </div>
   );
 };
 
-export default PlayersPage;
+export default PlayerPageNationality;

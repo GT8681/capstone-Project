@@ -74,12 +74,10 @@ export default function App() {
                   <SectionSponsor />
                   <Testimonials />
                   <SectionNationality/>
-                
                 </>
-                
               }
               />
-             <Route path='/players/nationality/:nationality' element={<PlayersPageNationality/>}/>
+             <Route path='/players/Nationality-players/:nationality' element={<PlayersPageNationality/>}/>
               <Route path='/preferiti' element={<FavoritesPage />} />
               <Route path='/Patner-dashboard' element={<ProtectedRoute><PatnerDashboard /></ProtectedRoute>} />
               <Route path='/login' element={<Login setUser={setUser} />} />
@@ -88,12 +86,7 @@ export default function App() {
               <Route path='/profile' element={<Profile />} />
               <Route path='/contatti' element={<Contactpage />} />
             </Routes>
-           
-          </main>
-         
-            
-            
-              
+          </main>  
           <MyFooter />
         </div>
       </BrowserRouter >

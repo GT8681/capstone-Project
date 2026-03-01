@@ -73,7 +73,7 @@ const PatnerDashboard = () => {
     e.preventDefault();
 
     if (!newPlayer.name || !newPlayer.nationality || !newPlayer.avatar) {
-      alert('Per favore, compila tutti i campi e carica la foto! ⚠️');
+      Alert('Per favore, compila tutti i campi e carica la foto! ⚠️');
       return;
     }
     const token = localStorage.getItem('token');
@@ -89,17 +89,17 @@ const PatnerDashboard = () => {
       });
   
       if (response.ok) { 
-        alert('Giocatore salvato con successo! ⚽️🔥');
+        Alert('Giocatore salvato con successo! ⚽️🔥');
         window.location.reload();
       } else {
         const errorData = await response.json();
         console.error("Errore dal server:", errorData);
-        alert(`Errore: ${errorData.message || 'Controlla i dati'}`);
+        Alert(`Errore: ${errorData.message || 'Controlla i dati'}`);
       }
      
     } catch (error) {
       console.error("Errore salvataggio:", error);
-      alert(error.response?.data?.msg || 'Errore nel salvataggio. Riprova! ❌');
+      Alert(error.response?.data?.msg || 'Errore nel salvataggio. Riprova! ❌');
     }
   };
 

@@ -7,7 +7,7 @@ import {isPartner} from '../../middlewere/controllerAuth.js'
 
 const router = express.Router();
 
-router.get('/nationality/:nationality',getPlayersNationality);
+router.get('/Nationality-players/:nationality',getPlayersNationality);
 router.get('/',getPlayers);
 router.get('/my-players',verifyToken,getMyPlayers);
 router.get('/:id',verifyToken,playerById);

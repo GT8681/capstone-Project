@@ -1,0 +1,16 @@
+/* Nasconde la barra di scorrimento ma lascia scorrere */
+.custom-nationality-slider::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .custom-nationality-slider {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    scroll-behavior: smooth; /* Movimento fluido */
+  }
+  
+  /* Opzionale: aggiunge un po' di respiro tra le card */
+  .custom-nationality-slider .col-auto {
+    padding-right: 20px;
+  }
+  

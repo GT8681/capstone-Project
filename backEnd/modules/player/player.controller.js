@@ -134,26 +134,23 @@ export const playerById = async (req, res) => {
         })
 
     }
-
 }
+
 export const getPlayersNationality = async (req, res) => {
+   
     try {
-        const  {nationality } = req.query;
-        console.log(nationality)
-        if (!nationality) {
-            return res.status(404).json({
-                message: 'Player not found'
-            })
-        }
-       
-        const players = await findNationalityPlayer({nationality:{$regex: new RegExp("^" + nationality + "$", "i")}});
-        res.status(200).json({players});
+      const { nationality } = req.params;
+      console.log('parametro riceuto', (req.params));
+      const players = await findNationalityPlayer({ 
+        Nationality: { $regex: nationality, $options: "i" } 
         
+      });
+      console.log('parametro riceuto', players.length);
+      res.status(200).json({players}); 
+      console.log('parametro riceuto', players.length);
+
     } catch (error) {
-        res.status(500).json({message: error.message})
-        
+      res.status(500).json({ message: error.message });
     }
-  
   };
   
-
