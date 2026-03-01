@@ -1,7 +1,7 @@
 import React from 'react';
 import { customFetch } from '../../API/api.js';
 import { useEffect, useState } from 'react';
-import { Container, Table, Button, Spinner, Modal, Form, Row, Col, Card, Alert } from 'react-bootstrap';
+import { Container, Table, Button, Spinner, Modal, Form, Row, Col } from 'react-bootstrap';
 import StatsCardsDashboard from './StatsCardsDashboard.jsx';
 
 const PatnerDashboard = () => {
@@ -27,7 +27,7 @@ const PatnerDashboard = () => {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
 
-  // 1. Funzione per leggere i giocatori (READ)
+  // Funzione per leggere i giocatori 
   const fetchPlayers = async () => {
     try {
       const response = await customFetch('players/my-players');
@@ -39,11 +39,7 @@ const PatnerDashboard = () => {
       setLoading(false);
     }
   };
-
-
-
-
-
+  //FUNZIONE PER CARICARE L'IMMAGINE DA CLOUDINARY
   const openWidget = () => {
     window.cloudinary.openUploadWidget(
       {
@@ -68,12 +64,11 @@ const PatnerDashboard = () => {
 
   // funzione per creare player
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!newPlayer.name || !newPlayer.nationality || !newPlayer.avatar) {
-      Alert('Per favore, compila tutti i campi e carica la foto! ⚠️');
+      alert('Per favore, compila tutti i campi e carica la foto! ⚠️');
       return;
     }
     const token = localStorage.getItem('token');
@@ -89,7 +84,7 @@ const PatnerDashboard = () => {
       });
   
       if (response.ok) { 
-        Alert('Giocatore salvato con successo! ⚽️🔥');
+        alert('Giocatore salvato con successo! ⚽️🔥');
         window.location.reload();
       } else {
         const errorData = await response.json();
@@ -99,15 +94,10 @@ const PatnerDashboard = () => {
      
     } catch (error) {
       console.error("Errore salvataggio:", error);
-      Alert(error.response?.data?.msg || 'Errore nel salvataggio. Riprova! ❌');
+      alert(error.response?.data?.msg || 'Errore nel salvataggio. Riprova! ❌');
     }
   };
-
-
-
-
-
-
+  //FUNZIONE PER CANCELLARE LA CARD PLAYER
   const handleDeletePlayer = async (playerId) => {
     if (window.confirm('Sei sicuro di voler eliminarlo')) {
       const token = localStorage.getItem('token');
@@ -130,6 +120,7 @@ const PatnerDashboard = () => {
       }
     }
   }
+  //FILTRO PER RUOLO DEL PLAYER
   const filteredPlyers = filterRole === 'All' ? players : players.filter(p => p.role === filterRole);
 
   return (

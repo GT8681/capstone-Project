@@ -12,27 +12,16 @@ const PlayerPageNationality = () => {
     const fetchAndFilter = async () => {
       try {
         setLoading(true);
-        // 1. Chiamiamo la rotta GENERALE (quella che non fallisce mai)
-        const response = await customFetch(`players`,{
+        const response = await customFetch(`players`, {
           method: 'GET'
         })
         const data = await response.json();
-        console.log('dataaaaaaaaaaaaa',data);
-
         if (response.ok) {
-          // 2. FILTRIAMO NEL FRONTEND
           const filtered = data.filter((p) => {
-            // Se nel DB è tutto piccolo, usiamo .nationality
             const nazioneDB = (p.nationality || "").toLowerCase();
-            console.log('nazioneDB',nazioneDB);
             const nazioneCercata = (nationality || "").toLowerCase();
-            console.log('nazioneCercata',nazioneCercata);
-            
-            // Usiamo .includes così "brasile" trova "brasiliana"
             return nazioneDB.includes(nazioneCercata);
           });
-
-          console.log("Giocatori trovati dopo il filtro:", filtered);
           setPlayers(filtered);
         }
       } catch (err) {
@@ -55,7 +44,7 @@ const PlayerPageNationality = () => {
         {players.length > 0 ? (
           players.map((p) => (
             <div className="text-center" key={p._id} style={{ border: "1px solid #ddd", padding: "10px", borderRadius: "10px" }}>
-              <img src={p.avatar} alt="foto"  style={{ width: "120px", borderRadius: "50%" }} />
+              <img src={p.avatar} alt="foto" style={{ width: "120px", borderRadius: "50%" }} />
               <h3 className="text-success">{p.name} {p.surname}</h3>
               <p className="text-success" >NAZIONALITA': {p.nationality}</p>
               <p className="text-success" >AGE': {p.age}</p>

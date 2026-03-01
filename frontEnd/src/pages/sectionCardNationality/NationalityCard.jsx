@@ -2,14 +2,14 @@ import React from 'react';
 import './NationalityCard.CSS'
 import { useNavigate } from 'react-router-dom';
 import { Carousel, Container, Row, Col } from 'react-bootstrap';
-import imgItalia from "../../../public/italia-card.jpg";
-import imgBrasile from "../../../public/brasile-card.jpg";
-import imgArgentina from "../../../public/argentina-card.jpeg";
-import imgInglese from "../../../public/inglese.jpeg";
-import imgMarocco from "../../../public/marocco-card.jpeg";
-import imgFrancia from "../../../public/francia-card.jpg";
+import imgItalia from "../../assets/italia-card.jpg";
+import imgBrasile from "../../assets/brasile-card.jpg";
+import imgArgentina from "../../assets/argentina-card.jpeg";
+import imgInglese from "../../assets/inglese.jpeg";
+import imgMarocco from "../../assets/marocco-card.jpeg";
+import imgFrancia from "../../assets/francia-card.jpg";
 
-// 1. Definiamo la Card singola (quella con la freccina)
+// 1. Definiamo la Card singola (con la freccina)
 const NationalityCard = ({ title, image, color, nationality }) => {
   const navigate = useNavigate();
   return (
@@ -35,32 +35,27 @@ const NationalityCard = ({ title, image, color, nationality }) => {
 
 const SectionNationality = () => {
   return (
-    
     <Conteiner-fluid>
-
-    
-       <h1 className='text-danger p-4 mb-3'>
-          Player di tutto il mondo.....
-        </h1>
+      <h1 className='text-danger p-4 mb-3'>
+        Player di tutto il mondo.....
+      </h1>
       <Carousel className='Row-auto m-auto'>
-       
-        <Carousel.Item interval={2000} className='flex-nowrap'>
+        <Carousel.Item interval={1000} className='flex-nowrap'>
           <Col className='d-flex col-auto p-3 m-3 gap-5'>
             <NationalityCard title="FORZA ITALIA" image={imgItalia} color="#0055A4" nationality="italia" />
             <NationalityCard title="BRASILE" image={imgBrasile} color="#009739" nationality="brasile" />
             <NationalityCard title="ARGENTINA" image={imgArgentina} color="#74ACDF" nationality="argentina" />
           </Col>
         </Carousel.Item>
-        <Carousel.Item interval={2000}>
+        <Carousel.Item interval={1000}>
           <Col className='d-flex col-auto p-3 m-3 gap-5'>
-          <NationalityCard title="INGLESE" image={imgInglese} color="#a83232" nationality="inglese" />
-          <NationalityCard title="MAROCCO" image={imgMarocco} color="#a85632" nationality="marocchina" />
-          <NationalityCard title="FRANCIA" image={imgFrancia} color="#3262a8" nationality="francese" />
+            <NationalityCard title="INGLESE" image={imgInglese} color="#a83232" nationality="inglese" />
+            <NationalityCard title="MAROCCO" image={imgMarocco} color="#a85632" nationality="marocchina" />
+            <NationalityCard title="FRANCIA" image={imgFrancia} color="#3262a8" nationality="francese" />
           </Col>
         </Carousel.Item>
       </Carousel>
-      
-      </Conteiner-fluid>
+    </Conteiner-fluid>
   );
 };
 

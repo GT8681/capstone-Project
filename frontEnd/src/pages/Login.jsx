@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button} from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { toast } from 'react-toastify'
 import './Login.css'
 import { customFetch } from '../API/api';
@@ -11,6 +11,8 @@ const Login = ({ setUser }) => {
     const [credential, setCredential] = useState({ email: '', password: '' })
     const [error1, setError1] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [showWelcome, setShowWelcome] = useState(false);
+    const [userName, setUserName] = useState("");
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -21,11 +23,11 @@ const Login = ({ setUser }) => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { email,password} = credential;
+        const { email, password } = credential;
         setError1('');
         setErrorMessage('');
 
-        if(!email && !password){
+        if (!email && !password) {
             setErrorMessage('Per favore inserisci le credenziali, grazie!!!');
             return;
         }
@@ -42,15 +44,19 @@ const Login = ({ setUser }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(credential)
             })
-        
+
             const data = await response.json();
 
             if (data.token) {
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
                 setUser(data.user);
-                toast.success('Accesso eseguito!!!');
-                navigate('/');
+                setUserName(data.user.name);
+                setShowWelcome(true);
+
+                setTimeout(() => {
+                    navigate('/');
+                }, 2000);
             } else {
                 setError1(data.message || 'Perfavore inserisci le credenziali');
                 return;
@@ -62,7 +68,14 @@ const Login = ({ setUser }) => {
         }
     }
     return (
+
         <div className="login-page">
+            {showWelcome ? (
+                <div className="alert alert-success shadow-lg border-0 text-center fixed-top w-50 mx-auto mt-3" role="alert" style={{ zIndex: 9999 ,top:'200px',borderRadius:'20px',padding:'25px',fontSize:'1,4rem'}}>
+                    <i className="bi bi-check-circle-fill me-2"></i> {/* Se hai le icone bootstrap */}
+                    Benvenuto, <strong>{userName}</strong>! Accesso eseguito con successo. ⚽
+                </div>
+            ):(
             <div className="login-card">
                 <h2>LOGIN</h2>
                 <Form onSubmit={handleSubmit}>
@@ -97,7 +110,7 @@ const Login = ({ setUser }) => {
                     )}
                     {
                         errorMessage && (
-                            <p style={{color:'red', fontWeight:'bold',textAlign:'center'}}>
+                            <p style={{ color: 'red', fontWeight: 'bold', textAlign: 'center' }}>
                                 {errorMessage}
                             </p>
                         )
@@ -106,13 +119,14 @@ const Login = ({ setUser }) => {
                     <Button variant="primary" type="submit" className="custom-button w-100">
                         ACCEDI
                     </Button>
+                    
                     <div className="mt-3 text-center">
                         <span className="text-dark">Non hai un account? </span>
                         <Link to="/register">Registrati</Link>
                     </div>
                 </Form>
-
             </div>
+            )}
         </div>
     )
 }
