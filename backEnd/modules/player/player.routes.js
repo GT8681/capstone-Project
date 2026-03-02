@@ -13,7 +13,7 @@ router.get('/my-players',verifyToken,getMyPlayers);
 router.get('/:id',verifyToken,playerById);
 router.get('/findRole',findPlayerRole);
 router.post('/add',verifyToken,isPartner,uploadCloud.single('foto'),createPlayers);
-router.patch('/:id',patchPlayer);
+router.patch('edit-players/:id',patchPlayer);
 router.delete('/:id',verifyToken,isPartner,deleteOnePlayer);
 
 

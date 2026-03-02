@@ -23,6 +23,7 @@ const playerSchema = new Schema(
     },
     description: {
         type: String,
+        required:true
     },
     nationality : {
         type : String,

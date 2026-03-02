@@ -21,6 +21,7 @@ import ProtectedRoute from './middleware/ProtectdRoute.jsx';
 import FavoritesPage from './pages/FavoritesPage.jsx'
 import SectionNationality from './pages/sectionCardNationality/NationalityCard.jsx';
 import PlayersPageNationality from './pages/sectionCardNationality/PlayerPageNationality.jsx';
+import EditPlayer from './components/sectionDashboard/EditPlayer.jsx';
 
 
 
@@ -85,6 +86,7 @@ export default function App() {
               <Route path='player-details/:id' element={<PlayerDetails />} />
               <Route path='/profile' element={<Profile />} />
               <Route path='/contatti' element={<Contactpage />} />
+              <Route path='players/edit-players/:id' element={<EditPlayer/>}/>
             </Routes>
           </main>  
           <MyFooter />

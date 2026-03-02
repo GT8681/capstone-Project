@@ -8,9 +8,9 @@ export const createPlayer = async (data) => {
     const player = new Player(data);
     return await player.save();
 }
-export const updatePlayer = async (id,data) =>{
+export const updatePlayer = async (id,body) =>{
 
-    return await Player.findByIdAndUpdate(id,data,{new : true});
+    return await Player.findByIdAndUpdate(id,body,{new : true});
 
 }
 export const deletePlayer = async (id) =>{

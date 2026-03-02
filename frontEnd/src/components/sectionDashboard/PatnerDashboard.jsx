@@ -3,8 +3,10 @@ import { customFetch } from '../../API/api.js';
 import { useEffect, useState } from 'react';
 import { Container, Table, Button, Spinner, Modal, Form, Row, Col } from 'react-bootstrap';
 import StatsCardsDashboard from './StatsCardsDashboard.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const PatnerDashboard = () => {
+ 
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -19,13 +21,14 @@ const PatnerDashboard = () => {
     height: '',
     weight: '',
     nationality: '',
-    age:'',
+    age: '',
     avatar: '',
-    description:''
+    description: ''
 
   });
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const navigate = useNavigate();
 
   // Funzione per leggere i giocatori 
   const fetchPlayers = async () => {
@@ -72,7 +75,7 @@ const PatnerDashboard = () => {
       return;
     }
     const token = localStorage.getItem('token');
-    console.log('dati che sto invando', newPlayer);
+   
     try {
       const response = await customFetch('players/add', {
         method: 'POST',
@@ -80,10 +83,10 @@ const PatnerDashboard = () => {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(newPlayer) 
+        body: JSON.stringify(newPlayer)
       });
-  
-      if (response.ok) { 
+
+      if (response.ok) {
         alert('Giocatore salvato con successo! ⚽️🔥');
         window.location.reload();
       } else {
@@ -91,7 +94,7 @@ const PatnerDashboard = () => {
         console.error("Errore dal server:", errorData);
         Alert(`Errore: ${errorData.message || 'Controlla i dati'}`);
       }
-     
+
     } catch (error) {
       console.error("Errore salvataggio:", error);
       alert(error.response?.data?.msg || 'Errore nel salvataggio. Riprova! ❌');
@@ -176,7 +179,14 @@ const PatnerDashboard = () => {
                     Dettagli
 
                   </Button>
-                  <Button variant="outline-warning btn-neon-red " size="sm" className="me-2">Edit</Button>
+                  <Button
+                    variant="outline-warning btn-neon-red "
+                    size="sm"
+                    className="me-2"
+                    onClick={() => navigate(`/players/edit-players/${player._id}`)}
+                  >
+                    <i className='bi bi-pencil-square'></i>  MODIFICA</Button>
+
                   <Button
                     className='btn-neon-red '
                     variant="outline-danger"

@@ -140,15 +140,11 @@ export const getPlayersNationality = async (req, res) => {
    
     try {
       const { nationality } = req.params;
-      console.log('parametro riceuto', (req.params));
       const players = await findNationalityPlayer({ 
         Nationality: { $regex: nationality, $options: "i" } 
         
       });
-      console.log('parametro riceuto', players.length);
       res.status(200).json({players}); 
-      console.log('parametro riceuto', players.length);
-
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
