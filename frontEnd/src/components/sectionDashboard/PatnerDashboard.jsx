@@ -6,7 +6,7 @@ import StatsCardsDashboard from './StatsCardsDashboard.jsx';
 import { useNavigate } from 'react-router-dom';
 
 const PatnerDashboard = () => {
- 
+
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -75,7 +75,7 @@ const PatnerDashboard = () => {
       return;
     }
     const token = localStorage.getItem('token');
-   
+
     try {
       const response = await customFetch('players/add', {
         method: 'POST',
@@ -344,10 +344,9 @@ const PatnerDashboard = () => {
                   onChange={(e) => setNewPlayer({ ...newPlayer, age: e.target.value })}
                   required
                 />
+
               </Form.Group>
             </Col>
-
-
             <div className="container mt-4">
               <button type="button" className="btn btn-primary mb-3" onClick={openWidget}>
                 Seleziona Foto Giocatore
@@ -361,12 +360,6 @@ const PatnerDashboard = () => {
                 </div>
               )}
             </div>
-
-
-
-
-
-
             <Form.Group className="mb-3">
               <Form.Label>Descrizione Talento</Form.Label>
               <Form.Control

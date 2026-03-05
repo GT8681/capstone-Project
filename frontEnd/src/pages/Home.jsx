@@ -34,6 +34,8 @@ const Home = () => {
                 setLoading(false);
             }
         }
+
+
         const fetchUserFavorites = async () => {
             const token = localStorage.getItem('token');
             if (!token) return;
@@ -116,11 +118,11 @@ const Home = () => {
                                                 <Badge pill bg="warning" text="dark" className="">
                                                     Vote: {player.rating}
                                                 </Badge>
-                                              
+
                                             </div>
                                             <p className="text-dark">Nazionality: {player.nationality}</p>
                                             <RoleBadge role={player.role} />
-                                          
+
 
 
                                             <div className="d-flex justify-content-between align-items-center mb-2 gap-3">
@@ -141,6 +143,27 @@ const Home = () => {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="card-footer bg-transparent border-top-0 pt-0">
+                                            <hr className="my-2" />
+                                            <div className="d-flex align-items-center">
+                                                <div className="flex-grow-1">
+                                                    <p className="text-muted mb-0" style={{ fontSize: '0.75rem', fontWeight: 'bold', textTransform: 'uppercase' }}>
+                                                        Scout:
+                                                    </p>
+                                                    <p className="mb-0 text-dark" style={{ fontSize: '0.85rem', fontWeight: '600' }}>
+                                                        {user?.name} {user?.surname}
+                                                    </p>
+                                                    <p className="text-primary mb-0" style={{ fontSize: '0.75rem' }}>
+                                                        <i className="bi bi-envelope-at me-1"></i>
+                                                        {user?.email}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
                                         <hr className="border-secondary" />
                                         <div className="d-flex justify-content-between align-items-center">
 

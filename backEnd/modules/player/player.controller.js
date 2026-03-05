@@ -1,4 +1,4 @@
-import { getAllPlayers, updatePlayer, deletePlayer, findRolePlayer, findPlayerById,findNationalityPlayer} from "./player.service.js";
+import { getAllPlayers, updatePlayer, deletePlayer, findRolePlayer, findPlayerById, findNationalityPlayer } from "./player.service.js";
 import Player from '../player/player.schema.js';
 
 
@@ -6,7 +6,7 @@ import Player from '../player/player.schema.js';
 export const getPlayers = async (req, res) => {
     try {
 
-        const players = await getAllPlayers();
+        const players = await getAllPlayers().populate('author','name surname email');
         res.json(players);
     } catch (error) {
         res.status(500)
@@ -41,7 +41,7 @@ export const createPlayers = async (req, res) => {
 
         if (duplicatePlayer) {
             return res.status(400).json({
-                
+
                 message: 'Questo talento è già stato inserito da un altro Partner ed è presente nella Home!'
             });
         }
@@ -120,7 +120,7 @@ export const findPlayerRole = async (req, res) => {
 export const playerById = async (req, res) => {
     try {
         const { id } = req.params;
-        const player = await findPlayerById(id);
+        const player = await findPlayerById(id).populate('author','name surname email');
         if (!player) {
             return res.status(404).json({
                 message: 'Player not found'
@@ -137,16 +137,15 @@ export const playerById = async (req, res) => {
 }
 
 export const getPlayersNationality = async (req, res) => {
-   
+
     try {
-      const { nationality } = req.params;
-      const players = await findNationalityPlayer({ 
-        Nationality: { $regex: nationality, $options: "i" } 
-        
-      });
-      res.status(200).json({players}); 
+        const { nationality } = req.params;
+        const players = await findNationalityPlayer({
+            Nationality: { $regex: nationality, $options: "i" }
+
+        });
+        res.status(200).json({ players });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
-  };
-  
+};
