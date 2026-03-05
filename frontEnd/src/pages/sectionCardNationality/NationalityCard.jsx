@@ -1,5 +1,5 @@
 import React from 'react';
-import './NationalityCard.CSS'
+import './NationalityCard.css'
 import { useNavigate } from 'react-router-dom';
 import { Carousel, Container, Row, Col } from 'react-bootstrap';
 import imgItalia from "../../assets/italia-card.jpg";
