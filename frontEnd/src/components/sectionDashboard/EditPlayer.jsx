@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { customFetch } from '../../API/api';
-import { Container, Table, Button, Spinner, Modal, Form, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
 
 
@@ -10,7 +10,17 @@ const EditPlayer = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
-    nationality: ''
+    surname: '',
+    role: '',
+    rating: '',
+    foot: '',
+    team: '',
+    height: '',
+    weight: '',
+    nationality: '',
+    age: '',
+    avatar: '',
+    description: ''
   });
 
   // 1. Carichiamo i dati del giocatore da modificare
@@ -49,7 +59,7 @@ const EditPlayer = () => {
     }
   };
 
-  if (!formData || !formData.name) {
+  if (!formData) {
     return (
       <div className="container text-center mt-5">
         <div className="spinner-border text-success" role="status"></div>
@@ -84,7 +94,7 @@ const EditPlayer = () => {
                 id="surname"
                 placeholder="surname"
                 value={formData.surname}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) => setFormData({ ...formData, surname: e.target.value })}
               />
               <label htmlFor="floatingName">Surname Player</label>
             </div>
