@@ -31,11 +31,13 @@ const Register = () => {
                 ...formData,
                 role:role
             };
+            console.log('dataSend',dataToSend);
             
           const data = await customFetch('auth/register', {
                 method: 'POST',
                 body: JSON.stringify(dataToSend)
             })
+            console.log('data',data);
             if(data.status ===409){
                 setError1('Attenzione email gia associata ad un User');
                 return;
