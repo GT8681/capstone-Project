@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [error1,setError1] = useState(''); 
-    const [role,setRole] = useState('user'); 
+    const [role,setRole] = useState('Patner'); 
     const [formData, setFormData] = useState({
         name: "",
         surname: "",

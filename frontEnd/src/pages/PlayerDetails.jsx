@@ -40,7 +40,7 @@ const PlayerDetails = () => {
 
     if (!player) return <p>Caricamento...</p>;
 
-    if (!user || user.role !== 'PatnerPro') {
+    if (user.role !== 'PatnerPro') {
         return (
           <div className="container mt-5">
             <div className="alert alert-danger">

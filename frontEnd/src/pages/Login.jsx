@@ -1,6 +1,5 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
-import { toast } from 'react-toastify'
 import './Login.css'
 import { customFetch } from '../API/api';
 import { useNavigate } from 'react-router-dom';

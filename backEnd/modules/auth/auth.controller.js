@@ -23,9 +23,8 @@ export const register = async (req, res) => {
             password: hashedPassword,
             role:'Patner'
         });
+        sendWelcomeEmail(newUser.email,newUser.name)
         await newUser.save();
-        await sendWelcomeEmail(email,name)
-        
 
         res.status(201).json({
             message: 'Utente registrato correttamente!!! Controlla la tua email....',
