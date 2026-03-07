@@ -1,5 +1,5 @@
 import { updatePlayer, findRolePlayer, findPlayerById, findNationalityPlayer } from "./player.service.js";
-import Player from './player.service.js';
+import Player from './player.schema.js';
 
 
 
@@ -10,11 +10,8 @@ export const getPlayers = async (req, res) => {
 
         res.json(players);
     } catch (error) {
-        console.log('ma perche ', error);
         res.status(500)
-
             .json({     
-
                 status: 500,
                 message: error.message
             })
