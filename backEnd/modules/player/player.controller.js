@@ -13,7 +13,7 @@ export const getPlayers = async (req, res) => {
         console.log('ma perche ', error);
         res.status(500)
 
-            .json({
+            .json({     
 
                 status: 500,
                 message: error.message
