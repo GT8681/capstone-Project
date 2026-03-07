@@ -1,7 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'
 import './App.css';
 import { useState, useEffect } from "react";
 import { customFetch } from './API/api.js';
@@ -44,8 +42,10 @@ export default function App() {
     const fetchPlayers = async () => {
       try {
         const response = await customFetch('players');
+        console.log('response',response);
         if (!response.ok) {
           throw new Error('Errore nel recupero dei giocatori');
+
         }
         const data = await response.json();
         setPlayers(data);

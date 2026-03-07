@@ -1,16 +1,20 @@
-import { getAllPlayers, updatePlayer, deletePlayer, findRolePlayer, findPlayerById, findNationalityPlayer } from "./player.service.js";
-import Player from '../player/player.schema.js';
+import { updatePlayer, findRolePlayer, findPlayerById, findNationalityPlayer } from "./player.service.js";
+import Player from './player.service.js';
 
 
 
 export const getPlayers = async (req, res) => {
     try {
 
-        const players = await getAllPlayers().populate('author','name surname email');
+        const players = await Player.find().populate('author','name surname email');;
+
         res.json(players);
     } catch (error) {
+        console.log('ma perche ', error);
         res.status(500)
+
             .json({
+
                 status: 500,
                 message: error.message
             })
@@ -120,7 +124,7 @@ export const findPlayerRole = async (req, res) => {
 export const playerById = async (req, res) => {
     try {
         const { id } = req.params;
-        const player = await findPlayerById(id).populate('author','name surname email');
+        const player = await findPlayerById(id).populate('author', 'name surname email');
         if (!player) {
             return res.status(404).json({
                 message: 'Player not found'

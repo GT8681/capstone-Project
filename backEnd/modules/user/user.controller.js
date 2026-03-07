@@ -11,8 +11,6 @@ export const visualizzazionUser = async (req, res) => {
                 status: 500,
                 message: error.message
             })
-
-
     }
 }
 
