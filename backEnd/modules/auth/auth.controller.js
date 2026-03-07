@@ -19,11 +19,9 @@ export const register = async (req, res) => {
         
            //salviamo nuovo utente
         const newUser = await createUser({
-            name,
-            surname,
-            email,
+            ...req.body,
             password: hashedPassword,
-            role
+            role:'Patner'
         });
         await newUser.save();
         await sendWelcomeEmail(email,name)

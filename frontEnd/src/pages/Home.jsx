@@ -151,11 +151,11 @@ const Home = () => {
                                                         Scout:
                                                     </p>
                                                     <p className="mb-0 text-dark" style={{ fontSize: '0.85rem', fontWeight: '600' }}>
-                                                        {user?.name} {user?.surname}
+                                                        {player.author?.name} {player.author?.surname}
                                                     </p>
                                                     <p className="text-primary mb-0" style={{ fontSize: '0.75rem' }}>
                                                         <i className="bi bi-envelope-at me-1"></i>
-                                                        {user?.email}
+                                                        {player.author?.email}
                                                     </p>
                                                 </div>
                                             </div>
