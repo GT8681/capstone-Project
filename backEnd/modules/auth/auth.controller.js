@@ -19,17 +19,19 @@ export const register = async (req, res) => {
         
            //salviamo nuovo utente
         const newUser = await createUser({
-            ...req.body,
+            name:name,
+            surname:surname,
             password: hashedPassword,
-            role:'Patner'
+            role:role
         });
-        sendWelcomeEmail(newUser.email,newUser.name)
+      
         await newUser.save();
 
         res.status(201).json({
             message: 'Utente registrato correttamente!!! Controlla la tua email....',
             user:newUser 
         })
+        sendWelcomeEmail(newUser.email,newUser.name)
 
     } catch (error) {
         res.status(500).json({

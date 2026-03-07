@@ -50,7 +50,7 @@ const Profile = () => {
                 </ListGroup.Item>
                 <div className='Role mt-3'>
                   <Badge bg={userData.role === 'PatnerPro' ? 'danger' : 'info'} className="mb-3 text-blacks">
-                    {userData.role === 'PatnerPro' ? 'PatnerPro' : 'Patner'}
+                    {userData.role === 'PatnerPro' ? 'PatnerPro' : 'user'}
                  
                   </Badge>
                 </div>

@@ -121,13 +121,13 @@ export const findPlayerRole = async (req, res) => {
 export const playerById = async (req, res) => {
     try {
         const { id } = req.params;
-        const player = await findPlayerById(id).populate('author', 'name surname email');
+        const player = await Player.findById(id).populate('author','name surname email');
         if (!player) {
             return res.status(404).json({
                 message: 'Player not found'
             })
         }
-        res.json(player)
+        res.status(200).json(player)
 
     } catch (error) {
         res.status(500).json({
