@@ -42,7 +42,6 @@ export default function App() {
     const fetchPlayers = async () => {
       try {
         const response = await customFetch('players');
-        console.log('response',response);
         if (!response.ok) {
           throw new Error('Errore nel recupero dei giocatori');
 

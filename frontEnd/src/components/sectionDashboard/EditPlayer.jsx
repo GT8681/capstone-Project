@@ -48,7 +48,6 @@ const EditPlayer = () => {
         body: JSON.stringify(formData)
 
       });
-      console.log(formData);
 
       if (response.ok) {
         alert("Giocatore aggiornato con successo! ⚽");

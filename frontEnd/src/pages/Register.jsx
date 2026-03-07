@@ -73,7 +73,7 @@ const Register = () => {
                                  value={role} 
                                  onChange={(e) => setRole(e.target.value)}
                                   className="custom-input bg-dark text-white border-secondary">
-                                    <option value="user">user</option>
+                                    <option value="Patner">Patner</option>
                                     <option value="PatnerPro">PatnerPro</option>
                                 </Form.Select>
                         </Form.Group>
