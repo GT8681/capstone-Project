@@ -5,37 +5,27 @@ import { sendWelcomeEmail } from '../../services/mail.service.js';
 
 export const register = async (req, res) => {
     try {
-        // Estraiamo i dati in modo sicuro
         const { name, surname, email, password, role } = req.body;
-
         if (!email) {
             return res.status(400).json({ message: "Email obbligatoria!" });
         }
-
         const userExists = await findUserByEmail(email);
         if (userExists) {
             return res.status(409).json({ maessage: 'email gia esistente' });
         }
-
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-
-        // CREAZIONE UTENTE - Usa i valori estratti sopra
         const newUser = await createUser({
             name,
             surname,
             email,
             password: hashedPassword,
-            role: role || 'PatnerPro' 
+            role: role || 'PatnerPro'
         });
-        console.log('newUser',newUser);
-        // RISPOSTA IMMEDIATA (Sblocca il caricamento infinito)
         res.status(201).json({
             message: 'Utente registrato correttamente!!!',
             user: newUser
         });
-
-        // INVIO MAIL IN BACKGROUND (Senza 'await' così non blocca se fallisce)
         sendWelcomeEmail(email, name).catch(err => console.error("Errore mail:", err));
 
     } catch (error) {
