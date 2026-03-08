@@ -46,7 +46,7 @@ const EditPlayer = () => {
     e.preventDefault();
     
     try {
-      const response = await customFetch(`players/edit/${id}`, {
+      const response = await customFetch(`players/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

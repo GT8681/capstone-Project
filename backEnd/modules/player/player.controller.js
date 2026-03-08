@@ -69,7 +69,7 @@ export const patchPlayer = async (req, res) => {
             { $set: req.body }, 
             { new: true, runValidators: true }
         );
-
+        console.log('updatePlayer',updatePlayer);
         if (!updatedPlayer) return res.status(404).json({ message: "Player non trovato" });
         
         res.status(200).json(updatedPlayer);
