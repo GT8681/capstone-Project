@@ -6,7 +6,7 @@ import StatsCardsDashboard from './StatsCardsDashboard.jsx';
 import { useNavigate } from 'react-router-dom';
 
 const PatnerDashboard = () => {
-
+  const [user1,setUser1] = useState(null);
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -29,6 +29,7 @@ const PatnerDashboard = () => {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const navigate = useNavigate();
+ 
 
   // Funzione per leggere i giocatori 
   const fetchPlayers = async () => {
@@ -64,6 +65,11 @@ const PatnerDashboard = () => {
   useEffect(() => {
     fetchPlayers();
   }, []);
+
+  useEffect(() =>{
+    const saveUser = JSON.parse(localStorage.getItem('user'));
+    if(saveUser) setUser1(saveUser);
+  },[]);
 
   // funzione per creare player
 
@@ -123,12 +129,18 @@ const PatnerDashboard = () => {
       }
     }
   }
+  const user = localStorage.getItem('user');
   //FILTRO PER RUOLO DEL PLAYER
   const filteredPlyers = filterRole === 'All' ? players : players.filter(p => p.role === filterRole);
 
   return (
 
     <Container className="mt-5 text-white">
+      <header className="dashboard-header text-primary">
+        <h1>Bentornato, <span className="user-name text-black">{user1?.name}  {user1?.surname}</span></h1>
+        <p>Hai il controllo completo del tuo roster</p>
+      </header>
+
       <StatsCardsDashboard
         players={players}
         setFilterRole={setFilterRole}

@@ -9,7 +9,7 @@ import imgInglese from "../../assets/inglese.jpeg";
 import imgMarocco from "../../assets/marocco-card.jpeg";
 import imgFrancia from "../../assets/francia-card.jpg";
 
-// 1. Definiamo la Card singola (con la freccina)
+//  Definiamo la Card singola (con la freccina)
 const NationalityCard = ({ title, image, color, nationality }) => {
   const navigate = useNavigate();
   return (
@@ -22,12 +22,12 @@ const NationalityCard = ({ title, image, color, nationality }) => {
         <div className="d-flex justify-content-center overflow-y-hidden" style={{ height: '200px', background: '#f8f9fa' }}>
           <img src={image} style={{ maxHeight: '100%', objectFit: 'cover' }} alt={title} />
         </div>
-        <div className="p-3 d-flex justify-content-between align-items-center text-white" style={{ backgroundColor: color }}>
+        <div className="p-3 d-flex justify-content-center gap-5 align-items-center text-white" style={{ backgroundColor: color }}> 
           <h5 className="m-0 fw-bold">{title}</h5>
-          <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: '35px', height: '35px' }}>
+          <div className="bg-white m-2 rounded-circle d-flex align-items-center justify-content-center" style={{ width: '35px', height: '35px' }}>
             <span style={{ color: color }}>➔</span>
           </div>
-        </div>
+ </div>
       </div>
     </div>
   );

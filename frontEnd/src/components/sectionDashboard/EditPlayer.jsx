@@ -11,7 +11,7 @@ const EditPlayer = () => {
   const [originalData, setOriginalData] = useState({}); // Quello che arriva dal database
   const [formData, setFormData] = useState({});
 
-  // 1. Carichiamo i dati del giocatore da modificare
+  // Carichiamo i dati del giocatore da modificare
   useEffect(() => {
     if (!id) return;
     const fetchPlayer = async () => {
@@ -30,7 +30,7 @@ const EditPlayer = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    // 1. Creiamo la lista delle differenze
+    // Creiamo la lista delle differenze
     let cambiamenti = [];
     
     for (let chiave in formData) {
@@ -40,7 +40,7 @@ const EditPlayer = () => {
         }
     }
 
-    // 2. Se non c'è nulla di diverso, non inviare neanche la PATCH
+    //  Se non c'è nulla di diverso, non inviare neanche la PATCH
     if (cambiamenti.length === 0) {
         alert("Non hai modificato nulla!");
         return;
@@ -56,9 +56,9 @@ const EditPlayer = () => {
         });
 
         if (response.ok) {
-            // 3. L'alert ora mostrerà solo i campi nell'array 'cambiamenti'
+            //  L'alert ora mostrerà solo i campi nell'array 'cambiamenti'
             alert("✅ Modificato con successo: " + cambiamenti.join(", "));
-            setOriginalData(formData); // Aggiorna i dati originali con quelli nuovi
+            setOriginalData(formData); 
 navigate('/Patner-dashboard');
 
         }
@@ -66,13 +66,6 @@ navigate('/Patner-dashboard');
         alert("Errore nel server");
     }
 };
-
-
-
-
-
-
-
   if (!formData) {
     return (
       <div className="container text-center mt-5">
@@ -81,14 +74,11 @@ navigate('/Patner-dashboard');
       </div>
     );
   }
-
-
   return (
     <Container>
       <form onSubmit={handleUpdate} className="p-4 shadow-lg rounded bg-white">
         <h3 className="text-center mb-4 text-primary">Modifica Profilo Player</h3>
         <Row>
-
           <Col md={4}>
             <div className="form-floating mb-3">
               <input

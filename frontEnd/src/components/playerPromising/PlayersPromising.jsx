@@ -7,7 +7,7 @@ import '../../App.css';
 
 const PromisingPlayers = ({ players}) => {
     // Filtriamo solo i "promettenti" (voto >8)
-    const topProspects = (players || []).filter(player => Number(player.rating) > 8);
+    const topProspects = (players || []).filter(player => Number(player.rating) > 9);
 
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
@@ -72,7 +72,7 @@ const PromisingPlayers = ({ players}) => {
             <div className="">
                 <h2 className="text-danger text-center mb-5">🌟 PLAYERS PROSPECTS..... 🌟 </h2>
                 <div className='d-flex justify-content-center align-items-center gap-5 flex-wrap'>
-                    {currentPlayers.map(player => (
+                    {topProspects.map(player => (
                         <Col key={player._id} md={4} lg={3} className="mb-4">
                             <Card className="text-white shadow-sm border-0 h-100 overflow-hidden bg-transparent" style={{ minHeight: '200px' }}>
                                 <Row className='g-0 h-100'>
@@ -96,7 +96,7 @@ const PromisingPlayers = ({ players}) => {
                                         </Card.Title>
                                         <div className="mb-3">
                                             <small className="text-secondary">Rating: </small>
-                                            <span className="text-warning fw-bold">{player.rating}/10</span>
+                                            <span className="text-warning fw-bold">{player.rating}</span>
                                         </div>
 
                                         <div className="d-flex justify-content-between align-items-center mb-2">
