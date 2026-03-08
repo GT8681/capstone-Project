@@ -8,32 +8,18 @@ import { Container, Row, Col } from 'react-bootstrap';
 const EditPlayer = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: '',
-    surname: '',
-    role: '',
-    rating: '',
-    foot: '',
-    team: '',
-    height: '',
-    weight: '',
-    nationality: '',
-    age: '',
-    avatar: '',
-    description: ''
-  });
+  const [originalData, setOriginalData] = useState({}); // Quello che arriva dal database
+  const [formData, setFormData] = useState({});
 
   // 1. Carichiamo i dati del giocatore da modificare
   useEffect(() => {
     if (!id) return;
     const fetchPlayer = async () => {
       const response = await customFetch(`players/${id}`);
-     
       const data = await response.json();
-   
-
       if (response.ok) {
         setFormData(data);
+        setOriginalData(data);
 
       }
     };
@@ -41,31 +27,51 @@ const EditPlayer = () => {
   }, [id]);
 
 
-  // 2. Gestiamo il salvataggio
   const handleUpdate = async (e) => {
     e.preventDefault();
+
+    // 1. Creiamo la lista delle differenze
+    let cambiamenti = [];
     
-    try {
-      const response = await customFetch(`players/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-        
-
-      });
-
-      
-      if (response.ok) {
-
-        alert("Giocatore aggiornato con successo! ⚽");
-        navigate('/Patner-dashboard');
-  
-
-      }
-    } catch (err) {
-      console.error("Errore update:", err);
+    for (let chiave in formData) {
+        // Se il valore nel form è diverso da quello originale...
+        if (formData[chiave] !== originalData[chiave]) {
+            cambiamenti.push(chiave); // Salviamo il nome del campo
+        }
     }
-  };
+
+    // 2. Se non c'è nulla di diverso, non inviare neanche la PATCH
+    if (cambiamenti.length === 0) {
+        alert("Non hai modificato nulla!");
+        return;
+    }
+    const token = localStorage.getItem('token');
+
+
+    try {
+        const response =  await customFetch(`players/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+            // 3. L'alert ora mostrerà solo i campi nell'array 'cambiamenti'
+            alert("✅ Modificato con successo: " + cambiamenti.join(", "));
+            setOriginalData(formData); // Aggiorna i dati originali con quelli nuovi
+navigate('/Patner-dashboard');
+
+        }
+    } catch (error) {
+        alert("Errore nel server");
+    }
+};
+
+
+
+
+
+
 
   if (!formData) {
     return (
@@ -82,7 +88,7 @@ const EditPlayer = () => {
       <form onSubmit={handleUpdate} className="p-4 shadow-lg rounded bg-white">
         <h3 className="text-center mb-4 text-primary">Modifica Profilo Player</h3>
         <Row>
-          
+
           <Col md={4}>
             <div className="form-floating mb-3">
               <input
