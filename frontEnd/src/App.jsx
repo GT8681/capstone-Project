@@ -56,8 +56,7 @@ export default function App() {
     fetchPlayers();
 
   }, [])
-
-
+  
   return (
     <>
       <BrowserRouter>

@@ -28,7 +28,9 @@ const EditPlayer = () => {
     if (!id) return;
     const fetchPlayer = async () => {
       const response = await customFetch(`players/${id}`);
+     
       const data = await response.json();
+   
 
       if (response.ok) {
         setFormData(data);
@@ -38,20 +40,27 @@ const EditPlayer = () => {
     fetchPlayer();
   }, [id]);
 
+
   // 2. Gestiamo il salvataggio
   const handleUpdate = async (e) => {
     e.preventDefault();
+    
     try {
-      const response = await customFetch(`players/${id}`, {
+      const response = await customFetch(`players/edit/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
+        
 
       });
 
+      
       if (response.ok) {
+
         alert("Giocatore aggiornato con successo! ⚽");
         navigate('/Patner-dashboard');
+  
+
       }
     } catch (err) {
       console.error("Errore update:", err);

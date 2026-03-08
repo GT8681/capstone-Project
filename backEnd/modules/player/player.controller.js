@@ -63,21 +63,21 @@ export const createPlayers = async (req, res) => {
 export const patchPlayer = async (req, res) => {
     try {
         const { id } = req.params;
-        const body = req.body;
-        const newPlayer = await updatePlayer(id, body);
+        // findByIdAndUpdate con req.body aggiorna solo i campi inviati
+        const updatedPlayer = await Player.findByIdAndUpdate(
+            id, 
+            { $set: req.body }, 
+            { new: true, runValidators: true }
+        );
 
-        res.status(200).json({
-            statusCode: 200,
-            player: newPlayer,
-            message: 'Player update successfully'
-        })
-
+        if (!updatedPlayer) return res.status(404).json({ message: "Player non trovato" });
+        
+        res.status(200).json(updatedPlayer);
     } catch (error) {
-        res.status(500).json({
-            message: error.message
-        })
+        res.status(500).json({ message: error.message });
     }
-}
+};
+
 
 export const deleteOnePlayer = async (req, res) => {
 
