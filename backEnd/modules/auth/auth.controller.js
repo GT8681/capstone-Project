@@ -22,6 +22,35 @@ export const register = async (req, res) => {
             password: hashedPassword,
             role: role || 'PatnerPro'
         });
+
+
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: newUser.email,
+            subject: 'Benvenuto in Scouting App!',
+            text: `Ciao ${newUser.name}, la tua registrazione come ${newUser.role} è confermata!`
+          };
+      
+          transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+                console.log("Errore invio mail:", err);
+            } else {
+                console.log("Email inviata con successo:", info.response);
+            }
+        });
+
+
+        transporter.sendMail({
+            from: process.env.GMAIL_USER,
+            to: "test@example.com",
+            subject: "Test Email",
+            text: "Questa è un'email di test."
+        }, (err, info) => {
+            if (err) console.log("Errore:", err);
+            else console.log("Email inviata:", info.response);
+        });
+      
+
         res.status(201).json({
             message: 'Utente registrato correttamente!!!',
             user: newUser

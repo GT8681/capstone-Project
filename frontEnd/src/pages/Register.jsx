@@ -37,7 +37,8 @@ const Register = () => {
                 method: 'POST',
                 body: JSON.stringify(dataToSend)
             })
-            console.log('data',data);
+            console.log("Risposta dal backend:", data);
+           
             if(data.status ===409){
                 setError1('Attenzione email gia associata ad un User');
                 return;
