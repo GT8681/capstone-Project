@@ -1,67 +1,63 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { findUserByEmail, createUser } from './auth.service.js';
-import { sendWelcomeEmail } from '../../services/mail.service.js';
+import { findUserByEmail, } from './auth.service.js';
+import User from '../user/user.model.js';
+import nodemailer from 'nodemailer'; 
 
 export const register = async (req, res) => {
     try {
         const { name, surname, email, password, role } = req.body;
-        if (!email) {
-            return res.status(400).json({ message: "Email obbligatoria!" });
-        }
-        const userExists = await findUserByEmail(email);
-        if (userExists) {
-            return res.status(409).json({ maessage: 'email gia esistente' });
-        }
+
+        // 1. Crea l'utente
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-        const newUser = await createUser({
+        const newUser = await User.create({
             name,
             surname,
             email,
-            password: hashedPassword,
+            password:hashedPassword,
             role: role || 'PatnerPro'
         });
 
+        // 2. CREA IL TRASPORTATORE QUI DENTRO
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+        });
 
+        // 3. SCRIVI LA MAIL PRIMA DI SPEDIRLA (Fondamentale!)
         const mailOptions = {
-            from: process.env.GMAIL_USER,
+            from: process.env.EMAIL_USER,
             to: newUser.email,
-            subject: 'Benvenuto in Scouting App!',
-            text: `Ciao ${newUser.name}, la tua registrazione come ${newUser.role} è confermata!`
-          };
-      
-          transporter.sendMail(mailOptions, (err, info) => {
-            if (err) {
-                console.log("Errore invio mail:", err);
-            } else {
-                console.log("Email inviata con successo:", info.response);
-            }
+            subject: 'Benvenuto nella Scouting App! ⚽️',
+            html: `<h1>Ciao ${newUser.name}!</h1><p>Registrazione ok.</p>`
+        };
+
+        // 4. SPEDISCI (Senza await così non ti dà errore giallo e non blocca il sito)
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) console.log("Errore email:", err.message);
+            else console.log("Email inviata!");
         });
 
-
-        transporter.sendMail({
-            from: process.env.GMAIL_USER,
-            to: "test@example.com",
-            subject: "Test Email",
-            text: "Questa è un'email di test."
-        }, (err, info) => {
-            if (err) console.log("Errore:", err);
-            else console.log("Email inviata:", info.response);
+        // 5. RISPONDI AL SITO
+        return res.status(201).json({ 
+            success: true, 
+            message: "Registrazione completata!" 
         });
-      
-
-        res.status(201).json({
-            message: 'Utente registrato correttamente!!!',
-            user: newUser
-        });
-        sendWelcomeEmail(email, name).catch(err => console.error("Errore mail:", err));
 
     } catch (error) {
-        console.error("Errore registrazione:", error);
-        res.status(500).json({ message: error.message });
+        console.error("Errore fatale:", error);
+        return res.status(500).json({ success: false, message: error.message });
     }
 };
+
+
+
+
+
 
 
 export const login = async (req, res) => {
