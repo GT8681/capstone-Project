@@ -8,7 +8,11 @@ export const register = async (req, res) => {
     try {
         const { name, surname, email, password, role } = req.body;
 
-        // 1. Crea l'utente
+        const userExists = await User.findOne({ email });
+        if (userExists) {
+        return res.status(400).json({ message: "L'email è già registrata" });
+  }
+    
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
         const newUser = await User.create({
@@ -19,30 +23,26 @@ export const register = async (req, res) => {
             role: role || 'PatnerPro'
         });
 
-        // 2. CREA IL TRASPORTATORE QUI DENTRO
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS,
             },
         });
 
-        // 3. SCRIVI LA MAIL PRIMA DI SPEDIRLA (Fondamentale!)
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: newUser.email,
             subject: 'Benvenuto nella Scouting App! ⚽️',
             html: `<h1>Ciao ${newUser.name}!</h1><p>Registrazione ok.</p>`
         };
-
-        // 4. SPEDISCI (Senza await così non ti dà errore giallo e non blocca il sito)
         transporter.sendMail(mailOptions, (err, info) => {
             if (err) console.log("Errore email:", err.message);
             else console.log("Email inviata!");
         });
-
-        // 5. RISPONDI AL SITO
         return res.status(201).json({ 
             success: true, 
             message: "Registrazione completata!" 
