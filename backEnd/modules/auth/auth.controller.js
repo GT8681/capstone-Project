@@ -8,9 +8,9 @@ export const register = async (req, res) => {
     try {
         const { name, surname, email, password, role } = req.body;
 
-        const userExists = await User.findOne({ email });
+        const userExists = await User.findOne({email});
         if (userExists) {
-        return res.status(400).json({ message: "L'email è già registrata" });
+        return res.status(409).json({ message: "L'email è già registrata" });
   }
     
         const salt = await bcrypt.genSalt(10);

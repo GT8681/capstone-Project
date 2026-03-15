@@ -1,19 +1,20 @@
 import React, { useState } from "react";
-import { Form, Button,Alert } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 import './Register.css'
 import { customFetch } from '../API/api';
 import { useNavigate } from 'react-router-dom';
-
+import { ToastContainer, toast } from 'react-toastify';
 
 const Register = () => {
-    const [error1,setError1] = useState(''); 
-    const [role,setRole] = useState('Patner'); 
+    const notify = () => toast("Wow so easy!");
+    const [error1, setError1] = useState('');
+    const [role, setRole] = useState('Patner');
     const [formData, setFormData] = useState({
         name: "",
         surname: "",
         email: "",
         password: "",
-        role:""
+        role: ""
     })
     const navigate = useNavigate();
 
@@ -27,34 +28,33 @@ const Register = () => {
         e.preventDefault();
         setError1('');
         try {
-            const dataToSend ={
+            const dataToSend = {
                 ...formData,
-                role:role
+                role: role
             };
-            console.log('dataSend',dataToSend);
-            
-          const data = await customFetch('auth/register', {
+            const data = await customFetch('auth/register', {
                 method: 'POST',
                 body: JSON.stringify(dataToSend)
             })
-            console.log("Risposta dal backend:", data);
-           
-            if(data.status ===409){
-                setError1('Attenzione email gia associata ad un User');
-                return;
+            if (data.ok) {
+                toast.success("REGISTRAZIONE COMPLETATA");
+                setTimeout(() => {
+                    navigate('/login');
+                },4000);
+
+            } else {
+                toast.error("errore Email gia esistente");
             }
-            
-            alert('Registrazione completata con successo! ora puoi fare il Login');
-            navigate('/login');
         } catch (error) {
-            alert('UTENTE GIA REGISTRATO O CREDENZIALI SBAGLIATE');
+            toast.error('UTENTE GIA REGISTRATO O CREDENZIALI SBAGLIATE');
         }
     }
     return (
         <div className="register-page">
             <div className="register-card">
                 <h2>Crea un Account</h2>
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit} >
+
                     {error1 && <Alert variant="danger">{error1}</Alert>}
                     <Form.Group className="mb-3">
                         <Form.Label>NAME</Form.Label>
@@ -65,25 +65,27 @@ const Register = () => {
                             <Form.Label>Email</Form.Label>
                             <Form.Control type="email" placeholder="Inserisci email" name="email" onChange={handleChange} className="custom-input" />
                         </Form.Group>
-                          <Form.Group className="mb-3">
+                        <Form.Group className="mb-3">
                             <Form.Label>Password</Form.Label>
                             <Form.Control type="password" placeholder="inserisci la Password" name="password" onChange={handleChange} className="custom-input" />
                         </Form.Group>
                     </Form.Group>
                     <Form.Group className="mb-4">
-                            <Form.Label>Tipo DI Utente</Form.Label>
-                                <Form.Select
-                                 value={role} 
-                                 onChange={(e) => setRole(e.target.value)}
-                                  className="custom-input bg-dark text-white border-secondary">
-                                    <option value="Patner">Patner</option>
-                                    <option value="PatnerPro">PatnerPro</option>
-                                </Form.Select>
-                        </Form.Group>
+                        <Form.Label>Tipo DI Utente</Form.Label>
+                        <Form.Select
+                            value={role}
+                            onChange={(e) => setRole(e.target.value)}
+                            className="custom-input bg-dark text-white border-secondary">
+                            <option value="Patner">Patner</option>
+                            <option value="PatnerPro">PatnerPro</option>
+                        </Form.Select>
+                    </Form.Group>
 
                     <Button variant="success" type="submit" className="custom-button w-100">
                         REGISTRATI
                     </Button>
+                    <ToastContainer />
+
                 </Form>
             </div>
         </div>

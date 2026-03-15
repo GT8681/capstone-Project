@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 import { Container, Table, Button, Spinner, Modal, Form, Row, Col } from 'react-bootstrap';
 import StatsCardsDashboard from './StatsCardsDashboard.jsx';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 const PatnerDashboard = () => {
+  const notify = () => toast("PLAYER AGGIUNTO");
   const [user1,setUser1] = useState(null);
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -93,8 +95,13 @@ const PatnerDashboard = () => {
       });
 
       if (response.ok) {
-        alert('Giocatore salvato con successo! ⚽️🔥');
-        window.location.reload();
+        toast.success('Giocatore salvato con successo! ⚽️🔥');
+       
+        setTimeout(() =>{
+          window.location.reload();
+        },3000)
+       // alert('Giocatore salvato con successo! ⚽️🔥');
+       
       } else {
         const errorData = await response.json();
         console.error("Errore dal server:", errorData);
@@ -386,6 +393,7 @@ const PatnerDashboard = () => {
             <Button variant="info" type="submit" className="w-100 fw-bold mt-3">
               Salva nel Database
             </Button>
+            <ToastContainer/>
 
           </Form>
         </Modal.Body>

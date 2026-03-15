@@ -1,7 +1,8 @@
 import React from 'react';
+import { useState, useEffect } from "react";
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-import { useState, useEffect } from "react";
 import { customFetch } from './API/api.js';
 import MyNavbar from './components/navBar/Navbar.jsx';
 import Login from './pages/Login.jsx';
@@ -22,10 +23,9 @@ import PlayersPageNationality from './pages/sectionCardNationality/PlayerPageNat
 import EditPlayer from './components/sectionDashboard/EditPlayer.jsx';
 
 
-
-
 export default function App() {
 
+  const notify = () => toast("Wow so easy!");
   const [players, setPlayers] = useState([]);
   const [user, setUser] = useState(null);
 
@@ -56,27 +56,25 @@ export default function App() {
     fetchPlayers();
 
   }, [])
-  
+
   return (
     <>
       <BrowserRouter>
         <div className='d-flex flex-column min-vh-100 text-white'>
           <MyNavbar user={user} setUser={setUser} />
-          
           <main className='flex-grow-1'>
             <Routes>
-              
               <Route path='/' element={
                 <>
                   <Home />
                   <PromisingPlayers players={players} />
                   <SectionSponsor />
                   <Testimonials />
-                  <SectionNationality/>
+                  <SectionNationality />
                 </>
               }
               />
-             <Route path='/players/Nationality-players/:nationality' element={<PlayersPageNationality/>}/>
+              <Route path='/players/Nationality-players/:nationality' element={<PlayersPageNationality />} />
               <Route path='/preferiti' element={<FavoritesPage />} />
               <Route path='/Patner-dashboard' element={<ProtectedRoute><PatnerDashboard /></ProtectedRoute>} />
               <Route path='/login' element={<Login setUser={setUser} />} />
@@ -84,9 +82,9 @@ export default function App() {
               <Route path='player-details/:id' element={<PlayerDetails />} />
               <Route path='/profile' element={<Profile />} />
               <Route path='/contatti' element={<Contactpage />} />
-              <Route path='players/edit-players/:id' element={<EditPlayer/>}/>
+              <Route path='players/edit-players/:id' element={<EditPlayer />} />
             </Routes>
-          </main>  
+          </main>
           <MyFooter />
         </div>
       </BrowserRouter >

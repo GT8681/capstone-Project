@@ -6,8 +6,8 @@ import '../../App.css';
 
 
 const PromisingPlayers = ({ players}) => {
-    // Filtriamo solo i "promettenti" (voto >8)
-    const topProspects = (players || []).filter(player => Number(player.rating) > 9);
+    // Filtriamo solo i "promettenti" (voto >=9)
+    const topProspects = (players || []).filter(player => Number(player.rating) >= 9);
 
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
