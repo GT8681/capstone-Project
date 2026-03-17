@@ -8,6 +8,14 @@ import imgArgentina from "../../assets/argentina-card.jpeg";
 import imgInglese from "../../assets/inglese.jpeg";
 import imgMarocco from "../../assets/marocco-card.jpeg";
 import imgFrancia from "../../assets/francia-card.jpg";
+import imgGeorgia from "../../assets/Georgia.svg";
+import imgSerbia from "../../assets/Flag_of_Serbia.svg";
+import imgPortogallo from "../../assets/portogallo.png";
+import imgNigeria from "../../assets/nigeria.jpeg";
+import imgOlanda from "../../assets/olanda.png";
+import imgTurchia from "../../assets/turchia.png";
+
+
 
 //  Definiamo la Card singola (con la freccina)
 const NationalityCard = ({ title, image, color, nationality }) => {
@@ -52,8 +60,26 @@ const SectionNationality = () => {
             <NationalityCard title="INGLESE" image={imgInglese} color="#a83232" nationality="inglese" />
             <NationalityCard title="MAROCCO" image={imgMarocco} color="#a85632" nationality="marocchina" />
             <NationalityCard title="FRANCIA" image={imgFrancia} color="#3262a8" nationality="francese" />
+           
           </Col>
         </Carousel.Item>
+        <Carousel.Item interval={1000}>
+          <Col className='d-flex col-auto p-3 m-3 gap-5'>
+          <NationalityCard title="GEORGIA" image={imgGeorgia} color="#3262a8" nationality="georgia" />
+          <NationalityCard title="SERBIA" image={imgSerbia} color="#3262a8" nationality="serbia" />
+          <NationalityCard title="PORTOGALLO" image={imgPortogallo} color="#3262a8" nationality="portogallo" />
+          
+          </Col>
+        </Carousel.Item>
+        <Carousel.Item interval={1000}>
+          <Col className='d-flex col-auto p-3 m-3 gap-5'>
+          <NationalityCard title="NIGERIA" image={imgNigeria} color="#3262a8" nationality="nigeria" />
+          <NationalityCard title="OLANDA" image={imgOlanda} color="#3262a8" nationality="Olanda" />
+          <NationalityCard title="TURCHIA" image={imgTurchia} color="#3262a8" nationality="turchia" />
+          
+          </Col>
+        </Carousel.Item>
+        
       </Carousel>
     </Conteiner-fluid>
   );
