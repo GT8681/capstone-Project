@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from "react";
-import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css';
 import { customFetch } from './API/api.js';
+import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
 import MyNavbar from './components/navBar/Navbar.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
@@ -24,8 +24,6 @@ import EditPlayer from './components/sectionDashboard/EditPlayer.jsx';
 
 
 export default function App() {
-
-  const notify = () => toast("Wow so easy!");
   const [players, setPlayers] = useState([]);
   const [user, setUser] = useState(null);
 
