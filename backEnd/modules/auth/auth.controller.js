@@ -55,7 +55,7 @@ export const register = async (req, res) => {
             <p>Da oggi puoi iniziare a monitorare i migliori talenti, gestire la tua squadra e scalare le classifiche del campionato.</p>
             
             <div style="text-align: center; margin: 30px 0;">
-              <a href="https://capstone-project-o65kzj14h-gt8681s-projects.vercel.app/login" 
+              <a href="https://capstone-project-puce-sigma.vercel.app/login" 
                  style="background-color: #27ae60; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
                  ACCEDI ALLA DASHBOARD
               </a>
