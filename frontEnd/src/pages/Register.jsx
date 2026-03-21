@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 const Register = () => {
-    const notify = () => toast("Wow so easy!");
+
     const [error1, setError1] = useState('');
     const [role, setRole] = useState('Patner');
     const [formData, setFormData] = useState({
@@ -32,11 +32,13 @@ const Register = () => {
                 ...formData,
                 role: role
             };
-            const data = await customFetch('auth/register', {
+            const response = await customFetch('auth/register', {
                 method: 'POST',
                 body: JSON.stringify(dataToSend)
             })
-            if (data.ok) {
+            if (response.ok) {
+                const data = await response.json();
+                console.log('data',data)
                 toast.success("REGISTRAZIONE COMPLETATA");
                 setTimeout(() => {
                     navigate('/login');
