@@ -2,9 +2,10 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../user/user.model.js';
 import nodemailer from 'nodemailer';
+import {findUserByEmail} from './auth.service.js';
 
 
-// 1. Configurazione Transporter
+// Configurazione Transporter
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -14,10 +15,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export const register = async (req, res) => {
-    console.log("-----------------------------------------");
-    console.log("🚨 CHIAMATA ARRIVATA AL BACKEND! 🚨");
-    console.log("Dati ricevuti:", req.body);
-    console.log("-----------------------------------------");
+   
   try {
     const { name, surname, email, password, role } = req.body;
 
@@ -40,17 +38,38 @@ export const register = async (req, res) => {
       role: role || 'PatnerPro'
     });
 
-    console.log("✅ Utente creato, preparo email per:", email);
-
-    // 2. Opzioni Email
+   
+    //  Opzioni Email
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: `"Scouting App ⚽️" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: "Benvenuto nella Scouting App! ⚽️",
-      html: `<h1>Ciao ${name}!</h1><p>La tua registrazione è confermata.</p>`
+      subject: "Benvenuto nel Team di Scouting! 🏆",
+      html: `
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden;">
+          <div style="background-color: #2c3e50; padding: 20px; text-align: center;">
+            <h1 style="color: #ffffff; margin: 0;">SCOUTING APP</h1>
+          </div>
+          <div style="padding: 30px; line-height: 1.6; color: #333;">
+            <h2 style="color: #2c3e50;">Ciao ${name},</h2>
+            <p>Siamo entusiasti di averti a bordo! La tua registrazione come <strong>${role}</strong> è stata confermata con successo.</p>
+            <p>Da oggi puoi iniziare a monitorare i migliori talenti, gestire la tua squadra e scalare le classifiche del campionato.</p>
+            
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="https://capstone-project-puce-sigma.vercel.app/login" 
+                 style="background-color: #27ae60; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                 ACCEDI ALLA DASHBOARD
+              </a>
+            </div>
+            
+            <p>Se hai domande, rispondi pure a questa email. In bocca al lupo per la tua stagione!</p>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+            <p style="font-size: 12px; color: #777;">Ricevi questa mail perché ti sei registrato su Scouting App. Se non sei stato tu, ignora pure questo messaggio.</p>
+          </div>
+        </div>
+      `    
     };
 
-    // 3. INVIO EMAIL (Senza await per non bloccare la risposta)
+    // INVIO EMAIL (Senza await per non bloccare la risposta)
     transporter.sendMail(mailOptions, (err, info) => {
       if (err) {
         console.error("❌ Errore Nodemailer:", err.message);
@@ -59,7 +78,7 @@ export const register = async (req, res) => {
       }
     });
 
-    // 4. Risposta immediata al Frontend
+    //  Risposta immediata al Frontend
     return res.status(201).json({
       success: true,
       message: "Registrazione completata!",
