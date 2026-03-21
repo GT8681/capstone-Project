@@ -4,15 +4,20 @@ import User from '../user/user.model.js';
 import nodemailer from 'nodemailer';
 import {findUserByEmail} from './auth.service.js';
 
-
-// Configurazione Transporter
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  // AGGIUNGI QUESTO: forza la connessione standard
+  connectionTimeout: 10000, 
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
 });
+
 
 export const register = async (req, res) => {
    
@@ -72,7 +77,7 @@ export const register = async (req, res) => {
     // INVIO EMAIL (Senza await per non bloccare la risposta)
     transporter.sendMail(mailOptions, (err, info) => {
       if (err) {
-        console.error("❌ Errore Nodemailer:", err.message);
+        console.error("❌ Errore Nodemailer:", err);
       } else {
         console.log("📧 Email inviata correttamente!");
       }

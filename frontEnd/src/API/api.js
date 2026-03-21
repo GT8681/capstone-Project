@@ -1,4 +1,4 @@
-const BASE_URL ='https://capstone-project-awft.onrender.com';
+const BASE_URL='https://capstone-project-awft.onrender.com';
 
 export const customFetch = async (endpoint ,options = {}) => {
     const token = localStorage.getItem('token');
