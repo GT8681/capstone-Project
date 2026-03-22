@@ -5,17 +5,14 @@ import nodemailer from 'nodemailer';
 import {findUserByEmail} from './auth.service.js';
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
+  service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  // AGGIUNGI QUESTO: forza la connessione standard
-  connectionTimeout: 10000, 
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
+  tls: {
+    rejectUnauthorized: false
+  }
 });
 
 
@@ -60,7 +57,7 @@ export const register = async (req, res) => {
             <p>Da oggi puoi iniziare a monitorare i migliori talenti, gestire la tua squadra e scalare le classifiche del campionato.</p>
             
             <div style="text-align: center; margin: 30px 0;">
-              <a href="https://capstone-project-puce-sigma.vercel.app/login" 
+              <a href="https://progetto-di-laurea-puce-sigma.vercel.app/login" 
                  style="background-color: #27ae60; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
                  ACCEDI ALLA DASHBOARD
               </a>
