@@ -39,8 +39,6 @@ export const register = async (req, res) => {
       password: hashedPassword,
       role: role || 'PatnerPro'
     });
-
-   
     //  Opzioni Email
     const mailOptions = {
       from: `"Scouting App ⚽️" <${process.env.EMAIL_USER}>`,
@@ -70,30 +68,26 @@ export const register = async (req, res) => {
         </div>
       `    
     };
-
-    // INVIO EMAIL (Senza await per non bloccare la risposta)
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
+ // INVIO EMAIL (Senza await per non bloccare la risposta)
+  /*  transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
         console.error("❌ Errore Nodemailer:", err);
       } else {
-        console.log("📧 Email inviata correttamente!");
+        console.log("📧 Email inviata correttamente!" + info);
       }
-    });
-
+    });*/
+    
     //  Risposta immediata al Frontend
     return res.status(201).json({
       success: true,
       message: "Registrazione completata!",
       user: newUser
     });
-
   } catch (error) {
     console.error("💥 Errore fatale registro:", error);
     return res.status(500).json({ success: false, message: error.message });
   }
 };
-
-
 
 export const login = async (req, res) => {
     try {

@@ -17,7 +17,6 @@ const Register = () => {
         role: ""
     })
     const navigate = useNavigate();
-
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -30,7 +29,7 @@ const Register = () => {
         try {
             const dataToSend = {
                 ...formData,
-                role: role
+                role
             };
             const response = await customFetch('auth/register', {
                 method: 'POST',
@@ -38,12 +37,10 @@ const Register = () => {
             })
             if (response.ok) {
                 const data = await response.json();
-                console.log('data',data)
                 toast.success("REGISTRAZIONE IN CORSO......");
                 setTimeout(() => {
                     navigate('/login');
-                },4000);
-
+                },3000);
             } else {
                 toast.error("errore Email gia esistente");
             }
