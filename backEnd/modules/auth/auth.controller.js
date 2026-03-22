@@ -68,16 +68,16 @@ export const register = async (req, res) => {
         </div>
       `    
     };
- // INVIO EMAIL (Senza await per non bloccare la risposta)
-  /*  transporter.sendMail(mailOptions, (err, info) => {
+ 
+   transporter.sendMail(mailOptions, (err, info) => {
             if (err) {
         console.error("❌ Errore Nodemailer:", err);
       } else {
         console.log("📧 Email inviata correttamente!" + info);
       }
-    });*/
+    });
     
-    //  Risposta immediata al Frontend
+    
     return res.status(201).json({
       success: true,
       message: "Registrazione completata!",
