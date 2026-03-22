@@ -30,15 +30,42 @@ export const register = async (req, res) => {
       role: role || 'PatnerPro'
     });
     resend.emails.send({
-      from: 'onboarding@resend.dev', // Per ora usa questa, è quella di test gratuita
-      to: newUser.email,
-      subject: 'Benvenuto nella Scouting App! ⚽️',
-      html: `<strong>Ciao ${newUser.name}!</strong> La tua registrazione è andata a buon fine.`
-    }).then(() => {
-      console.log("✅ Mail inviata con Resend!");
-    }).catch((err) => {
-      console.log("❌ Errore Resend:", err.message);
-    });
+      from: 'onboarding@resend.dev',
+      to: email,
+      subject: 'Benvenuto nel Team Scouting! ⚽️',
+      html: `
+        <div style="background-color: #f4f7f6; padding: 50px 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+          <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            
+            <div style="background-color: #28a745; padding: 30px; text-align: center;">
+              <h1 style="color: #ffffff; margin: 0; font-size: 28px; text-transform: uppercase; letter-spacing: 2px;">Scouting App</h1>
+            </div>
+    
+            <div style="padding: 40px; color: #333333; line-height: 1.6;">
+              <h2 style="color: #1a1a1a;">Ciao ${name}, benvenuto a bordo!</h2>
+              <p style="font-size: 16px;">Siamo felici di averti nel nostro team di scouting. La tua registrazione è stata completata con successo e il tuo account è ora <strong>attivo</strong>.</p>
+              
+              <div style="background-color: #f8f9fa; border-left: 4px solid #28a745; padding: 15px; margin: 25px 0;">
+                <p style="margin: 0; font-size: 14px; color: #555;">Puoi iniziare subito a monitorare i talenti, creare report e gestire le tue liste giocatori dalla tua dashboard personale.</p>
+              </div>
+    
+              <div style="text-align: center; margin-top: 35px;">
+                <a href="https://capstone-project-puce-sigma.vercel.app/login" 
+                   style="background-color: #28a745; color: #ffffff; padding: 15px 35px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; transition: background 0.3s;">
+                   ACCEDI ALLA DASHBOARD
+                </a>
+              </div>
+            </div>
+    
+            <div style="background-color: #1a1a1a; padding: 20px; text-align: center; color: #777777; font-size: 12px;">
+              <p style="margin: 5px 0;">© 2026 Scouting App - Progetto di Laurea</p>
+              <p style="margin: 5px 0;">Hai ricevuto questa email perché ti sei registrato alla nostra piattaforma.</p>
+            </div>
+          </div>
+        </div>
+      `
+    }).then(() => console.log("✅ Email Premium inviata!"))
+      .catch((err) => console.error("❌ Errore:", err.message));
    
     return res.status(201).json({
       success: true,
