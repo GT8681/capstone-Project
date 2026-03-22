@@ -4,7 +4,7 @@ import User from '../user/user.model.js';
 import {findUserByEmail} from './auth.service.js';
 import { Resend } from 'resend';
 
-const Resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const register = async (req, res) => {
    
