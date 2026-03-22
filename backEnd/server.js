@@ -15,10 +15,19 @@ const PORT = 4545;
 initDatabaseConnection();
 
 
-app.use(cors({
-    origin: 'https://progetto-di-laurea-puce-sigma.vercel.app', 
-    credentials: true
-  }));
+const corsOptions = {
+    origin: [
+      'https://capstone-project-puce-sigma.vercel.app',
+      'https://capstone-project-git-main-gt8681s-projects.vercel.app',  
+      'https://capstone-project-9y0b0e9hj-gt8681s-projects.vercel.app'
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204
+  };
+  
+  app.use(cors(corsOptions));
+  
 
 //app.use(cors());
 app.use(express.json({limit: '50mb'}));
