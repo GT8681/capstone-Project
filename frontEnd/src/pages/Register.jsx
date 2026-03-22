@@ -39,7 +39,7 @@ const Register = () => {
             if (response.ok) {
                 const data = await response.json();
                 console.log('data',data)
-                toast.success("REGISTRAZIONE COMPLETATA");
+                toast.success("REGISTRAZIONE IN CORSO......");
                 setTimeout(() => {
                     navigate('/login');
                 },4000);
