@@ -26,7 +26,7 @@ const FiltriAvanzati = ({ onFilterChange }) => {
     // Gestore specifico per i bottoni dei ruoli (Toggle)
     const toggleRole = (role) => {
         const newRoles = filters.role.includes(role)
-            ? filters.role.filter(r => r !== role)
+            ? filters.role.filter(p => p !== role)
             : [...filters.role, role];
 
         const newFilters = { ...filters, role: newRoles };
@@ -40,13 +40,13 @@ const FiltriAvanzati = ({ onFilterChange }) => {
             ? filters.foot.filter(r => r !== foot)
             : [...filters.foot, foot];
 
-        const newFilters = { ...filters, foot: newFoot };
-        setFilters(newFilters);
+        const newFiltersFoot = { ...filters, foot: newFoot };
+        setFilters(newFiltersFoot);
 
     };
 
     const reset = () => {
-        const cleared = { search: "", role: [], nationality: "", age: 0, foot: "", rating: 1 };
+        const cleared = { search: "", role: [], nationality: "", age: 0, foot: [], rating: 0 };
         setFilters(cleared);
 
     };
@@ -114,21 +114,21 @@ const FiltriAvanzati = ({ onFilterChange }) => {
                             </div>
 
                             <div className="col-12">
-                                <label className="form-label small fw-bold text-muted text-uppercase">Ruoli occupati</label>
+                                <label className="form-label small fw-bold text-muted text-uppercase">Piede preferito</label>
                                 <div className="d-flex flex-wrap gap-2">
-                                    {footOptions.map(r => (
+                                    {footOptions.map(p => (
                                         <button
-                                            key={r}
+                                            key={p}
                                             type="button"
-                                            className={`btn btn-sm rounded-pill px-3 ${filters.foot.includes(r) ? 'btn-success shadow-sm' : 'btn-outline-secondary bg-white'}`}
-                                            onClick={() => toggleFoot(r)}
+                                            className={`btn btn-sm rounded-pill px-3 ${filters.foot.includes(p) ? 'btn-success shadow-sm' : 'btn-outline-secondary bg-white'}`}
+                                            onClick={() => toggleFoot(p)}
                                         >
-                                            {r}
+                                            {p}
                                         </button>
                                     ))}
                                 </div>
                             </div>
-                            {/* VALUTAZIONE */}
+                            {/* VALUTAZIONE RANGE */}
                             <div className="col-3">
                                 <div className="d-flex justify-content-between align-items-center mb-2">
                                     <label className="form-label small fw-bold text-muted text-uppercase mb-0">Valutazione Player</label>

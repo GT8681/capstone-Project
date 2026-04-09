@@ -22,15 +22,9 @@ export const getPlayers = async (req, res) => {
 
 export const getPlayers = async (req, res) => {
     try {
-        
-        const { role, search, age, nationality,rating,foot } = req.query;
-        let query = {};
 
-       
-    
-        if (role) {
-            query.role = activeRole; 
-        }
+        const { role, search, age, nationality, rating, foot } = req.query;
+        let query = {};
 
         if (search) {
             query.$or = [
@@ -38,30 +32,30 @@ export const getPlayers = async (req, res) => {
                 { surname: { $regex: search, $options: 'i' } }
             ];
         }
-        if(foot){
+        
+        if (role) {
+            const activeRoles = role;
+            const rolesArray = Array.isArray(activeRoles) ? activeRoles : activeRoles.split(',');
+            query.role = { $in: rolesArray };
+        }
+        if (foot) {
             query.foot = foot;
-
         }
 
-        
         if (nationality) {
             query.nationality = { $regex: nationality, $options: 'i' };
         }
-
-        
         if (age) {
-            query.age = { $lte: parseInt(age) };
+            query.age = { $lte: Number(age) };
         }
-        if(rating){
-            query.rating = { $gte: parseInt(rating) };
-
+        if (rating) {
+            query.rating = { $gte: Number(rating) };
         }
 
-        console.log("Query inviata a MongoDB:", query); // <--- IMPORTANTE: Controlla i log di Render!
+        console.log("Query inviata a MongoDB:", query);
 
-        // 7. Eseguiamo la ricerca con l'oggetto query che abbiamo costruito
+
         const players = await Player.find(query);
-        
         res.json(players);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -119,13 +113,13 @@ export const patchPlayer = async (req, res) => {
         const { id } = req.params;
         // findByIdAndUpdate con req.body aggiorna solo i campi inviati
         const updatedPlayer = await Player.findByIdAndUpdate(
-            id, 
-            { $set: req.body }, 
+            id,
+            { $set: req.body },
             { new: true, runValidators: true }
         );
-        console.log('updatePlayer',updatePlayer);
+        console.log('updatePlayer', updatePlayer);
         if (!updatedPlayer) return res.status(404).json({ message: "Player non trovato" });
-        
+
         res.status(200).json(updatedPlayer);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -175,7 +169,7 @@ export const findPlayerRole = async (req, res) => {
 export const playerById = async (req, res) => {
     try {
         const { id } = req.params;
-        const player = await Player.findById(id).populate('author','name surname email');
+        const player = await Player.findById(id).populate('author', 'name surname email');
         if (!player) {
             return res.status(404).json({
                 message: 'Player not found'
