@@ -34,7 +34,7 @@ const FiltriAvanzati = ({ onFilterChange }) => {
     };
 
     const reset = () => {
-        const cleared = { search: "", role: [], nationality: "", age: "", foot: "", rating: 0 };
+        const cleared = { search: "", role: [], nationality: "", age: "", foot: "", rating: 1 };
         setFilters(cleared);
 
     };

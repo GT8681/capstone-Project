@@ -22,19 +22,16 @@ export const getPlayers = async (req, res) => {
 
 export const getPlayers = async (req, res) => {
     try {
-        // 1. Estraiamo i dati dalla query (usiamo sia role che roles per sicurezza)
-        const { role, roles, search, age, nationality } = req.query;
         
-        // 2. Creiamo l'oggetto query VUOTO
+        const { role, search, age, nationality,rating } = req.query;
         let query = {};
 
-        // 3. Filtro per RUOLO (deve corrispondere a quello che mandi dal front)
-        const activeRole = role || roles;
+       
+        const activeRole = role;
         if (activeRole) {
             query.role = activeRole; 
         }
 
-        // 4. Filtro per NOME/COGNOME
         if (search) {
             query.$or = [
                 { name: { $regex: search, $options: 'i' } },
@@ -42,14 +39,18 @@ export const getPlayers = async (req, res) => {
             ];
         }
 
-        // 5. Filtro per NAZIONALITÀ
+        
         if (nationality) {
             query.nationality = { $regex: nationality, $options: 'i' };
         }
 
-        // 6. Filtro per ETÀ (Minore o uguale a...)
+        
         if (age) {
-            query.age = { $lte: Number(age) };
+            query.age = { $lte: parseInt(age) };
+        }
+        if(rating){
+            query.rating = { $gte: parseFloat(rating) };
+
         }
 
         console.log("Query inviata a MongoDB:", query); // <--- IMPORTANTE: Controlla i log di Render!
