@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback} from "react";
 import { customFetch } from '../API/api';
 import { Container, Row, Col, Card, Badge, Spinner, Button } from "react-bootstrap";
 import TopCarousel from '../components/caruselWelcome/carusel.jsx';
 import { useNavigate } from "react-router-dom";
 import RoleBadge from '../components/RoleBadge/RoleBadge.jsx';
+import FiltriAvanzati from "./FiltriAvanzati.jsx";
 import '../App.css';
 
 
 const Home = () => {
     const [players, setPlayer] = useState([]);
+    const [filters, setFilters] = useState({});
+    console.log("Filters in Home:", filters);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [playersForPage, setPlayersForPage] = useState(9);
@@ -16,17 +19,35 @@ const Home = () => {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
 
+    const handleFilterChange = useCallback((dati) => {
+        setFilters(dati);
+        setCurrentPage(1); // Importante: se filtri, torna alla pagina 1!
+      }, []);
+      
     useEffect(() => {
         const fectchPlayer = async () => {
+            setLoading(true);
+            const filteredParams = {};
+            
+            Object.keys(filters).forEach(key => {
+                const value = filters[key];
+               if(value && value.length !== 0 && value !== ""){
+                    filteredParams[key] = value;
+               
+                }
+                });
+            const query = new URLSearchParams(filteredParams).toString();
             try {
-                const response = await customFetch('players', {
+                const response = await customFetch(`players?${query}`, {
                     method: 'GET'
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    const playersArray = Array.isArray(data) ? data : (data.players || []);
-                    setPlayer(playersArray);
+                    console.log("Dati ricevuti dal backend:", data);
 
+                    const playersArray = Array.isArray(data) ? data : (data.players || []);
+                    console.log("Array di giocatori:", playersArray);
+                    setPlayer(playersArray);
                 }
             } catch (error) {
                 console.error('Errore durante il fetch dei giocatori:', error);
@@ -46,10 +67,9 @@ const Home = () => {
             const data = await resp.json();
             setUserFavorites(data.favorites);
         }
-
-        fetchUserFavorites();
         fectchPlayer();
-    }, []);
+        fetchUserFavorites();   
+    }, [filters]);
 
     const handleFavorite = async (playerId) => {
         const token = localStorage.getItem('token');
@@ -92,25 +112,27 @@ const Home = () => {
     const currentPlayers = players.slice(indexOfFirstPlayer, indexOfLastPlayer);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+
+
     return (
         <>
             <TopCarousel />
             <Container className="mt-4">
+
+                <FiltriAvanzati onFilterChange={handleFilterChange} />
+
                 <div className="d-flex justify-content-between align-items-center mb-4">
                     <h2 className="text-danger">THE PLAYERS........</h2>
                 </div>
-
                 <Row>
                     {currentPlayers.length > 0 ? (
                         currentPlayers.map((player) => (
                             <Col key={player._id} xs={12} md={6} lg={4} className="mb-4">
                                 <Card className="h-100 box-shadow  text-white border-secondary">
-
                                     <Card.Body className="position-relative">
                                         <div className="d-flex justify-content-center mb-3">
                                             <Card.Img variant='top' src={player.avatar} className="shadow-sm border-0 h-100 overflow-hidden " style={{ height: '240px', objectFit: 'cover' }} />
                                         </div>
-
                                         <div className="d-flex flex-column justify-content-between align-items-start">
                                             <Card.Title className="text-success">{player.name}</Card.Title>
                                             <Card.Title className="text-success">{player.surname}</Card.Title>
@@ -118,13 +140,9 @@ const Home = () => {
                                                 <Badge pill bg="warning" text="dark" className="">
                                                     Vote: {player.rating}
                                                 </Badge>
-
                                             </div>
                                             <p className="text-dark">Nazionality: {player.nationality}</p>
                                             <RoleBadge role={player.role} />
-
-
-
                                             <div className="d-flex justify-content-between align-items-center mb-2 gap-3">
                                                 <small className="text-secondary">Salva nei preferiti:</small>
                                                 <div
@@ -160,13 +178,8 @@ const Home = () => {
                                                 </div>
                                             </div>
                                         </div>
-
-
-
-
                                         <hr className="border-secondary" />
                                         <div className="d-flex justify-content-between align-items-center">
-
                                             <Button
                                                 className="btn-neon-cyan "
                                                 onClick={() => {
@@ -178,7 +191,6 @@ const Home = () => {
                                                     }
                                                 }}>
                                                 Dettagli
-
                                             </Button>
                                         </div>
                                     </Card.Body>

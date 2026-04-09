@@ -2,7 +2,7 @@ import { updatePlayer, findRolePlayer, findPlayerById, findNationalityPlayer } f
 import Player from './player.schema.js';
 
 
-
+/*
 export const getPlayers = async (req, res) => {
     try {
 
@@ -17,6 +17,55 @@ export const getPlayers = async (req, res) => {
             })
     }
 }
+*/
+
+
+export const getPlayers = async (req, res) => {
+    try {
+        // 1. Estraiamo i dati dalla query (usiamo sia role che roles per sicurezza)
+        const { role, roles, search, age, nationality } = req.query;
+        
+        // 2. Creiamo l'oggetto query VUOTO
+        let query = {};
+
+        // 3. Filtro per RUOLO (deve corrispondere a quello che mandi dal front)
+        const activeRole = role || roles;
+        if (activeRole) {
+            query.role = activeRole; 
+        }
+
+        // 4. Filtro per NOME/COGNOME
+        if (search) {
+            query.$or = [
+                { name: { $regex: search, $options: 'i' } },
+                { surname: { $regex: search, $options: 'i' } }
+            ];
+        }
+
+        // 5. Filtro per NAZIONALITÀ
+        if (nationality) {
+            query.nationality = { $regex: nationality, $options: 'i' };
+        }
+
+        // 6. Filtro per ETÀ (Minore o uguale a...)
+        if (age) {
+            query.age = { $lte: Number(age) };
+        }
+
+        console.log("Query inviata a MongoDB:", query); // <--- IMPORTANTE: Controlla i log di Render!
+
+        // 7. Eseguiamo la ricerca con l'oggetto query che abbiamo costruito
+        const players = await Player.find(query);
+        
+        res.json(players);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+
+
 
 export const getMyPlayers = async (req, res) => {
     try {

@@ -38,7 +38,7 @@ export const register = async (req, res) => {
           <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
             
             <div style="background-color: #28a745; padding: 30px; text-align: center;">
-              <h1 style="color: #ffffff; margin: 0; font-size: 28px; text-transform: uppercase; letter-spacing: 2px;">Scouting App</h1>
+              <h1 style="color: #ffffff; margin: 0; font-size: 28px; text-transform: uppercase; letter-spacing: 2px;">Soccer Scout Pro</h1>
             </div>
     
             <div style="padding: 40px; color: #333333; line-height: 1.6;">
