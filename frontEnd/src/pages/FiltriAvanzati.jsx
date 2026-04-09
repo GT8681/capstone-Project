@@ -6,12 +6,13 @@ const FiltriAvanzati = ({ onFilterChange }) => {
         search: "",
         role: [],
         nationality: "",
-        age: "",
-        foot: "",
+        age: 0,
+        foot: [],
         rating: 1
     });
 
     const rolesOptions = ["POR", "DIF", "CEN", "ATT"];
+    const footOptions = ["DESTRO", "SINISTRO", "AMBIDESTRO"];
 
     // Gestore universale per input, select e range
     const handleChange = (e) => {
@@ -33,8 +34,19 @@ const FiltriAvanzati = ({ onFilterChange }) => {
 
     };
 
+
+    const toggleFoot = (foot) => {
+        const newFoot = filters.foot.includes(foot)
+            ? filters.foot.filter(r => r !== foot)
+            : [...filters.foot, foot];
+
+        const newFilters = { ...filters, foot: newFoot };
+        setFilters(newFilters);
+
+    };
+
     const reset = () => {
-        const cleared = { search: "", role: [], nationality: "", age: "", foot: "", rating: 1 };
+        const cleared = { search: "", role: [], nationality: "", age: 0, foot: "", rating: 1 };
         setFilters(cleared);
 
     };
@@ -95,30 +107,35 @@ const FiltriAvanzati = ({ onFilterChange }) => {
                                 <input type="text" name="nationality" className="form-control shadow-sm" placeholder="Es: Italia" value={filters.nationality} onChange={handleChange} />
                             </div>
 
-                            {/* ETÀ MASSIMA */}
+                            {/* ETÀ */}
                             <div className="col-md-4">
                                 <label className="form-label small fw-bold text-muted text-uppercase">Età Massima ({filters.age || 'Nessuna'})</label>
                                 <input type="number" name="age" className="form-control shadow-sm" placeholder="Es: 22" value={filters.age} onChange={handleChange} />
                             </div>
 
-                            {/* PIEDE */}
-                            <div className="col-md-4">
-                                <label className="form-label small fw-bold text-muted text-uppercase">Piede preferito</label>
-                                <select name="foot" className="form-select shadow-sm" value={filters.foot} onChange={handleChange}>
-                                    <option value="">Tutti</option>
-                                    <option value="Destro">Destro</option>
-                                    <option value="Sinistro">Sinistro</option>
-                                    <option value="Ambidestro">Ambidestro</option>
-                                </select>
-                            </div>
-
-                            {/* VALUTAZIONE RANGE */}
                             <div className="col-12">
+                                <label className="form-label small fw-bold text-muted text-uppercase">Ruoli occupati</label>
+                                <div className="d-flex flex-wrap gap-2">
+                                    {footOptions.map(r => (
+                                        <button
+                                            key={r}
+                                            type="button"
+                                            className={`btn btn-sm rounded-pill px-3 ${filters.foot.includes(r) ? 'btn-success shadow-sm' : 'btn-outline-secondary bg-white'}`}
+                                            onClick={() => toggleFoot(r)}
+                                        >
+                                            {r}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            {/* VALUTAZIONE */}
+                            <div className="col-3">
                                 <div className="d-flex justify-content-between align-items-center mb-2">
-                                    <label className="form-label small fw-bold text-muted text-uppercase mb-0">Valutazione Minima</label>
+                                    <label className="form-label small fw-bold text-muted text-uppercase mb-0">Valutazione Player</label>
                                     <span className="badge bg-success">{filters.rating} ⭐</span>
                                 </div>
-                                <input type="range" name="rating" className="form-range" min="1" max="10" step="0.5" value={filters.rating} onChange={handleChange} />
+                               
+                                <input type="number" name="rating" className="form-control shadow-sm" placeholder="es:5" value={filters.rating} onChange={handleChange} />
                             </div>
                         </div>
 

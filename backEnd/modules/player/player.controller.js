@@ -23,12 +23,12 @@ export const getPlayers = async (req, res) => {
 export const getPlayers = async (req, res) => {
     try {
         
-        const { role, search, age, nationality,rating } = req.query;
+        const { role, search, age, nationality,rating,foot } = req.query;
         let query = {};
 
        
-        const activeRole = role;
-        if (activeRole) {
+    
+        if (role) {
             query.role = activeRole; 
         }
 
@@ -37,6 +37,10 @@ export const getPlayers = async (req, res) => {
                 { name: { $regex: search, $options: 'i' } },
                 { surname: { $regex: search, $options: 'i' } }
             ];
+        }
+        if(foot){
+            query.foot = foot;
+
         }
 
         
@@ -49,7 +53,7 @@ export const getPlayers = async (req, res) => {
             query.age = { $lte: parseInt(age) };
         }
         if(rating){
-            query.rating = { $gte: parseFloat(rating) };
+            query.rating = { $gte: parseInt(rating) };
 
         }
 
