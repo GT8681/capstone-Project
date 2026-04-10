@@ -8,7 +8,7 @@ const FiltriAvanzati = ({ onFilterChange }) => {
         nationality: "",
         age: 0,
         foot: [],
-        rating: 1
+        rating: 0
     });
 
     const rolesOptions = ["POR", "DIF", "CEN", "ATT"];
@@ -19,7 +19,7 @@ const FiltriAvanzati = ({ onFilterChange }) => {
         const { name, value } = e.target;
         const newFilters = { ...filters, [name]: value };
         setFilters(newFilters);
-       
+
     };
 
 
@@ -46,8 +46,9 @@ const FiltriAvanzati = ({ onFilterChange }) => {
     };
 
     const reset = () => {
-        const cleared = { search: "", role: [], nationality: "", age: 0, foot: [], rating: 0 };
-        setFilters(cleared);
+       
+        setFilters(filters);
+        window.location.reload();
 
     };
 
@@ -131,25 +132,28 @@ const FiltriAvanzati = ({ onFilterChange }) => {
                             {/* VALUTAZIONE RANGE */}
                             <div className="col-3">
                                 <div className="d-flex justify-content-between align-items-center mb-2">
-                                    <label className="form-label small fw-bold text-muted text-uppercase mb-0">Valutazione Player</label>
-                                    <span className="badge bg-success">{filters.rating} ⭐</span>
+                                    <label className="form-label small fw-bold text-muted text-uppercase mb-0">Valutazione Player Max 10 e Min 0</label>
+                                  
                                 </div>
-                               
+
                                 <input type="number" name="rating" className="form-control shadow-sm" placeholder="es:5" value={filters.rating} onChange={handleChange} />
                             </div>
                         </div>
 
                         <div className="d-flex justify-content-end mt-4">
-                            <button className="btn btn-link text-danger text-decoration-none btn-sm" onClick={reset}>
-                                <i className="bi bi-trash me-1"></i> Reset Filtri
+                            <button
+                                onClick={reset}
+                                className="btn btn-link text-danger text-decoration-none btn-sm"
+                                type='button'>
+                                <i className="bi bi-trash me-1"></i> Aggiorna Player
                             </button>
                         </div>
                         <div className="d-flex justify-content-between mt-4">
-                          
+
 
                             {/* Questo tasto manda finalmente i dati al padre */}
                             <button
-                                 
+
                                 className="btn btn-success px-4 rounded-pill shadow-sm"
                                 type='button'
                                 onClick={() => onFilterChange(filters)}

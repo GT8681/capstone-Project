@@ -32,7 +32,7 @@ export const getPlayers = async (req, res) => {
                 { surname: { $regex: search, $options: 'i' } }
             ];
         }
-        
+
         if (role) {
             const activeRoles = role;
             const rolesArray = Array.isArray(activeRoles) ? activeRoles : activeRoles.split(',');
@@ -45,15 +45,18 @@ export const getPlayers = async (req, res) => {
         if (nationality) {
             query.nationality = { $regex: nationality, $options: 'i' };
         }
-        if (age) {
-            query.age = { $lte: Number(age) };
-        }
-        if (rating) {
-            query.rating = { $gte: Number(rating) };
-        }
+       
+        if (age && age !== "") {
+         
+                query.age =  Number(age);
+            }
 
+        if (rating && rating !== "") {
+           
+                query.rating = Number(rating) ;
+            
+        }
         console.log("Query inviata a MongoDB:", query);
-
 
         const players = await Player.find(query);
         res.json(players);

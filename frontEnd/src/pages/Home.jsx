@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback} from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { customFetch } from '../API/api';
 import { Container, Row, Col, Card, Badge, Spinner, Button } from "react-bootstrap";
 import TopCarousel from '../components/caruselWelcome/carusel.jsx';
@@ -6,13 +6,14 @@ import { useNavigate } from "react-router-dom";
 import RoleBadge from '../components/RoleBadge/RoleBadge.jsx';
 import FiltriAvanzati from "./FiltriAvanzati.jsx";
 import '../App.css';
+import '../pages/Home.css';
 
 
 const Home = () => {
     const [players, setPlayer] = useState([]);
     const [filters, setFilters] = useState({});
     console.log("Filters in Home:", filters);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [playersForPage, setPlayersForPage] = useState(9);
     const [userFavorites, setUserFavorites] = useState();
@@ -22,20 +23,20 @@ const Home = () => {
     const handleFilterChange = useCallback((dati) => {
         setFilters(dati);
         setCurrentPage(1); // Importante: se filtri, torna alla pagina 1!
-      }, []);
-      
+    }, []);
+
     useEffect(() => {
         const fectchPlayer = async () => {
             setLoading(true);
             const filteredParams = {};
-            
+
             Object.keys(filters).forEach(key => {
                 const value = filters[key];
-               if(value && value.length !== 0 && value !== ""){
+                if (value && value.length !== 0 && value !== "") {
                     filteredParams[key] = value;
-               
+
                 }
-                });
+            });
             const query = new URLSearchParams(filteredParams).toString();
             try {
                 const response = await customFetch(`players?${query}`, {
@@ -68,7 +69,7 @@ const Home = () => {
             setUserFavorites(data.favorites);
         }
         fectchPlayer();
-        fetchUserFavorites();   
+        fetchUserFavorites();
     }, [filters]);
 
     const handleFavorite = async (playerId) => {
@@ -100,12 +101,7 @@ const Home = () => {
         }
     };
 
-    if (loading)
-        return
-    <Container className="text-center mt-4">
-        <Spinner animation="border" variant="success" />
-        <p className="text-light mt-2 ">Caricamento Talenti</p>
-    </Container>
+    { loading && <div className="spinner">Caricamento...</div> }
 
     const indexOfLastPlayer = currentPage * playersForPage;
     const indexOfFirstPlayer = indexOfLastPlayer - playersForPage;
@@ -138,7 +134,7 @@ const Home = () => {
                                             <Card.Title className="text-success">{player.surname}</Card.Title>
                                             <div className="d-flex flex-column align-items-end mb-3">
                                                 <Badge pill bg="warning" text="dark" className="">
-                                                    Vote: {player.rating}
+                                                    Rating: {player.rating}
                                                 </Badge>
                                             </div>
                                             <p className="text-dark">Nazionality: {player.nationality}</p>
@@ -197,6 +193,7 @@ const Home = () => {
                                 </Card>
                             </Col>
                         ))
+
                     ) : (
                         <Col className="text-center">
                             <p className="text-muted">Nessun giocatore trovato.</p>

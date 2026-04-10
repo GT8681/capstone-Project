@@ -61,7 +61,7 @@ const PlayerDetails = () => {
                     </div>
                     <div className="wrapper-details text-dark d-flex flex-column justify-content-center mt-5">
 
-                        <h1>{player.firstname} {player.surname}</h1>
+                        <h1>{player.name} {player.surname}</h1>
                         <p>Ruolo: {player.role}</p>
                         <p>Piede: {player.foot}</p>
                         <p>Età: {player.age}</p>
