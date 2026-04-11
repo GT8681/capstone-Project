@@ -6,7 +6,7 @@ import Player from './player.schema.js';
 export const getPlayers = async (req, res) => {
     try {
 
-        const players = await Player.find().populate('author','name surname email');;
+        const players = await Player.find().populate('author','name surname email');
 
         res.json(players);
     } catch (error) {
@@ -45,29 +45,25 @@ export const getPlayers = async (req, res) => {
         if (nationality) {
             query.nationality = { $regex: nationality, $options: 'i' };
         }
-       
+
         if (age && age !== "") {
-         
-                query.age =  Number(age);
-            }
+
+            query.age = Number(age);
+        }
 
         if (rating && rating !== "") {
-           
-                query.rating = Number(rating) ;
-            
-        }
-        console.log("Query inviata a MongoDB:", query);
 
-        const players = await Player.find(query);
+            query.rating = Number(rating);
+
+        }
+
+
+        const players = await Player.find(query).populate('author', 'name surname email');
         res.json(players);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
-
-
-
-
 
 export const getMyPlayers = async (req, res) => {
     try {
