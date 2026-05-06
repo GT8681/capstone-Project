@@ -22,7 +22,7 @@ const Home = () => {
 
     const handleFilterChange = useCallback((dati) => {
         setFilters(dati);
-        setCurrentPage(1); // Importante: se filtri, torna alla pagina 1!
+        setCurrentPage(1);
     }, []);
 
     useEffect(() => {
@@ -44,8 +44,6 @@ const Home = () => {
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    console.log("Dati ricevuti dal backend:", data);
-
                     const playersArray = Array.isArray(data) ? data : (data.players || []);
                     console.log("Array di giocatori:", playersArray);
                     setPlayer(playersArray);
@@ -101,17 +99,15 @@ const Home = () => {
         }
     };
 
-    { loading && <div className="spinner">Caricamento...</div> }
-
+       // Logica di paginazione
     const indexOfLastPlayer = currentPage * playersForPage;
     const indexOfFirstPlayer = indexOfLastPlayer - playersForPage;
     const currentPlayers = players.slice(indexOfFirstPlayer, indexOfLastPlayer);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-
-
     return (
         <>
+         
             <TopCarousel />
             <Container className="mt-4">
 
@@ -120,8 +116,19 @@ const Home = () => {
                 <div className="d-flex justify-content-between align-items-center mb-4">
                     <h2 className="text-danger">THE PLAYERS........</h2>
                 </div>
+                       {/* LOGICA DELLO SPINNER OTTIMIZZATA */}
+            {loading ? (
+                <div className="d-flex justify-content-center my-5">
+                    <div className="spinner-border text-danger" role="status">
+                        <span className="visually-hidden">Caricamento...</span>
+                    </div>
+                </div>
+            ) : (
+
+
+
                 <Row>
-                    {currentPlayers.length > 0 ? (
+                       {currentPlayers.length > 0 ? (
                         currentPlayers.map((player) => (
                             <Col key={player._id} xs={12} md={6} lg={4} className="mb-4">
                                 <Card className="h-100 box-shadow  text-white border-secondary">
@@ -201,6 +208,7 @@ const Home = () => {
                         </Col>
                     )}
                 </Row>
+            )}
                 <div className="d-flex justify-content-center mt-4">
                     <nav>
                         <ul className="pagination">

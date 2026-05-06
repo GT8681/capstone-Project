@@ -70,7 +70,7 @@ export const updateFavoritesController = async (req,res) =>{
 
 export const handleFavorite = async (req, res) => {
     try {
-      // req.user.id arriva dal tuo middleware di autenticazione (il token)
+        
       const updatedFavorites = await toggleFavoriteServiceList(req.user.id, req.params.playerId);
       res.status(200).send(updatedFavorites);
     } catch (error) {

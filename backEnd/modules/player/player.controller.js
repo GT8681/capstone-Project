@@ -1,25 +1,6 @@
 import { updatePlayer, findRolePlayer, findPlayerById, findNationalityPlayer } from "./player.service.js";
 import Player from './player.schema.js';
 
-
-/*
-export const getPlayers = async (req, res) => {
-    try {
-
-        const players = await Player.find().populate('author','name surname email');
-
-        res.json(players);
-    } catch (error) {
-        res.status(500)
-            .json({     
-                status: 500,
-                message: error.message
-            })
-    }
-}
-*/
-
-
 export const getPlayers = async (req, res) => {
     try {
 
@@ -110,13 +91,11 @@ export const createPlayers = async (req, res) => {
 export const patchPlayer = async (req, res) => {
     try {
         const { id } = req.params;
-        // findByIdAndUpdate con req.body aggiorna solo i campi inviati
         const updatedPlayer = await Player.findByIdAndUpdate(
             id,
             { $set: req.body },
             { new: true, runValidators: true }
         );
-        console.log('updatePlayer', updatePlayer);
         if (!updatedPlayer) return res.status(404).json({ message: "Player non trovato" });
 
         res.status(200).json(updatedPlayer);
