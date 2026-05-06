@@ -28,7 +28,7 @@ const PromisingPlayers = ({ players }) => {
         const fetchUserFavorites = async () => {
             const token = localStorage.getItem('token');
             if (!token) {
-                setLoading(true);
+                setLoading(false);
                 return;
             }
             try {
