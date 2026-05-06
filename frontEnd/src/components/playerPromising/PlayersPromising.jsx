@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { customFetch } from '../../API/api';
 import React, { useEffect, useState } from "react";
 import '../../App.css';
+import '../playerPromising/PlayersPromising.css';
 
 
 
@@ -92,9 +93,6 @@ const PromisingPlayers = ({ players }) => {
                         </div>
                     </div>
                 ) : (
-
-
-
                     <div className='d-flex justify-content-center align-items-center gap-5 flex-wrap'>
                         {topProspects.map(player => (
                             <Col key={player._id} md={4} lg={3} className="mb-4">

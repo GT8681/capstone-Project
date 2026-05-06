@@ -116,6 +116,8 @@ const Home = () => {
                 <div className="d-flex justify-content-between align-items-center mb-4">
                     <h2 className="text-danger">THE PLAYERS........</h2>
                 </div>
+
+                
                        {/* LOGICA DELLO SPINNER OTTIMIZZATA */}
             {loading ? (
                 <div className="d-flex justify-content-center my-5">
