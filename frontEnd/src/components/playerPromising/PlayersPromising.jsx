@@ -82,13 +82,13 @@ const PromisingPlayers = ({ players }) => {
 
     return (
         <Container>
-            <div className="">
+        
                 <h2 className="text-danger text-center mb-5">🌟 PLAYERS PROSPECTS..... 🌟 </h2>
 
                 {/* SE CARICA, MOSTRA LO SPINNER DI BOOTSTRAP */}
                 {loading ? (
                     <div className="d-flex justify-content-center my-5">
-                        <div className="spinner-border text-danger" role="status" style={{ width: '3rem', height: '3rem' }}>
+                        <div className="spinner2-border text-danger" role="status">
                             <span className="visually-hidden">Caricamento...</span>
                         </div>
                     </div>
@@ -194,7 +194,7 @@ const PromisingPlayers = ({ players }) => {
 
                 </div>
 
-            </div>
+            
 
         </Container >
     );

@@ -126,9 +126,6 @@ const Home = () => {
                     </div>
                 </div>
             ) : (
-
-
-
                 <Row>
                        {currentPlayers.length > 0 ? (
                         currentPlayers.map((player) => (
