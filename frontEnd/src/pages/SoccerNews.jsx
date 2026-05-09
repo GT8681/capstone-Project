@@ -10,7 +10,7 @@ const SoccerNews = () => {
         const getNews = async () => {
             try {
                 // Sostituisci l'URL con quello del tuo server (es. http://localhost:5173/api/v1/news)
-                const response = await fetch('http://localhost:4545/api/v1/news');
+                const response = await customFetch('api/v1/news');
                 const data = await response.json();
                 setNews(data);
             } catch (err) {
