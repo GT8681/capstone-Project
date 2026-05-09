@@ -5,6 +5,7 @@ import {initDatabaseConnection} from './database/index.js';
 import playerRoutes from './modules/player/player.routes.js';
 import authRoutes from './modules/auth/auth.routes.js';
 import usersRoutes from './modules/user/user.routes.js';
+import newsRouter from './modules/Services/News.Routes.js';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use(express.urlencoded({limit:'50mb', extended:true}));
 app.use('/players',playerRoutes);
 app.use('/auth',authRoutes);
 app.use('/users',usersRoutes);
+app.use('/api/v1/news', newsRouter);
 
 
 app.listen(PORT, () => {

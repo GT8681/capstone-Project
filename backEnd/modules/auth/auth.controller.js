@@ -50,7 +50,7 @@ export const register = async (req, res) => {
               </div>
     
               <div style="text-align: center; margin-top: 35px;">
-                <a href="https://capstone-project-puce-sigma.vercel.app/login" 
+                <a href="https://capstone-project-puce-sigma.vercel.app/dashboard" target="_blank"
                    style="background-color: #28a745; color: #ffffff; padding: 15px 35px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; transition: background 0.3s;">
                    ACCEDI ALLA DASHBOARD
                 </a>

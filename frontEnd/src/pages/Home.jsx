@@ -7,6 +7,7 @@ import RoleBadge from '../components/RoleBadge/RoleBadge.jsx';
 import FiltriAvanzati from "./FiltriAvanzati.jsx";
 import '../App.css';
 import '../pages/Home.css';
+import SoccerNews from '../pages/SoccerNews.jsx';
 
 
 const Home = () => {
@@ -112,6 +113,7 @@ const Home = () => {
             <Container className="mt-4">
 
                 <FiltriAvanzati onFilterChange={handleFilterChange} />
+               
 
                 <div className="d-flex justify-content-between align-items-center mb-4">
                     <h2 className="text-danger">THE PLAYERS........</h2>
@@ -223,7 +225,7 @@ const Home = () => {
                     </nav>
 
                 </div>
-
+                <SoccerNews />
             </Container >
         </>
     )
