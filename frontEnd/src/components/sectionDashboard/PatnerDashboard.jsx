@@ -85,6 +85,28 @@ const PatnerDashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const data = new FormData();
+    data.append('name', newPlayer.name);
+    data.append('surname', newPlayer.surname);
+    data.append('role', newPlayer.role);
+    data.append('age', newPlayer.age);
+    data.append('nationality', newPlayer.nationality);
+    data.append('rating', newPlayer.rating);
+    data.append('foot', newPlayer.foot);
+    data.append('team', newPlayer.team);
+    data.append('height', newPlayer.height);
+    data.append('weight', newPlayer.weight);
+
+    data.append('velocita', newPlayer.velocita);
+    data.append('tiro', newPlayer.tiro);
+    data.append('passaggio', newPlayer.passaggio);
+    data.append('dribbling', newPlayer.dribbling);
+
+    if(newPlayer.avatar){
+      data.append('avatar', newPlayer.avatar);
+    }
+   
+
     if (!newPlayer.name || !newPlayer.nationality || !newPlayer.avatar) {
       alert('Per favore, compila tutti i campi e carica la foto! ⚠️');
       return;
@@ -95,10 +117,9 @@ const PatnerDashboard = () => {
       const response = await customFetch('players/add', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(newPlayer)
+        body: data,
       });
 
       if (response.ok) {

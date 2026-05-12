@@ -82,6 +82,7 @@ export const createPlayers = async (req, res) => {
                                 tiro: Number(req.body.tiro) || 50,
                                 colpoDiTesta: Number(req.body.colpoDiTesta) || 50,
                                 passaggio: Number(req.body.passaggio) || 50,
+                                dribbling: Number(req.body.dribbling) || 50
 
         };
         
