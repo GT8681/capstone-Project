@@ -1,0 +1,12 @@
+/* Effetto ombra colorata sulle barre */
+.progress-bar {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    transition: width 1.5s ease-in-out; /* Effetto animazione quando carichi la pagina */
+  }
+  
+  /* Cambia il colore del testo delle etichette */
+  .text-secondary {
+    letter-spacing: 1px;
+    font-size: 0.75rem;
+  }
+  

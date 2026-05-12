@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 const PatnerDashboard = () => {
   const notify = () => toast("PLAYER AGGIUNTO");
-  const [user1,setUser1] = useState(null);
+  const [user1, setUser1] = useState(null);
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -25,13 +25,18 @@ const PatnerDashboard = () => {
     nationality: '',
     age: '',
     avatar: '',
-    description: ''
+    description: '',
+    velocita: 50,
+    tiro: 50,
+    colpoDiTesta: 50,
+    passaggio: 50,
+    dribbling: 50
 
   });
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const navigate = useNavigate();
- 
+
 
   // Funzione per leggere i giocatori 
   const fetchPlayers = async () => {
@@ -45,6 +50,8 @@ const PatnerDashboard = () => {
       setLoading(false);
     }
   };
+
+
   //FUNZIONE PER CARICARE L'IMMAGINE DA CLOUDINARY
   const openWidget = () => {
     window.cloudinary.openUploadWidget(
@@ -68,10 +75,10 @@ const PatnerDashboard = () => {
     fetchPlayers();
   }, []);
 
-  useEffect(() =>{
+  useEffect(() => {
     const saveUser = JSON.parse(localStorage.getItem('user'));
-    if(saveUser) setUser1(saveUser);
-  },[]);
+    if (saveUser) setUser1(saveUser);
+  }, []);
 
   // funzione per creare player
 
@@ -96,12 +103,12 @@ const PatnerDashboard = () => {
 
       if (response.ok) {
         toast.success('Giocatore salvato con successo! ⚽️🔥');
-       
-        setTimeout(() =>{
+
+        setTimeout(() => {
           window.location.reload();
-        },3000)
-       // alert('Giocatore salvato con successo! ⚽️🔥');
-       
+        }, 3000)
+        // alert('Giocatore salvato con successo! ⚽️🔥');
+
       } else {
         const errorData = await response.json();
         console.error("Errore dal server:", errorData);
@@ -113,6 +120,8 @@ const PatnerDashboard = () => {
       alert(error.response?.data?.msg || 'Errore nel salvataggio. Riprova! ❌');
     }
   };
+
+
   //FUNZIONE PER CANCELLARE LA CARD PLAYER
   const handleDeletePlayer = async (playerId) => {
     if (window.confirm('Sei sicuro di voler eliminarlo')) {
@@ -137,6 +146,9 @@ const PatnerDashboard = () => {
     }
   }
   const user = localStorage.getItem('user');
+
+
+
   //FILTRO PER RUOLO DEL PLAYER
   const filteredPlyers = filterRole === 'All' ? players : players.filter(p => p.role === filterRole);
 
@@ -352,20 +364,97 @@ const PatnerDashboard = () => {
               </Col>
 
             </Row>
-            <Col md={4}>
-              <Form.Group className="mb-3">
-                <Form.Label>Age</Form.Label>
-                <Form.Control
-                  type="number"
-                  min='1'
-                  max='100'
-                  placeholder="la tua eta'...."
-                  onChange={(e) => setNewPlayer({ ...newPlayer, age: e.target.value })}
-                  required
-                />
 
-              </Form.Group>
-            </Col>
+            <Row>
+
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Age</Form.Label>
+                  <Form.Control
+                    type="number"
+                    min='1'
+                    max='100'
+                    placeholder="la tua eta'...."
+                    onChange={(e) => setNewPlayer({ ...newPlayer, age: e.target.value })}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>velocita ({newPlayer.velocita})</Form.Label>
+                  <Form.Range
+                    min="0"
+                    max="100"
+                  name="velocita"
+                    onChange={(e) => setNewPlayer({ ...newPlayer, velocita: e.target.value })}
+                  />
+                </Form.Group>
+
+              </Col>
+
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>tiro ({newPlayer.tiro})</Form.Label>
+                  <Form.Range
+                    min="0"
+                    max="100"
+                  name="tiro"
+                    onChange={(e) => setNewPlayer({ ...newPlayer, tiro: e.target.value })}
+                  />
+                </Form.Group>
+
+              </Col>
+            </Row>
+
+
+            <Row>
+
+            <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>colpoDiTesta ({newPlayer.colpoDiTesta})</Form.Label>
+                  <Form.Range
+                    min="0"
+                    max="100"
+                    name="colpoDiTesta"
+                    onChangce={(e) => setNewPlayer({ ...newPlayer, colpoDiTesta: e.target.value })}
+                  />
+                </Form.Group>
+
+              </Col>
+
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>passaggio ({newPlayer.passaggio})</Form.Label>
+                  <Form.Range
+                    min="0"
+                    max="100"
+                    name="passaggio"
+                    onChange={(e) => setNewPlayer({ ...newPlayer, passaggio: e.target.value })}
+                  />
+                </Form.Group>
+
+              </Col>
+
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>dribbling ({newPlayer.dribbling})</Form.Label>
+                  <Form.Range
+                    min="0"
+                    max="100"
+                  name="dribbling"
+                    onChange={(e) => setNewPlayer({ ...newPlayer, dribbling: e.target.value })}
+                  />
+                </Form.Group>
+
+              </Col>
+
+            </Row>
+
+
+
+
             <div className="container mt-4">
               <button type="button" className="btn btn-primary mb-3" onClick={openWidget}>
                 Seleziona Foto Giocatore
@@ -387,13 +476,13 @@ const PatnerDashboard = () => {
                 placeholder="Inserisci le caratteristiche tecniche..."
                 name="description"
                 value={newPlayer.description}
-                onChange={(e) => setNewPlayer({ ...newPlayer, description: e.target.value })} // Assicurati che gestisca il valore
+                onChange={(e) => setNewPlayer({ ...newPlayer, description: e.target.value })}
               />
             </Form.Group>
             <Button variant="info" type="submit" className="w-100 fw-bold mt-3">
               Salva nel Database
             </Button>
-            <ToastContainer/>
+            <ToastContainer />
 
           </Form>
         </Modal.Body>
@@ -414,6 +503,12 @@ const PatnerDashboard = () => {
           <p><strong>Age:</strong> {selectedPlayer?.age}</p>
           <p><strong>Peso:</strong> {selectedPlayer?.weight}</p>
           <p><strong>Altezza:</strong> {selectedPlayer?.height}</p>
+          <p><strong>Velocita:</strong> {selectedPlayer?.velocita}</p>
+          <p><strong>Tiro:</strong> {selectedPlayer?.tiro}</p>
+          <p><strong>Colpo di Testa:</strong> {selectedPlayer?.colpoDiTesta}</p>
+          <p><strong>Passaggio:</strong> {selectedPlayer?.passaggio}</p>
+          <p><strong>Dribbling:</strong> {selectedPlayer?.dribbling}</p>
+
           <hr />
           <h5>Descrizione:</h5>
           <p>{selectedPlayer?.description || "Nessuna descrizione inserita per questo giocatore."}</p>

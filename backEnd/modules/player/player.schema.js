@@ -62,7 +62,47 @@ const playerSchema = new Schema(
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
         required:true
+    },
+    velocita:{
+        type:Number,
+        required:false,
+        default:50,
+        min:0,
+        max:100
+    },
+    tiro:{
+        type:Number,
+        required:false,
+        default:50,
+        min:0,
+        max:100
+    },
+    colpoDiTesta:{
+        type:Number,
+        required:false,
+        default:50,
+        min:0,
+        max:100
+    },
+    passaggio:{
+        type:Number,
+        required:false,
+        default:50,
+        min:0,
+        max:100
+    },
+    dribbling:{
+        type:Number,
+        required:false,
+        default:50,
+        min:0,
+        max:100
+    },
+    resistenza:{
+        type:Number,
+        required:false
     }
+
 
 
 },{ timestamps: true,

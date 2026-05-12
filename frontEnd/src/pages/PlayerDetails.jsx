@@ -1,8 +1,9 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Container,Row,Col,Button,Alert,ListGroup,Card,} from 'react-bootstrap';
+import { Container, Row, Col, Button, Alert, ListGroup, Card, } from 'react-bootstrap';
 import { customFetch } from '../API/api';
 import RoleBadge from '../components/RoleBadge/RoleBadge.jsx';
+import PlayerStatsChart from '../components/PlayerStatsChart/PlayerStatsChart.jsx';
 
 const PlayerDetails = () => {
     const { id } = useParams();
@@ -51,7 +52,7 @@ const PlayerDetails = () => {
             </Container>
         );
     }
-    
+
 
     return (
         <Container className="mt-5">
@@ -60,7 +61,7 @@ const PlayerDetails = () => {
                     <Card className="shadow-lg border-0">
                         <Row className="g-0">
                             {/* Colonna immagine */}
-                            <Col md={4} className="d-flex align-items-center justify-content-center bg-light">
+                            <Col md={6} className="d-flex align-items-center justify-content-center bg-light">
                                 <Card.Img
                                     src={player.avatar || 'https://via.placeholder.com/300'}
                                     alt={player.surname}
@@ -68,6 +69,11 @@ const PlayerDetails = () => {
                                     style={{ maxWidth: '300px', objectFit: 'cover' }}
                                 />
                             </Col>
+                            <Col md={6} style={{ maxWidth: '400px' }} className="m-3 ">
+                               
+                                <PlayerStatsChart player={player} />
+                            </Col>
+
 
                             {/* Colonna dettagli */}
                             <Col md={8}>

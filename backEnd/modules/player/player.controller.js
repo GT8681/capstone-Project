@@ -60,8 +60,8 @@ export const getMyPlayers = async (req, res) => {
 export const createPlayers = async (req, res) => {
 
     try {
-        const { name, surname } = req.body;
-
+        const { name, surname,velocita,tiro,colpoDiTesta,passaggio,dribbling } = req.body;
+        console.log("Dati ricevuti per la creazione del giocatore:", req.body);
         // CONTROLLO GLOBALE: Cerchiamo se esiste già nel DB (per TUTTI gli autori)
         const duplicatePlayer = await Player.findOne({
             name: { $regex: new RegExp(`^${name}$`, "i") },
@@ -76,6 +76,7 @@ export const createPlayers = async (req, res) => {
         }
 
         const playerData = { ...req.body, author: req.user.id };
+        
         if (req.file) playerData.avatar = req.file.path;
 
         const newPlayer = new Player(playerData);

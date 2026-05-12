@@ -100,7 +100,7 @@ const Home = () => {
         }
     };
 
-       // Logica di paginazione
+    // Logica di paginazione
     const indexOfLastPlayer = currentPage * playersForPage;
     const indexOfFirstPlayer = indexOfLastPlayer - playersForPage;
     const currentPlayers = players.slice(indexOfFirstPlayer, indexOfLastPlayer);
@@ -108,102 +108,110 @@ const Home = () => {
 
     return (
         <>
-         
+
             <TopCarousel />
             <Container className="mt-4">
 
                 <FiltriAvanzati onFilterChange={handleFilterChange} />
-               
+
 
                 <div className="d-flex justify-content-between align-items-center mb-4">
                     <h2 className="text-danger">THE PLAYERS........</h2>
                 </div>
 
-                
-                       {/* LOGICA DELLO SPINNER OTTIMIZZATA */}
-            {loading ? (
-                <div className="d-flex justify-content-center my-5">
-                    <div className="spinner-border text-danger" role="status">
-                        <span className="visually-hidden">Caricamento...</span>
-                    </div>
-                </div>
-            ) : (
-                <Row>
-                       {currentPlayers.length > 0 ? (
-                        currentPlayers.map((player) => (
-                            <Col key={player._id} xs={12} md={6} lg={4} className="mb-4">
-                                <Card className="h-100 box-shadow  text-white border-secondary">
-                                    <Card.Body className="position-relative">
-                                        <div className="d-flex justify-content-center mb-3">
-                                            <Card.Img variant='top' src={player.avatar} className="shadow-sm border-0 h-100 overflow-hidden " style={{ height: '240px', objectFit: 'cover' }} />
-                                        </div>
-                                        <div className="d-flex flex-column justify-content-between align-items-start">
-                                            <Card.Title className="text-success">{player.name}</Card.Title>
-                                            <Card.Title className="text-success">{player.surname}</Card.Title>
-                                            <RoleBadge role={player.role} />
-                                            <div className="d-flex justify-content-between align-items-center mb-2 gap-3">
-                                                <small className="text-secondary">Salva nei preferiti:</small>
-                                                <div
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleFavorite(player._id);
-                                                    }}
-                                                    style={{
-                                                        cursor: 'pointer',
-                                                        outline: 'none',
-                                                        userSelect: 'none'
-                                                    }}
-                                                >
-                                                    <i className={`bi ${userFavorites?.includes(player._id) ? 'bi-heart-fill text-danger neon-heart' : 'bi-heart text-muted'}`}
-                                                        style={{ fontSize: '1.4rem' }}></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card-footer bg-transparent border-top-0 pt-0">
-                                            <hr className="my-2" />
-                                            <div className="d-flex align-items-center">
-                                                <div className="flex-grow-1">
-                                                    <p className="text-muted mb-0" style={{ fontSize: '0.75rem', fontWeight: 'bold', textTransform: 'uppercase' }}>
-                                                        Scout:
-                                                    </p>
-                                                    <p className="mb-0 text-dark" style={{ fontSize: '0.85rem', fontWeight: '600' }}>
-                                                        {player.author?.name} {player.author?.surname}
-                                                    </p>
-                                                    <p className="text-primary mb-0" style={{ fontSize: '0.75rem' }}>
-                                                        <i className="bi bi-envelope-at me-1"></i>
-                                                        {player.author?.email}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr className="border-secondary" />
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <Button
-                                                className="btn-neon-cyan "
-                                                onClick={() => {
-                                                    if (!localStorage.getItem('token')) {
-                                                        alert('Effettua il login per i dettagli');
-                                                        navigate('/login');
-                                                    } else {
-                                                        navigate(`/player-details/${player._id}`);
-                                                    }
-                                                }}>
-                                                Dettagli
-                                            </Button>
-                                        </div>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        ))
 
-                    ) : (
-                        <Col className="text-center">
-                            <p className="text-muted">Nessun giocatore trovato.</p>
-                            <p className="text-muted">Inizia ad aggiungere i tuoi report di scouting!</p>
-                        </Col>
-                    )}
-                </Row>
-            )}
+                {/* LOGICA DELLO SPINNER OTTIMIZZATA */}
+                {loading ? (
+                    <div className="d-flex justify-content-center my-5">
+                        <Button variant="primary" disabled>
+                            <Spinner
+                                as="span"
+                                animation="grow"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                            />
+                            Loading...
+                        </Button>
+
+                    </div>
+                ) : (
+                    <Row>
+                        {currentPlayers.length > 0 ? (
+                            currentPlayers.map((player) => (
+                                <Col key={player._id} xs={12} md={6} lg={4} className="mb-4">
+                                    <Card className="h-100 box-shadow  text-white border-secondary">
+                                        <Card.Body className="position-relative">
+                                            <div className="d-flex justify-content-center mb-3">
+                                                <Card.Img variant='top' src={player.avatar} className="shadow-sm border-0 h-100 overflow-hidden " style={{ height: '240px', objectFit: 'cover' }} />
+                                            </div>
+                                            <div className="d-flex flex-column justify-content-between align-items-start">
+                                                <Card.Title className="text-success">{player.name}</Card.Title>
+                                                <Card.Title className="text-success">{player.surname}</Card.Title>
+                                                <RoleBadge role={player.role} />
+                                                <div className="d-flex justify-content-between align-items-center mb-2 gap-3">
+                                                    <small className="text-secondary">Salva nei preferiti:</small>
+                                                    <div
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleFavorite(player._id);
+                                                        }}
+                                                        style={{
+                                                            cursor: 'pointer',
+                                                            outline: 'none',
+                                                            userSelect: 'none'
+                                                        }}
+                                                    >
+                                                        <i className={`bi ${userFavorites?.includes(player._id) ? 'bi-heart-fill text-danger neon-heart' : 'bi-heart text-muted'}`}
+                                                            style={{ fontSize: '1.4rem' }}></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="card-footer bg-transparent border-top-0 pt-0">
+                                                <hr className="my-2" />
+                                                <div className="d-flex align-items-center">
+                                                    <div className="flex-grow-1">
+                                                        <p className="text-muted mb-0" style={{ fontSize: '0.75rem', fontWeight: 'bold', textTransform: 'uppercase' }}>
+                                                            Scout:
+                                                        </p>
+                                                        <p className="mb-0 text-dark" style={{ fontSize: '0.85rem', fontWeight: '600' }}>
+                                                            {player.author?.name} {player.author?.surname}
+                                                        </p>
+                                                        <p className="text-primary mb-0" style={{ fontSize: '0.75rem' }}>
+                                                            <i className="bi bi-envelope-at me-1"></i>
+                                                            {player.author?.email}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr className="border-secondary" />
+                                            <div className="d-flex justify-content-between align-items-center">
+                                                <Button
+                                                    className="btn-neon-cyan "
+                                                    onClick={() => {
+                                                        if (!localStorage.getItem('token')) {
+                                                            alert('Effettua il login per i dettagli');
+                                                            navigate('/login');
+                                                        } else {
+                                                            navigate(`/player-details/${player._id}`);
+                                                        }
+                                                    }}>
+                                                    Dettagli
+                                                </Button>
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            ))
+
+                        ) : (
+                            <Col className="text-center">
+                                <p className="text-muted">Nessun giocatore trovato.</p>
+                                <p className="text-muted">Inizia ad aggiungere i tuoi report di scouting!</p>
+                            </Col>
+                        )}
+                    </Row>
+                )}
                 <div className="d-flex justify-content-center mt-4">
                     <nav>
                         <ul className="pagination">
