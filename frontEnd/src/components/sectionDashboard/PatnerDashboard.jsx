@@ -120,7 +120,7 @@ const PatnerDashboard = () => {
         headers: {
           'Authorization': `Bearer ${token}`
         },
-        body: data,
+        body: FormData,
         
       });
       console.log('data',data);
