@@ -26,11 +26,11 @@ const PatnerDashboard = () => {
     age: '',
     avatar: '',
     description: '',
-    velocita: '',
-    tiro: '',
-    colpoDiTesta: '',
-    passaggio: '',
-    dribbling: ''
+    velocita: '50',
+    tiro: '50',
+    colpoDiTesta: '50',
+    passaggio: '50',
+    dribbling: '50'
 
   });
   const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -99,6 +99,7 @@ const PatnerDashboard = () => {
 
     data.append('velocita', newPlayer.velocita);
     data.append('tiro', newPlayer.tiro);
+    data.append('colpoDiTesta', newPlayer.colpoDiTesta);
     data.append('passaggio', newPlayer.passaggio);
     data.append('dribbling', newPlayer.dribbling);
 
@@ -120,7 +121,10 @@ const PatnerDashboard = () => {
           'Authorization': `Bearer ${token}`
         },
         body: data,
+        
       });
+      console.log('data',data);
+      console.log('response',response);
 
       if (response.ok) {
         toast.success('Giocatore salvato con successo! ⚽️🔥');
@@ -439,7 +443,7 @@ const PatnerDashboard = () => {
                     min="0"
                     max="100"
                     name="colpoDiTesta"
-                    onChangce={(e) => setNewPlayer({ ...newPlayer, colpoDiTesta: e.target.value })}
+                    onChange={(e) => setNewPlayer({ ...newPlayer, colpoDiTesta: e.target.value })}
                   />
                 </Form.Group>
 
