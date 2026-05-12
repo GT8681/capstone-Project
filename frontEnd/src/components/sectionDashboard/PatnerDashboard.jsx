@@ -108,7 +108,7 @@ const PatnerDashboard = () => {
     }
    
 
-    if (!FormData.name || !FormData.nationality || !FormData.avatar) {
+    if (!newPlayer.name || !newPlayer.nationality || !newPlayer.avatar) {
       alert('Per favore, compila tutti i campi e carica la foto! ⚠️');
       return;
     }
@@ -142,7 +142,7 @@ const PatnerDashboard = () => {
 
     } catch (error) {
       console.error("Errore salvataggio:", error);
-      alert(error.response?.data?.msg || 'Errore nel salvataggio. Riprova! ❌');
+      alert(error.response?.FormData?.msg || 'Errore nel salvataggio. Riprova! ❌');
     }
   };
 
