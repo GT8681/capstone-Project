@@ -26,11 +26,11 @@ const PatnerDashboard = () => {
     age: '',
     avatar: '',
     description: '',
-    velocita: 50,
-    tiro: 50,
-    colpoDiTesta: 50,
-    passaggio: 50,
-    dribbling: 50
+    velocita: '',
+    tiro: '',
+    colpoDiTesta: '',
+    passaggio: '',
+    dribbling: ''
 
   });
   const [showDetailsModal, setShowDetailsModal] = useState(false);

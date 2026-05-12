@@ -78,10 +78,10 @@ export const createPlayers = async (req, res) => {
 
         const playerData = { ...req.body,
                                 author: req.user.id,
-                                velocita: Number(req.body.velocita),
-                                tiro: Number(req.body.tiro),
-                                colpoDiTesta: Number(req.body.colpoDiTesta),
-                                passaggio: Number(req.body.passaggio),
+                                velocita: Number(req.body.velocita) || 50,
+                                tiro: Number(req.body.tiro) || 50,
+                                colpoDiTesta: Number(req.body.colpoDiTesta) || 50,
+                                passaggio: Number(req.body.passaggio) || 50,
 
         };
         
