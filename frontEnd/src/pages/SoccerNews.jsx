@@ -25,21 +25,29 @@ const SoccerNews = () => {
     return (
         <Container className="my-5">
             <h2 className="text-danger text-center mb-5">📰 ULTIME NOTIZIE CALCIO</h2>
-            
+
             {loading ? (
                 <div className="d-flex justify-content-center my-5">
-                    <Spinner animation="border" variant="danger" role="status">
-                        <span className="visually-hidden">Caricamento...</span>
-                    </Spinner>
+                    <Button variant="primary" disabled>
+                        <Spinner
+                            as="span"
+                            animation="grow"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                        />
+                        Loading...
+                    </Button>
+
                 </div>
             ) : (
                 <Row>
                     {news.map((article, index) => (
                         <Col key={index} md={4} className="mb-4">
                             <Card className="h-100 bg-dark text-white border-secondary shadow-sm">
-                                <Card.Img 
-                                    variant="top" 
-                                    src={article.urlToImage || 'https://via.placeholder.com/300x200?text=Calcio+News'} 
+                                <Card.Img
+                                    variant="top"
+                                    src={article.urlToImage || 'https://via.placeholder.com/300x200?text=Calcio+News'}
                                     style={{ height: '180px', objectFit: 'cover' }}
                                 />
                                 <Card.Body className="d-flex flex-column">
@@ -47,10 +55,10 @@ const SoccerNews = () => {
                                     <Card.Text className="small text-secondary mt-auto">
                                         {article.source.name} • {new Date(article.publishedAt).toLocaleDateString()}
                                     </Card.Text>
-                                    <Button 
-                                        variant="outline-danger" 
-                                        size="sm" 
-                                        href={article.url} 
+                                    <Button
+                                        variant="outline-danger"
+                                        size="sm"
+                                        href={article.url}
                                         target="_blank"
                                         className="mt-3"
                                     >

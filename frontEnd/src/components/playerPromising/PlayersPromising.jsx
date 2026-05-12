@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { customFetch } from '../../API/api';
 import React, { useEffect, useState } from "react";
 import '../../App.css';
-import '../playerPromising/PlayersPromising.css';
+
 
 
 
@@ -88,9 +88,17 @@ const PromisingPlayers = ({ players }) => {
             {/* SE CARICA, MOSTRA LO SPINNER DI BOOTSTRAP */}
             {loading ? (
                 <div className="d-flex justify-content-center my-5">
-                    <Spinner animation="border" variant="danger" role="status">
-                        <span className="visually-hidden">Caricamento...</span>
-                    </Spinner>
+                    <Button variant="primary" disabled>
+                        <Spinner
+                            as="span"
+                            animation="grow"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                        />
+                        Loading...
+                    </Button>
+
                 </div>
             ) : (
                 <div className='d-flex justify-content-center align-items-center gap-5 flex-wrap'>
@@ -99,7 +107,7 @@ const PromisingPlayers = ({ players }) => {
 
                             <Card className="text-white shadow-sm border-0 h-100 overflow-hidden bg-transparent" style={{ minHeight: '200px' }}>
 
-                                <Row className='g-0 h-100'>
+                                <Row className='g-1 h-100'>
                                     <Col xs={6}>
                                         <Card.Img
                                             src={player.avatar}
@@ -157,18 +165,11 @@ const PromisingPlayers = ({ players }) => {
                                         >
                                             Dettagli
                                         </Button>
-
                                     </Col>
                                 </Row>
-
-
                             </Card>
-
                         </Col>
-
-
                     ))}
-
                 </div>
             )}
             <div className="d-flex justify-content-center mt-4 p-5 gap-2">
@@ -191,11 +192,7 @@ const PromisingPlayers = ({ players }) => {
                 >
                     Successiva
                 </button>
-
             </div>
-
-
-
         </Container >
     );
 };
