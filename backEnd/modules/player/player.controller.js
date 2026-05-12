@@ -75,7 +75,15 @@ export const createPlayers = async (req, res) => {
             });
         }
 
-        const playerData = { ...req.body, author: req.user.id };
+
+        const playerData = { ...req.body,
+                                author: req.user.id,
+                                velocita: Number(req.body.velocita),
+                                tiro: Number(req.body.tiro),
+                                colpoDiTesta: Number(req.body.colpoDiTesta),
+                                passaggio: Number(req.body.passaggio),
+
+        };
         
         if (req.file) playerData.avatar = req.file.path;
 
