@@ -140,12 +140,6 @@ const Home = () => {
                                         <div className="d-flex flex-column justify-content-between align-items-start">
                                             <Card.Title className="text-success">{player.name}</Card.Title>
                                             <Card.Title className="text-success">{player.surname}</Card.Title>
-                                            <div className="d-flex flex-column align-items-end mb-3">
-                                                <Badge pill bg="warning" text="dark" className="">
-                                                    Rating: {player.rating}
-                                                </Badge>
-                                            </div>
-                                            <p className="text-dark">Nazionality: {player.nationality}</p>
                                             <RoleBadge role={player.role} />
                                             <div className="d-flex justify-content-between align-items-center mb-2 gap-3">
                                                 <small className="text-secondary">Salva nei preferiti:</small>
