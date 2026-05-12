@@ -21,7 +21,7 @@ import FavoritesPage from './pages/FavoritesPage.jsx'
 import SectionNationality from './pages/sectionCardNationality/NationalityCard.jsx';
 import PlayersPageNationality from './pages/sectionCardNationality/PlayerPageNationality.jsx';
 import EditPlayer from './components/sectionDashboard/EditPlayer.jsx';
-import SoccerNews from './pages/SoccerNews.jsx';
+
 
 
 export default function App() {
