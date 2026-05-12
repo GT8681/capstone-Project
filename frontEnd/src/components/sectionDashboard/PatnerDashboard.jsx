@@ -26,11 +26,11 @@ const PatnerDashboard = () => {
     age: '',
     avatar: '',
     description: '',
-    velocita: '50',
-    tiro: '50',
-    colpoDiTesta: '50',
-    passaggio: '50',
-    dribbling: '50'
+    velocita: 50,
+    tiro: 50,
+    colpoDiTesta: 50,
+    passaggio: 50,
+    dribbling: 50
 
   });
   const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -86,25 +86,26 @@ const PatnerDashboard = () => {
     e.preventDefault();
 
     const data = new FormData();
-    data.append('name', FormData.name);
-    data.append('surname', FormData.surname);
-    data.append('role', FormData.role);
-    data.append('age', FormData.age);
-    data.append('nationality', FormData.nationality);
-    data.append('rating', FormData.rating);
-    data.append('foot', FormData.foot);
-    data.append('team', FormData.team);
-    data.append('height', FormData.height);
-    data.append('weight', FormData.weight);
 
-    data.append('velocita', FormData.velocita);
-    data.append('tiro', FormData.tiro);
-    data.append('colpoDiTesta', FormData.colpoDiTesta);
-    data.append('passaggio', FormData.passaggio);
-    data.append('dribbling', FormData.dribbling);
+    data.append('name', newPlayer.name);
+    data.append('surname', newPlayer.surname);
+    data.append('role', newPlayer.role);
+    data.append('age', newPlayer.age);
+    data.append('nationality', newPlayer.nationality);
+    data.append('rating', newPlayer.rating);
+    data.append('foot', newPlayer.foot);
+    data.append('team', newPlayer.team);
+    data.append('height', newPlayer.height);
+    data.append('weight', newPlayer.weight);
 
-    if(FormData.avatar){
-      data.append('avatar', FormData.avatar);
+    data.append('velocita', newPlayer.velocita);
+    data.append('tiro', newPlayer.tiro);
+    data.append('colpoDiTesta', newPlayer.colpoDiTesta);
+    data.append('passaggio', newPlayer.passaggio);
+    data.append('dribbling', newPlayer.dribbling);
+
+    if(newPlayer.avatar){
+      data.append("avatar", newPlayer.avatar);
     }
    
 
@@ -120,7 +121,7 @@ const PatnerDashboard = () => {
         headers: {
           'Authorization': `Bearer ${token}`
         },
-        body: FormData,
+        body: data,
         
       });
       console.log('data',data);

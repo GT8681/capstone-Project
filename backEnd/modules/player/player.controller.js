@@ -59,6 +59,8 @@ export const getMyPlayers = async (req, res) => {
 
 export const createPlayers = async (req, res) => {
 
+    console.log("Richiesta di creazione giocatore ricevuta con body:", req.body);
+
     try {
         const { name, surname,velocita,tiro,colpoDiTesta,passaggio,dribbling } = req.body;
         console.log("Dati ricevuti per la creazione del giocatore:", req.body);
