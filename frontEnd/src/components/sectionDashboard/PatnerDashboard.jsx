@@ -1,7 +1,7 @@
 import React from 'react';
 import { customFetch } from '../../API/api.js';
 import { useEffect, useState } from 'react';
-import { Container, Table, Button, Spinner, Modal, Form, Row, Col } from 'react-bootstrap';
+import { Container, Table, Button, Spinner, Modal, Form, Row, Col, Alert } from 'react-bootstrap';
 import StatsCardsDashboard from './StatsCardsDashboard.jsx';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -97,6 +97,7 @@ const PatnerDashboard = () => {
     data.append('team', newPlayer.team);
     data.append('height', newPlayer.height);
     data.append('weight', newPlayer.weight);
+    data.append('description', newPlayer.description);
 
     data.append('velocita', newPlayer.velocita);
     data.append('tiro', newPlayer.tiro);
@@ -138,12 +139,12 @@ const PatnerDashboard = () => {
       } else {
         const errorData = await response.json();
         console.error("Errore dal server:", errorData);
-        Alert(`Errore: ${errorData.message || 'Controlla i dati'}`);
+        alert(`Errore: ${errorData.message || 'Controlla i dati'}`);
       }
 
     } catch (error) {
       console.error("Errore salvataggio:", error);
-      alert(error.response?.FormData?.msg || 'Errore nel salvataggio. Riprova! ❌');
+      alert(error.response?.newPlayer?.msg || 'Errore nel salvataggio. Riprova! ❌');
     }
   };
 
