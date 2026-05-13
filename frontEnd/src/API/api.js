@@ -4,7 +4,7 @@ export const customFetch = async (endpoint ,options = {}) => {
     const token = localStorage.getItem('token');
 
     const headers = {
-        'Content-Type': 'application/json',
+        ...(!(options.body instanceof FormData) && { 'Content-Type': 'application/json'}),
         ...(token && {'Authorization': `Bearer ${token}`}),
         ...options.headers
     };
