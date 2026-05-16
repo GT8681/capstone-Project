@@ -5,6 +5,7 @@ import { Container, Table, Button, Spinner, Modal, Form, Row, Col, Alert } from 
 import StatsCardsDashboard from './StatsCardsDashboard.jsx';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import PlayerStatsBars from '../PlayerStatsChart/PlayerStatsChart.jsx';
 
 const PatnerDashboard = () => {
   const notify = () => toast("PLAYER AGGIUNTO");
@@ -36,6 +37,15 @@ const PatnerDashboard = () => {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const navigate = useNavigate();
+
+  const stats = [
+    { label: 'velocita', value: newPlayer.velocita || 0 },
+    { label: 'tiro', value: newPlayer.tiro || 0 },
+    { label: 'colpoDiTesta', value: newPlayer.colpoDiTesta || 0 },
+    { label: 'passaggio', value: newPlayer.passaggio || 0 },
+    { label: 'dribbling', value: newPlayer.dribbling || 0 }
+  ];
+
 
 
   // Funzione per leggere i giocatori 
@@ -125,8 +135,7 @@ const PatnerDashboard = () => {
         body: data,
         
       });
-      console.log('data',data);
-      console.log('response',response);
+     
 
       if (response.ok) {
         toast.success('Giocatore salvato con successo! ⚽️🔥');
@@ -203,7 +212,7 @@ const PatnerDashboard = () => {
         </Button>
 
         <Button variant="info" className="fw-bold btn-neon-red" onClick={() => setShowModal(true)} >
-          <i className="bi bi-plus-circle me-4 fw-bold fs-4">     ADD PLAYER</i>
+          <i className="bi bi-plus-circle me-4 fw-bold fs-4"> ADD PLAYER</i>
         </Button>
       </div>
       {loading ? (
@@ -228,7 +237,7 @@ const PatnerDashboard = () => {
                 <td>{player.role}</td>
                 <td>{player.foot} </td>
                 <td>
-                  <Button className='btn btn-info btn-sm me-2 btn-neon-cyan'
+                  <Button className='btn btn-info btn-sm  btn-neon-cyan m-3'
                     onClick={() => {
                       setSelectedPlayer(player);
                       setShowDetailsModal(true);
@@ -240,13 +249,13 @@ const PatnerDashboard = () => {
                   <Button
                     variant="outline-warning btn-neon-red "
                     size="sm"
-                    className="me-2"
+                    className=" m-3 "
                     onClick={() => navigate(`/players/edit-players/${player._id}`)}
                   >
                     <i className='bi bi-pencil-square'></i>  MODIFICA</Button>
 
                   <Button
-                    className='btn-neon-red '
+                    className='btn-neon-red m-3 '
                     variant="outline-danger"
                     size="sm"
                     onClick={() => handleDeletePlayer(player._id)}
@@ -258,7 +267,7 @@ const PatnerDashboard = () => {
         </Table>
       )}
 
-
+      
       <Modal show={showModal} onHide={() => setShowModal(false)} centered size="lg">
         <Modal.Header closeButton className="bg-dark text-white border-secondary">
           <Modal.Title>Aggiungi Nuovo Talento</Modal.Title>
@@ -334,7 +343,6 @@ const PatnerDashboard = () => {
                   </Form.Select>
                 </Form.Group>
               </Col>
-
               <Col md={4}>
                 <Form.Group className="mb-3">
                   <Form.Label>Nationality</Form.Label>
@@ -347,7 +355,6 @@ const PatnerDashboard = () => {
                 </Form.Group>
               </Col>
             </Row>
-
             <Row>
               <Col md={4}>
                 <Form.Group className="mb-3">
@@ -360,7 +367,6 @@ const PatnerDashboard = () => {
                   />
                 </Form.Group>
               </Col>
-
               <Col md={4}>
                 <Form.Group className="mb-3">
                   <Form.Label>Height</Form.Label>
@@ -376,7 +382,6 @@ const PatnerDashboard = () => {
                   />
                 </Form.Group>
               </Col>
-
               <Col md={4}>
                 <Form.Group className="mb-3">
                   <Form.Label>Weight</Form.Label>
@@ -389,11 +394,8 @@ const PatnerDashboard = () => {
                   />
                 </Form.Group>
               </Col>
-
             </Row>
-
             <Row>
-
               <Col md={4}>
                 <Form.Group className="mb-3">
                   <Form.Label>Age</Form.Label>
@@ -407,7 +409,6 @@ const PatnerDashboard = () => {
                   />
                 </Form.Group>
               </Col>
-
               <Col md={4}>
                 <Form.Group className="mb-3">
                   <Form.Label>velocita ({newPlayer.velocita})</Form.Label>
@@ -418,9 +419,7 @@ const PatnerDashboard = () => {
                     onChange={(e) => setNewPlayer({ ...newPlayer, velocita: e.target.value })}
                   />
                 </Form.Group>
-
               </Col>
-
               <Col md={4}>
                 <Form.Group className="mb-3">
                   <Form.Label>tiro ({newPlayer.tiro})</Form.Label>
@@ -431,13 +430,9 @@ const PatnerDashboard = () => {
                     onChange={(e) => setNewPlayer({ ...newPlayer, tiro: e.target.value })}
                   />
                 </Form.Group>
-
               </Col>
             </Row>
-
-
             <Row>
-
             <Col md={4}>
                 <Form.Group className="mb-3">
                   <Form.Label>colpoDiTesta ({newPlayer.colpoDiTesta})</Form.Label>
@@ -448,9 +443,7 @@ const PatnerDashboard = () => {
                     onChange={(e) => setNewPlayer({ ...newPlayer, colpoDiTesta: e.target.value })}
                   />
                 </Form.Group>
-
               </Col>
-
               <Col md={4}>
                 <Form.Group className="mb-3">
                   <Form.Label>passaggio ({newPlayer.passaggio})</Form.Label>
@@ -461,9 +454,7 @@ const PatnerDashboard = () => {
                     onChange={(e) => setNewPlayer({ ...newPlayer, passaggio: e.target.value })}
                   />
                 </Form.Group>
-
               </Col>
-
               <Col md={4}>
                 <Form.Group className="mb-3">
                   <Form.Label>dribbling ({newPlayer.dribbling})</Form.Label>
@@ -474,9 +465,7 @@ const PatnerDashboard = () => {
                     onChange={(e) => setNewPlayer({ ...newPlayer, dribbling: e.target.value })}
                   />
                 </Form.Group>
-
               </Col>
-
             </Row>
 
 
@@ -515,6 +504,8 @@ const PatnerDashboard = () => {
         </Modal.Body>
       </Modal>
 
+
+
       {/* MODALE DETTAGLI */}
       <Modal show={showDetailsModal} onHide={() => setShowDetailsModal(false)}>
         <Modal.Header closeButton>
@@ -530,15 +521,22 @@ const PatnerDashboard = () => {
           <p><strong>Age:</strong> {selectedPlayer?.age}</p>
           <p><strong>Peso:</strong> {selectedPlayer?.weight}</p>
           <p><strong>Altezza:</strong> {selectedPlayer?.height}</p>
+          <hr />
+          <h5>Descrizione:</h5>
+         
+          <p>{selectedPlayer?.description || "Nessuna descrizione inserita per questo giocatore."}</p>
+          <hr />
+          {/*
           <p><strong>Velocita:</strong> {selectedPlayer?.velocita}</p>
           <p><strong>Tiro:</strong> {selectedPlayer?.tiro}</p>
           <p><strong>Colpo di Testa:</strong> {selectedPlayer?.colpoDiTesta}</p>
           <p><strong>Passaggio:</strong> {selectedPlayer?.passaggio}</p>
           <p><strong>Dribbling:</strong> {selectedPlayer?.dribbling}</p>
-
-          <hr />
-          <h5>Descrizione:</h5>
-          <p>{selectedPlayer?.description || "Nessuna descrizione inserita per questo giocatore."}</p>
+          */}
+          
+          <PlayerStatsBars player={newPlayer}/>
+          
+        
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary btn-neon-red " onClick={() => setShowDetailsModal(false)}>
