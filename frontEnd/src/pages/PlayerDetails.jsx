@@ -56,10 +56,10 @@ const PlayerDetails = () => {
 
     return (
         <Container className="mt-5">
-            <Row className="justify-content-center align-content-center">
+            <Row className=" d-flex justify-content-center align-content-center">
                 <Col md={8}>
                     <Card className="shadow-lg border-0">
-                        <Row className="g-0">
+                        <Row className="g-0 d-flex justify-content-center align-content-center">
                             {/* Colonna immagine */}
                             <Col md={6} className="d-flex align-items-center justify-content-center bg-light">
                                 <Card.Img

@@ -23,24 +23,22 @@ const PlayerStatsBars = ({ player }) => {
  
     <>
       <Container >
-           
-        <Row className="justify-content-center">
-          
-          <Col xs={12} md={8} lg={12}>
+        <Row className="d-flex justify-content-center align-content-center">
+          <Col xs={12} md={6} lg={12}>
             <div 
-              className="stats-container p-4 rounded shadow-lg text-white" 
+              className="stats-container p-3 rounded shadow-lg text-white" 
               style={{ backgroundColor: '#2d2d37' }}
             >
-              <h3 className="text-center text-danger mb-4 fw-bold">
+              <h3 className="text-center text-danger mb-3 fw-bold">
                 SKILLS ANALYTICS
               </h3>
               
               {/* Il .map cicla direttamente i blocchi in verticale senza d-flex esterni che schiacciano il layout */}
               {stats.map((stat, index) => (
-                <div key={index} className="mb-4">
+                <div key={index} className="mb-3">
                   
                   {/* Questa riga allinea l'etichetta a sinistra e il valore numerico a destra */}
-                  <div className="d-flex justify-content-between mb-1">
+                  <div className="d-flex justify-content-between mb-4">
                     <span className="text-uppercase small fw-bold text-secondary">
                       {stat.label}
                     </span>
@@ -52,7 +50,7 @@ const PlayerStatsBars = ({ player }) => {
                   {/* Barra del progresso nativa di React-Bootstrap */}
                   <ProgressBar 
                     now={stat.value} 
-                    variant={getColor(stat.value)} // Mantiene il tuo colore dinamico (verde, giallo, rosso)
+                    variant={getColor(stat.value)}
                     style={{ height: '10px', borderRadius: '10px' }}
                     className="bg-dark"
                   />
