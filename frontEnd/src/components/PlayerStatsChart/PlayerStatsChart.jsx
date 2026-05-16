@@ -26,12 +26,12 @@ const PlayerStatsBars = ({ player }) => {
            
         <Row className="justify-content-center">
           
-          <Col xs={12} md={6} lg={12}>
+          <Col xs={12} md={8} lg={12}>
             <div 
-              className="stats-container  rounded shadow-lg text-white" 
+              className="stats-container p-4 rounded shadow-lg text-white" 
               style={{ backgroundColor: '#2d2d37' }}
             >
-              <h3 className="text-center text-danger mb-3 fw-bold">
+              <h3 className="text-center text-danger mb-4 fw-bold">
                 SKILLS ANALYTICS
               </h3>
               
