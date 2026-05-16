@@ -534,7 +534,7 @@ const PatnerDashboard = () => {
           <p><strong>Dribbling:</strong> {selectedPlayer?.dribbling}</p>
           */}
           
-          <PlayerStatsBars player={newPlayer}/>
+          <PlayerStatsBars player={selectedPlayer}/>
           
         
         </Modal.Body>
