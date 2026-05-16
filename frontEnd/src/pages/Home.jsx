@@ -165,7 +165,9 @@ const Home = () => {
                                                         <i className={`bi ${userFavorites?.includes(player._id) ? 'bi-heart-fill text-danger neon-heart' : 'bi-heart text-muted'}`}
                                                             style={{ fontSize: '1.4rem' }}></i>
                                                     </div>
+                                                 
                                                 </div>
+                                                <Card.Title className="text-success">VOTO: {player.rating}</Card.Title>
                                             </div>
                                             <div className="card-footer bg-transparent border-top-0 pt-0">
                                                 <hr className="my-2" />

@@ -11,6 +11,8 @@ const FiltriAvanzati = ({ onFilterChange }) => {
         rating: 0
     });
 
+  
+
     const rolesOptions = ["POR", "DIF", "CEN", "ATT"];
     const footOptions = ["DESTRO", "SINISTRO", "AMBIDESTRO"];
 
@@ -46,11 +48,20 @@ const FiltriAvanzati = ({ onFilterChange }) => {
     };
 
     const reset = () => {
-        setFilters(filters);
+        setFilters({
+            search: "",
+            role: [],
+            nationality: "",
+            age:0,
+            foot:[],
+            rating:0
+        });
     };
+
     React.useEffect(() =>{
         onFilterChange(filters);
     },[filters, onFilterChange]);
+
 
     return (
         <div className="container mb-4">
@@ -129,14 +140,22 @@ const FiltriAvanzati = ({ onFilterChange }) => {
                                     ))}
                                 </div>
                             </div>
+
+
                             {/* VALUTAZIONE RANGE */}
                             <div className="col-3">
                                 <div className="d-flex justify-content-between align-items-center mb-2">
                                     <label className="form-label small fw-bold text-muted text-uppercase mb-0">Valutazione Player Max 10 e Min 0</label>
-                                  
                                 </div>
-
-                                <input type="number" name="rating" className="form-control shadow-sm" placeholder="es:5" value={filters.rating} onChange={handleChange} />
+                                <input type="number"
+                                       name="rating" 
+                                       className="form-control shadow-sm"
+                                       min="0"
+                                       max="10"
+                                       step="0.1"
+                                       placeholder="es:5" 
+                                       value={filters.rating} 
+                                       onChange={handleChange} />
                             </div>
                         </div>
 
@@ -151,7 +170,7 @@ const FiltriAvanzati = ({ onFilterChange }) => {
                         <div className="d-flex justify-content-between mt-4">
 
 
-                            {/* Questo tasto manda finalmente i dati al padre */}
+                            {/* Questo tasto manda finalmente i dati al padre 
                             <button
 
                                 className="btn btn-success px-4 rounded-pill shadow-sm"
@@ -160,12 +179,11 @@ const FiltriAvanzati = ({ onFilterChange }) => {
                             >
                                 CERCA ⚽
                             </button>
+                            */}
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
     );
 };
