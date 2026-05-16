@@ -46,11 +46,11 @@ const FiltriAvanzati = ({ onFilterChange }) => {
     };
 
     const reset = () => {
-       
         setFilters(filters);
-        window.location.reload();
-
     };
+    React.useEffect(() =>{
+        onFilterChange(filters);
+    },[filters, onFilterChange]);
 
     return (
         <div className="container mb-4">
