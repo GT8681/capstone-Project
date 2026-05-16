@@ -56,7 +56,7 @@ const PlayerDetails = () => {
 
     return (
         <Container className="mt-5">
-            <Row className="justify-content-center">
+            <Row className="justify-content-center align-content-center">
                 <Col md={8}>
                     <Card className="shadow-lg border-0">
                         <Row className="g-0">

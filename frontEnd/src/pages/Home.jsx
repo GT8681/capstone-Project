@@ -110,7 +110,7 @@ const Home = () => {
         <>
 
             <TopCarousel />
-            <Container className="mt-4">
+            <Container className="mt-3">
 
                 <FiltriAvanzati onFilterChange={handleFilterChange} />
 
@@ -136,11 +136,11 @@ const Home = () => {
 
                     </div>
                 ) : (
-                    <Row>
+                    <Row className="g-3">
                         {currentPlayers.length > 0 ? (
                             currentPlayers.map((player) => (
                                 <Col key={player._id} xs={12} md={6} lg={4} className="mb-4">
-                                    <Card className="h-100 box-shadow  text-white border-secondary">
+                                    <Card className="h-100 box-shadow  text-white border-secondary ">
                                         <Card.Body className="position-relative">
                                             <div className="d-flex justify-content-center mb-3">
                                                 <Card.Img variant='top' src={player.avatar} className="shadow-sm border-0 h-100 overflow-hidden " style={{ height: '240px', objectFit: 'cover' }} />
