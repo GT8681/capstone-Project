@@ -9,18 +9,18 @@ import '../../App.css';
 
 const PromisingPlayers = ({ players }) => {
     // Filtriamo solo i "promettenti" (voto >=9)
-    const topProspects = (players || []).filter(player => Number(player.rating) >= 10);
+    const topProspects = (players || []).filter(player => Number(player.rating) >= 9);
 
     const navigate = useNavigate();
-    const [currentPage, setCurrentPage] = useState();
-    const [playersForPage, setPlayersForPage] = useState(9);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [playersForPage, setPlayersForPage] = useState(3);
     const [userFavorites, setUserFavorites] = useState([]);
     const [loading, setLoading] = useState(true);
 
 
-    const indexOfLastPlayer = currentPage * playersForPage;
-    const indexOfFirstPlayer = indexOfLastPlayer - playersForPage;
-    const currentPlayers = players.slice(indexOfFirstPlayer, indexOfLastPlayer);
+    const indexOfLastPlayer1 = currentPage * playersForPage;
+    const indexOfFirstPlayer = indexOfLastPlayer1 - playersForPage;
+    const currentPlayers = topProspects.slice(indexOfFirstPlayer, indexOfLastPlayer1);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     useEffect(() => {
@@ -102,7 +102,7 @@ const PromisingPlayers = ({ players }) => {
                 </div>
             ) : (
                 <div className='d-flex justify-content-center align-items-center gap-5 flex-wrap'>
-                    {topProspects.map(player => (
+                    {currentPlayers.map((player) => (
                         <Col key={player._id} md={4} lg={3} className="mb-4">
 
                             <Card className="text-white shadow-sm border-0 h-100 overflow-hidden bg-transparent" style={{ minHeight: '200px' }}>
@@ -181,14 +181,14 @@ const PromisingPlayers = ({ players }) => {
                     Precedente
                 </button>
 
-                <span className="align-self-center mx-2">
+                <span className="align-self-center mx-2 text-black">
                     Pagina <strong>{currentPage}</strong>
                 </span>
 
                 <button
                     className="btn btn-outline-primary"
                     onClick={() => setCurrentPage(prev => prev + 1)}
-                    disabled={indexOfLastPlayer >= players.length}
+                    disabled={indexOfLastPlayer1 >= topProspects.length}
                 >
                     Successiva
                 </button>

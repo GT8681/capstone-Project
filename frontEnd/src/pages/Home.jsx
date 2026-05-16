@@ -13,13 +13,17 @@ import SoccerNews from '../pages/SoccerNews.jsx';
 const Home = () => {
     const [players, setPlayer] = useState([]);
     const [filters, setFilters] = useState({});
-    console.log("Filters in Home:", filters);
     const [loading, setLoading] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState();
     const [playersForPage, setPlayersForPage] = useState(9);
     const [userFavorites, setUserFavorites] = useState();
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
+
+    const indexOfLastPlayer1 = currentPage * playersForPage;
+    const indexOfFirstPlayer2 = indexOfLastPlayer1- playersForPage;
+    const currentPlayer1 = players.slice(indexOfFirstPlayer2, indexOfLastPlayer1);
+    const paginate1 = (pageNumber) => setCurrentPage(pageNumber);
 
     const handleFilterChange = useCallback((dati) => {
         setFilters(dati);
@@ -165,7 +169,7 @@ const Home = () => {
                                                         <i className={`bi ${userFavorites?.includes(player._id) ? 'bi-heart-fill text-danger neon-heart' : 'bi-heart text-muted'}`}
                                                             style={{ fontSize: '1.4rem' }}></i>
                                                     </div>
-                                                 
+
                                                 </div>
                                                 <Card.Title className="text-success">VOTO: {player.rating}</Card.Title>
                                             </div>
@@ -214,21 +218,29 @@ const Home = () => {
                         )}
                     </Row>
                 )}
-                <div className="d-flex justify-content-center mt-4">
-                    <nav>
-                        <ul className="pagination">
-                            {Array.from({ length: Math.ceil(players.length / playersForPage) }).map((_, index) => (
 
-                                <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                                    <Button variant="outline-secondary" size="sm" onClick={() => paginate(index + 1)}>
-                                        {index + 1}
-                                    </Button>
-                                </li>
-                            ))}
-                        </ul>
-                    </nav>
+                <div className="d-flex justify-content-center mt-4 p-5 gap-2">
+                    <button
+                        className="btn btn-outline-primary"
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                    >
+                        Precedente
+                    </button>
 
+                    <span className="align-self-center mx-2 text-black">
+                        Pagina <strong>{currentPage}</strong>
+                    </span>
+
+                    <button
+                        className="btn btn-outline-primary"
+                        onClick={() => setCurrentPage(prev => prev + 1)}
+                        disabled={indexOfLastPlayer1 >= players.length}
+                    >
+                        Successiva
+                    </button>
                 </div>
+
                 <SoccerNews />
             </Container >
         </>
