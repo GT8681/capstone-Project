@@ -27,12 +27,13 @@ const PromisingPlayers = ({ players }) => {
 
         const fetchUserFavorites = async () => {
             const token = localStorage.getItem('token');
-            setLoading(true);
+          
             if (!token) {
                 
                 return;
             }
-            try {
+            try { 
+                 setLoading(true);
                 const resp = await customFetch('users/me', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
