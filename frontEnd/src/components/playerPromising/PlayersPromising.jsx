@@ -27,8 +27,9 @@ const PromisingPlayers = ({ players }) => {
 
         const fetchUserFavorites = async () => {
             const token = localStorage.getItem('token');
+            setLoading(true);
             if (!token) {
-                setLoading(true);
+                
                 return;
             }
             try {
@@ -37,6 +38,7 @@ const PromisingPlayers = ({ players }) => {
                 });
                 const data = await resp.json();
                 setUserFavorites(data.favorites || []);
+                
             } catch (err) {
                 console.error("Errore nel recupero dei preferiti:", err);
 
