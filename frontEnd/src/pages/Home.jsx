@@ -50,7 +50,6 @@ const Home = () => {
                 if (response.ok) {
                     const data = await response.json();
                     const playersArray = Array.isArray(data) ? data : (data.players || []);
-                    console.log("Array di giocatori:", playersArray);
                     setPlayer(playersArray);
                 }
             } catch (error) {

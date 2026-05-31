@@ -63,7 +63,7 @@ const Contactpage = () => {
                                 <FaMapMarkerAlt className="text-danger fs-4 me-3 mt-1" />
                                 <div>
                                     <h6 className="fw-bold mb-1 text-danger">Address:</h6>
-                                    <p className="text-muted small">Via Asiago 82, Caronno Pertusella</p>
+                                    <p className="text-muted small mb-0">Via del mercato 67</p>
                                     <p className="text-muted small">21042 Varese</p>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@ const Contactpage = () => {
                                 <FaPhone className="text-danger fs-4 me-3 mt-1" />
                                 <div>
                                     <h6 className="fw-bold mb-1 text-danger">Contact:</h6>
-                                    <p className="text-muted small mb-0">Phone: +39 3288117179</p>
+                                    <p className="text-muted small mb-0">Phone: +39 3458798543</p>
                                     <p className="text-muted small">Fax: 38489473904892</p>
                                 </div>
                             </div>

@@ -9,7 +9,7 @@ import '../../App.css';
 
 const PromisingPlayers = ({ players }) => {
     // Filtriamo solo i "promettenti" (voto >=9)
-    const topProspects = (players || []).filter(player => Number(player.rating) >= 9);
+    const topProspects = (players || []).filter(player => Number(player.rating) >= 10);
 
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
@@ -24,7 +24,7 @@ const PromisingPlayers = ({ players }) => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     useEffect(() => {
-
+  setLoading(false);
         const fetchUserFavorites = async () => {
             const token = localStorage.getItem('token');
           
@@ -33,7 +33,7 @@ const PromisingPlayers = ({ players }) => {
                 return;
             }
             try { 
-                 setLoading(true);
+               
                 const resp = await customFetch('users/me', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
