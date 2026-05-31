@@ -127,9 +127,11 @@ const PromisingPlayers = ({ players }) => {
                                         <div className="mb-1">
                                             <Badge bg="primary" style={{ fontSize: '0.7rem' }}>TOP PROSPECT</Badge>
                                         </div>
-                                        <Card.Title className="h5 mb-1 text-truncate">
-                                            {player.name} {player.surname}
-                                        </Card.Title>
+                                        <div className="d-flex flex-column justify-content-between align-items-start">
+                                                <Card.Title className="text-success">{player.name}</Card.Title>
+                                                <Card.Title className="text-success">{player.surname}</Card.Title>
+                                                
+                                        </div>
                                         <div className="mb-3">
                                             <small className="text-secondary">Rating: </small>
                                             <span className="text-warning fw-bold">{player.rating}</span>
