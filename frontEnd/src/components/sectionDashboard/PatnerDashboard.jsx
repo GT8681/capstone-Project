@@ -6,6 +6,7 @@ import StatsCardsDashboard from './StatsCardsDashboard.jsx';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import PlayerStatsBars from '../PlayerStatsChart/PlayerStatsChart.jsx';
+import DeleteModal from '../modale /DeleteModal.jsx';
 
 const PatnerDashboard = () => {
   const notify = () => toast("PLAYER AGGIUNTO");
@@ -36,6 +37,8 @@ const PatnerDashboard = () => {
   });
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [playerToDelete, setPlayerToDelete] = useState(null)
   const navigate = useNavigate();
 
   const stats = [
@@ -115,10 +118,10 @@ const PatnerDashboard = () => {
     data.append('passaggio', newPlayer.passaggio);
     data.append('dribbling', newPlayer.dribbling);
 
-    if(newPlayer.avatar){
+    if (newPlayer.avatar) {
       data.append("avatar", newPlayer.avatar);
     }
-   
+
 
     if (!newPlayer.name || !newPlayer.nationality || !newPlayer.avatar) {
       alert('Per favore, compila tutti i campi e carica la foto! ⚠️');
@@ -133,9 +136,9 @@ const PatnerDashboard = () => {
           'Authorization': `Bearer ${token}`
         },
         body: data,
-        
+
       });
-     
+
 
       if (response.ok) {
         toast.success('Giocatore salvato con successo! ⚽️🔥');
@@ -158,29 +161,38 @@ const PatnerDashboard = () => {
   };
 
 
-  //FUNZIONE PER CANCELLARE LA CARD PLAYER
-  const handleDeletePlayer = async (playerId) => {
-    if (window.confirm('Sei sicuro di voler eliminarlo')) {
-      const token = localStorage.getItem('token');
-      try {
-        const response = await customFetch(`players/${playerId}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        })
-        if (response.ok) {
-          setPlayers((upDatePlayers) => upDatePlayers.filter(player => player._id !== playerId));
-          alert('Player Rimosso....');
-        } else {
-          alert("Errore durante l'eliminazione");
+  // FUNZIONE PER CANCELLARE LA CARD PLAYER (Chiamata al click su "Elimina Ora" nella modale)
+  const handleDeletePlayer = async () => {
+    // Se non c'è nessun giocatore selezionato nello stato, esce subito
+    if (!playerToDelete) return;
+
+    const token = localStorage.getItem('token'); // Recuperiamo il token direttamente qui se serve
+
+    try {
+      const response = await customFetch(`players/${playerToDelete._id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
-      } catch (error) {
-        console.log("errore delete", error);
+      });
+
+      if (response.ok) {
+        // Aggiorna lo stato dei player escludendo quello rimosso
+        setPlayers((prevPlayers) => prevPlayers.filter(p => p._id !== playerToDelete._id));
+        // NOTA: l'alert vecchio è stato rimosso, l'utente vede la card sparire fluidamente
+      } else {
+        alert("Errore durante l'eliminazione dal server");
       }
+    } catch (error) {
+      console.error("Errore delete:", error);
+    } finally {
+      // 🔥 Pulisce lo stato e chiude la modale in ogni caso (sia successo che errore)
+      setPlayerToDelete(null);
+      setShowDeleteModal(false);
     }
-  }
+  };
+
   const user = localStorage.getItem('user');
 
 
@@ -255,11 +267,17 @@ const PatnerDashboard = () => {
                     <i className='bi bi-pencil-square'></i>  MODIFICA</Button>
 
                   <Button
-                    className='btn-neon-red m-3 '
-                    variant="outline-danger"
-                    size="sm"
-                    onClick={() => handleDeletePlayer(player._id)}
-                  >Elimina</Button>
+                    variant="outline-warning btn-neon-red "
+                    className="btn-sm border-0 text-dark bg-danger-subtle m-3"
+                    onClick={() => {
+                      setPlayerToDelete(player); // 1. Salvi il player corrente che si vuole cancellare
+                      setShowDeleteModal(true);  // 2. Apri la modale di conferma
+                    }}
+                  >
+                    <i className="bi bi-trash3"></i>
+                    cancella
+                  </Button>
+
                 </td>
               </tr>
             ))}
@@ -267,7 +285,22 @@ const PatnerDashboard = () => {
         </Table>
       )}
 
-      
+      {/* ... resto del tuo layout ... */}
+
+      <DeleteModal 
+    show={showDeleteModal} 
+    onHide={() => {
+        setShowDeleteModal(false);
+        setPlayerToDelete(null);
+    }} 
+    onConfirm={handleDeletePlayer}
+    // 🚀 Il fallback sicuro evita che passi elementi indefiniti
+    itemName={playerToDelete ? `${playerToDelete.name} ${playerToDelete.surname}` : ''} 
+/>
+
+
+
+
       <Modal show={showModal} onHide={() => setShowModal(false)} centered size="lg">
         <Modal.Header closeButton className="bg-dark text-white border-secondary">
           <Modal.Title>Aggiungi Nuovo Talento</Modal.Title>
@@ -415,7 +448,7 @@ const PatnerDashboard = () => {
                   <Form.Range
                     min="0"
                     max="100"
-                  name="velocita"
+                    name="velocita"
                     onChange={(e) => setNewPlayer({ ...newPlayer, velocita: e.target.value })}
                   />
                 </Form.Group>
@@ -426,14 +459,14 @@ const PatnerDashboard = () => {
                   <Form.Range
                     min="0"
                     max="100"
-                  name="tiro"
+                    name="tiro"
                     onChange={(e) => setNewPlayer({ ...newPlayer, tiro: e.target.value })}
                   />
                 </Form.Group>
               </Col>
             </Row>
             <Row>
-            <Col md={4}>
+              <Col md={4}>
                 <Form.Group className="mb-3">
                   <Form.Label>colpoDiTesta ({newPlayer.colpoDiTesta})</Form.Label>
                   <Form.Range
@@ -461,7 +494,7 @@ const PatnerDashboard = () => {
                   <Form.Range
                     min="0"
                     max="100"
-                  name="dribbling"
+                    name="dribbling"
                     onChange={(e) => setNewPlayer({ ...newPlayer, dribbling: e.target.value })}
                   />
                 </Form.Group>
@@ -523,7 +556,7 @@ const PatnerDashboard = () => {
           <p><strong>Altezza:</strong> {selectedPlayer?.height}</p>
           <hr />
           <h5>Descrizione:</h5>
-         
+
           <p>{selectedPlayer?.description || "Nessuna descrizione inserita per questo giocatore."}</p>
           <hr />
           {/*
@@ -533,10 +566,10 @@ const PatnerDashboard = () => {
           <p><strong>Passaggio:</strong> {selectedPlayer?.passaggio}</p>
           <p><strong>Dribbling:</strong> {selectedPlayer?.dribbling}</p>
           */}
-          
-          <PlayerStatsBars player={selectedPlayer}/>
-          
-        
+
+          <PlayerStatsBars player={selectedPlayer} />
+
+
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary btn-neon-red " onClick={() => setShowDetailsModal(false)}>

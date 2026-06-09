@@ -1,56 +1,53 @@
-import { Card, Badge, Container, Row, Col, Button, Spinner } from 'react-bootstrap';
+import { Card, Badge, Container, Row, Col, Button, Spinner,Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { customFetch } from '../../API/api';
 import React, { useEffect, useState } from "react";
 import '../../App.css';
-
-
-
+import '../playerPromising/playerPromising.css';
+import ModalHome from '../modale /ModalHome.jsx';
 
 const PromisingPlayers = ({ players }) => {
-    // Filtriamo solo i "promettenti" (voto >=9)
+    // Filtriamo i "promettenti" (voto >= 9 o >= 10 in base alla tua logica)
     const topProspects = (players || []).filter(player => Number(player.rating) >= 10);
 
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
-    const [playersForPage, setPlayersForPage] = useState(3);
+    const [playersForPage] = useState(3);
     const [userFavorites, setUserFavorites] = useState([]);
     const [loading, setLoading] = useState(true);
+    // 🚀 STATO PER LA MODALE DI AVVISO LOGIN
+    const [showLoginModal, setShowLoginModal] = useState(false);
 
-
-    const indexOfLastPlayer1 = currentPage * playersForPage;
-    const indexOfFirstPlayer = indexOfLastPlayer1 - playersForPage;
-    const currentPlayers = topProspects.slice(indexOfFirstPlayer, indexOfLastPlayer1);
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const indexOfLastPlayer = currentPage * playersForPage;
+    const indexOfFirstPlayer = indexOfLastPlayer - playersForPage;
+    const currentPlayers = topProspects.slice(indexOfFirstPlayer, indexOfLastPlayer);
 
     useEffect(() => {
-        
         const fetchUserFavorites = async () => {
             const token = localStorage.getItem('token');
 
             if (!token) {
-
+                setUserFavorites([]);
+                setLoading(false); // 🔥 FIX fondamentale: spegne lo spinner anche se non sei loggato!
                 return;
             }
             try {
-
                 const resp = await customFetch('users/me', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
-                const data = await resp.json();
-                setUserFavorites(data.favorites || []);
-
+                if (resp.ok) {
+                    const data = await resp.json();
+                    setUserFavorites(data.favorites || []);
+                }
             } catch (err) {
                 console.error("Errore nel recupero dei preferiti:", err);
-
+                setUserFavorites([]);
             } finally {
                 setLoading(false);
             }
-
-        }
+        };
 
         fetchUserFavorites();
-
     }, []);
 
     const handleFavorite = async (playerId) => {
@@ -70,11 +67,10 @@ const PromisingPlayers = ({ players }) => {
             });
 
             if (response.ok) {
-                // Se il backend risponde OK, aggiorniamo la lista locale dei preferiti
                 setUserFavorites(prev =>
                     prev.includes(playerId)
-                        ? prev.filter(id => id !== playerId) // Lo togliamo
-                        : [...prev, playerId] // Lo aggiungiamo
+                        ? prev.filter(id => id !== playerId)
+                        : [...prev, playerId]
                 );
             }
         } catch (err) {
@@ -82,123 +78,138 @@ const PromisingPlayers = ({ players }) => {
         }
     };
 
-
     return (
-        <Container>
+        <Container className="mt-5">
+            <h2 className="text-dark fw-black text-uppercase tracking-wide text-center mb-5" style={{ letterSpacing: '1px' }}>
+                🌟 PROSPETTI <span className="text-danger">TOP PROSPECT</span> 🌟
+            </h2>
 
-            <h2 className="text-danger text-center mb-5">🌟 PLAYERS PROSPECTS..... 🌟 </h2>
-
-            {/* SE CARICA, MOSTRA LO SPINNER DI BOOTSTRAP */}
             {loading ? (
                 <div className="d-flex justify-content-center my-5">
-                    <Button variant="primary" disabled>
+                    <Button variant="outline-danger" disabled className="px-4 py-2 rounded-pill shadow">
                         <Spinner
                             as="span"
                             animation="grow"
                             size="sm"
                             role="status"
                             aria-hidden="true"
+                            className="me-2"
                         />
-                        Loading...
+                        Caricamento talenti...
                     </Button>
-
                 </div>
             ) : (
-                <div className='d-flex justify-content-center align-items-center gap-5 flex-wrap'>
+                /* 🔥 FIX GRIGLIA: Sostituito il vecchio 'div' con un 'Row' nativo di Bootstrap */
+                <Row className="g-4 justify-content-center">
                     {currentPlayers.map((player) => (
-                        <Col key={player._id} md={4} lg={3} className="mb-4">
+                        <Col key={player._id} xs={12} md={6} xl={4}>
+                            {/* 🚀 FIX: Inserite le classi corrette player-card-horizontal e rimosso ombre chiare */}
+                            <Card className="border-0 player-card-horizontal overflow-hidden">
+                                {/* 🚀 FIX: h-100 e w-100 sulla Row assicurano che le colonne riempiano i 160px di altezza */}
+                                <Row className="g-0 h-100 w-100 m-0">
 
-                            <Card className="text-white shadow-sm border-0 h-100 overflow-hidden bg-transparent" style={{ minHeight: '200px' }}>
-
-                                <Row className='g-1 h-100'>
-                                    <Col xs={6}>
-                                        <Card.Img
-                                            src={player.avatar}
-                                            style={{
-                                                width: '100%',
-                                                height: '100%',
-                                                objectFit: 'cover',
-                                                objectPosition: 'top center'
-                                            }}
-                                        />
-                                    </Col>
-
-                                    <Col xs={6} className="d-flex flex-column justify-content-center p-3">
-                                        <div className="mb-1">
-                                            <Badge bg="primary" style={{ fontSize: '0.7rem' }}>TOP PROSPECT</Badge>
+                                    {/* 📸 LATO SINISTRO: IMMAGINE GIOCATORE */}
+                                    {/* Usiamo col-5 nativo per bloccare la proporzione orizzontale */}
+                                    <div className="col-5 p-0 position-relative h-100">
+                                        <div className="img-horizontal-wrapper">
+                                            <img
+                                                src={player.avatar || './default-player.png'}
+                                                className="player-avatar-horizontal"
+                                                alt={`${player.name} ${player.surname}`}
+                                            />
                                         </div>
-                                        <div className="d-flex flex-column justify-content-between align-items-start">
-                                            <Card.Title className="text-success">{player.name}</Card.Title>
-                                            <Card.Title className="text-success">{player.surname}</Card.Title>
+                                        {/* Badge Ruolo posizionato in absolute sopra l'immagine */}
+                                        <span className="position-absolute bottom-2 start-2 main-badge-role">
+                                            {player.role || 'ATT'}
+                                        </span>
+                                    </div>
 
-                                        </div>
-                                        <div className="mb-3">
-                                            <small className="text-secondary">Rating: </small>
-                                            <span className="text-warning fw-bold">{player.rating}</span>
-                                        </div>
+                                    {/* 📊 LATO DESTRO: INFO E VALUTAZIONI */}
+                                    <div className="col-7 h-100 d-flex flex-column justify-content-between p-3 text-white bg-main-card-dark">
+                                        <div>
+                                            <div className="d-flex justify-content-between align-items-center mb-1">
+                                                <Badge bg="danger" className="text-uppercase tracking-wider fw-bold text-white x-small-badge">
+                                                    Top Prospect
+                                                </Badge>
 
-                                        <div className="d-flex justify-content-between align-items-center mb-2">
-                                            <small className="text-secondary">Salva nei preferiti:</small>
-                                            <div
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleFavorite(player._id);
-                                                }}
-                                                style={{
-                                                    cursor: 'pointer',
-                                                    outline: 'none',
-                                                    userSelect: 'none'
-                                                }}
-                                            >
-                                                <i className={`bi ${userFavorites.includes(player._id) ? 'bi-heart-fill text-danger neon-heart' : 'bi-heart text-muted'}`}
-                                                    style={{ fontSize: '1.4rem' }}></i>
+                                                <div
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleFavorite(player._id);
+                                                    }}
+                                                    className="main-favorite-btn-position-horizontal" // Classe per gestire il cuore in orizzontale
+                                                    style={{ cursor: 'pointer' }}
+                                                >
+                                                    <i className={`bi ${userFavorites?.includes(player._id) ? 'bi-heart-fill text-danger' : 'bi-heart text-white-50'}`} style={{ fontSize: '1rem' }}></i>
+                                                </div>
+                                            </div>
+
+                                            {/* Nome e Cognome con le classi del tuo font Montserrat */}
+                                            <h6 className="text-uppercase fw-bold mb-1 text-truncate text-white main-player-title">
+                                                <span className="text-white-50 d-block text-capitalize main-small-name">{player.name}</span>
+                                                {player.surname}
+                                            </h6>
+
+                                            <div className="d-flex align-items-center mb-2">
+                                                <span className="text-secondary font-monospace" style={{ fontSize: '0.65rem' }}>POTENZIALE:</span>
+                                                <span className="text-warning fw-bold ms-2" style={{ fontSize: '0.85rem' }}>{player.rating} / 10</span>
                                             </div>
                                         </div>
 
+                                        {/* 🚀 FIX: Agganciata la classe btn-action-details-horizontal */}
                                         <Button
-                                            variant="outline-light"
-                                            size="sm"
-                                            className="mt-auto align-self-start w-100 btn-neon-cyan"
+                                            className="btn-action-details-horizontal w-100 fw-bold text-uppercase rounded-3 py-1.5 small"
                                             onClick={() => {
                                                 if (!localStorage.getItem('token')) {
-                                                    alert('Effettua il login per i dettagli');
-                                                    navigate('/login');
+                                                    setShowLoginModal(true); // 🔥 Apre la modale se manca il token
                                                 } else {
                                                     navigate(`/player-details/${player._id}`);
+
                                                 }
                                             }}
                                         >
-                                            Dettagli
+                                            👁️ Analizza
                                         </Button>
-                                    </Col>
+                                        <ModalHome show={showLoginModal} onHide={() => setShowLoginModal(false)}/>
+                                    </div>
+
                                 </Row>
                             </Card>
                         </Col>
                     ))}
-                </div>
+
+                    {topProspects.length === 0 && (
+                        <Col className="text-center text-muted my-4">
+                            Nessun giocatore con valutazione Top (Voto 9 o 10) registrato.
+                        </Col>
+                    )}
+                </Row>
             )}
-            <div className="d-flex justify-content-center mt-4 p-5 gap-2">
+
+            {/* PAGINAZIONE AGGIORNATA E COERENTE */}
+            <div className="d-flex justify-content-center align-items-center mt-5 mb-5 gap-3">
                 <button
-                    className="btn btn-outline-primary"
+                    className="btn btn-outline-secondary px-3 py-1 rounded-pill text-uppercase small fw-bold"
                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
                 >
-                    Precedente
+                    ◀
                 </button>
 
-                <span className="align-self-center mx-2 text-black">
-                    Pagina <strong>{currentPage}</strong>
+                <span className="align-self-center text-dark font-monospace" style={{ fontSize: '0.9rem' }}>
+                    PAGINE: <strong className="text-danger  bg-opacity-40 px-1 py-1 rounded-3 mx-1">{currentPage}</strong>
                 </span>
 
                 <button
-                    className="btn btn-outline-primary"
+                    className="btn btn-outline-secondary px-3 py-1.5 rounded-pill text-uppercase small fw-bold"
                     onClick={() => setCurrentPage(prev => prev + 1)}
-                    disabled={indexOfLastPlayer1 >= topProspects.length}
+                    disabled={indexOfLastPlayer >= topProspects.length}
                 >
-                    Successiva
+                    ▶
                 </button>
             </div>
-        </Container >
+        </Container>
     );
 };
+
 export default PromisingPlayers;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { customFetch } from '../API/api';
-import { Container, Row, Col, Card, Badge, Spinner, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Badge, Spinner, Button,Modal } from "react-bootstrap";
 import TopCarousel from '../components/caruselWelcome/carusel.jsx';
 import { useNavigate } from "react-router-dom";
 import RoleBadge from '../components/RoleBadge/RoleBadge.jsx';
@@ -8,6 +8,7 @@ import FiltriAvanzati from "./FiltriAvanzati.jsx";
 import '../App.css';
 import '../pages/Home.css';
 import SoccerNews from '../pages/SoccerNews.jsx';
+import ModalHome from '../components/modale /ModalHome.jsx';
 
 
 const Home = () => {
@@ -17,11 +18,13 @@ const Home = () => {
     const [currentPage, setCurrentPage] = useState();
     const [playersForPage, setPlayersForPage] = useState(9);
     const [userFavorites, setUserFavorites] = useState();
+    // 🚀 STATO PER LA MODALE DI AVVISO LOGIN
+    const [showLoginModal, setShowLoginModal] = useState(false);
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
 
     const indexOfLastPlayer1 = currentPage * playersForPage;
-    const indexOfFirstPlayer2 = indexOfLastPlayer1- playersForPage;
+    const indexOfFirstPlayer2 = indexOfLastPlayer1 - playersForPage;
     const currentPlayer1 = players.slice(indexOfFirstPlayer2, indexOfLastPlayer1);
     const paginate1 = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -77,7 +80,7 @@ const Home = () => {
     const handleFavorite = async (playerId) => {
         const token = localStorage.getItem('token');
         if (!token) {
-            alert("Accedi per salvare i tuoi preferiti!");
+            setShowLoginModal(true);
             return;
         }
 
@@ -139,83 +142,90 @@ const Home = () => {
 
                     </div>
                 ) : (
-                    <Row className="g-3">
-                        {currentPlayers.length > 0 ? (
-                            currentPlayers.map((player) => (
-                                <Col key={player._id} xs={12} md={6} lg={4} className="mb-4">
-                                    <Card className="h-100 box-shadow  text-white border-secondary ">
-                                        <Card.Body className="position-relative">
-                                            <div className="d-flex justify-content-center mb-3">
-                                                <Card.Img variant='top' src={player.avatar} className="shadow-sm border-0 h-100 overflow-hidden " style={{ height: '240px', objectFit: 'cover' }} />
-                                            </div>
-                                            <div className="d-flex flex-column justify-content-between align-items-start">
-                                                <Card.Title className="text-success">{player.name}</Card.Title>
-                                                <Card.Title className="text-success">{player.surname}</Card.Title>
-                                                <RoleBadge role={player.role} />
-                                                <div className="d-flex justify-content-between align-items-center mb-2 gap-3">
-                                                    <small className="text-secondary">Salva nei preferiti:</small>
-                                                    <div
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            handleFavorite(player._id);
-                                                        }}
-                                                        style={{
-                                                            cursor: 'pointer',
-                                                            outline: 'none',
-                                                            userSelect: 'none'
-                                                        }}
-                                                    >
-                                                        <i className={`bi ${userFavorites?.includes(player._id) ? 'bi-heart-fill text-danger neon-heart' : 'bi-heart text-muted'}`}
-                                                            style={{ fontSize: '1.4rem' }}></i>
-                                                    </div>
+                    <Row className="g-4 justify-content-center">
+                        {currentPlayers.map((player) => (
+                            <Col key={player._id} xs={12} sm={6} md={4} lg={3}>
+                                {/* CARD VERTICALE ULTRA PREMIUM */}
+                                <Card className="border-0 main-player-card-vertical shadow-lg h-100 overflow-hidden">
 
-                                                </div>
-                                                <Card.Title className="text-success">VOTO: {player.rating}</Card.Title>
-                                            </div>
-                                            <div className="card-footer bg-transparent border-top-0 pt-0">
-                                                <hr className="my-2" />
-                                                <div className="d-flex align-items-center">
-                                                    <div className="flex-grow-1">
-                                                        <p className="text-muted mb-0" style={{ fontSize: '0.75rem', fontWeight: 'bold', textTransform: 'uppercase' }}>
-                                                            Scout:
-                                                        </p>
-                                                        <p className="mb-0 text-dark" style={{ fontSize: '0.85rem', fontWeight: '600' }}>
-                                                            {player.author?.name} {player.author?.surname}
-                                                        </p>
-                                                        <p className="text-primary mb-0" style={{ fontSize: '0.75rem' }}>
-                                                            <i className="bi bi-envelope-at me-1"></i>
-                                                            {player.author?.email}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr className="border-secondary" />
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <Button
-                                                    className="btn-neon-cyan "
-                                                    onClick={() => {
-                                                        if (!localStorage.getItem('token')) {
-                                                            alert('Effettua il login per i dettagli');
-                                                            navigate('/login');
-                                                        } else {
-                                                            navigate(`/player-details/${player._id}`);
-                                                        }
-                                                    }}>
-                                                    Dettagli
-                                                </Button>
-                                            </div>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                            ))
+                                    {/* 📸 SEZIONE TOP: FOTO GIOCATORE CON SFUMATURA */}
+                                    <div className="main-player-img-wrapper position-relative d-flex align-items-end justify-content-center">
+                                        <Card.Img
+                                            src={player.avatar || './default-player.png'}
+                                            className="main-player-avatar-vertical-fit"
+                                        />
 
-                        ) : (
-                            <Col className="text-center">
-                                <p className="text-muted">Nessun giocatore trovato.</p>
-                                <p className="text-muted">Inizia ad aggiungere i tuoi report di scouting!</p>
+                                        {/* Badge del ruolo fluttuante sulla foto */}
+                                        <span className="position-absolute top-3 start-3 main-badge-role">
+                                            {player.role || 'CEN'}
+                                        </span>
+
+                                        {/* Cuore dei preferiti in alto a destra sulla foto */}
+                                        <div
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleFavorite(player._id); 
+                                               
+                                            }}
+                                            className="main-favorite-btn-position"
+                                        >
+                                            <i className={`bi ${userFavorites?.includes(player._id) ? 'bi-heart-fill text-danger neon-heart' : 'bi-heart text-white-50'}`} style={{ fontSize: '1.25rem' }}></i>
+                                        </div>
+                                    </div>
+
+                                    {/* 📊 SEZIONE BOTTOM: DETTAGLI E INFORMAZIONI */}
+                                    <Card.Body className="d-flex flex-column justify-content-between p-3 bg-main-card-dark text-white">
+                                        <div>
+                                            {/* Nome e Cognome */}
+                                            <h5 className="text-uppercase fw-black mb-2 text-truncate main-player-title">
+                                                <span className="text-white-50 d-block main-small-name text-capitalize">{player.name}</span>
+                                                {player.surname}
+                                            </h5>
+
+                                            {/* Info Squadra / Nazionalità o Età se presenti */}
+                                            <div className="d-flex gap-2 mb-3 flex-wrap">
+                                                <Badge bg="secondary" className="bg-opacity-25 text-white-50 border border-secondary border-opacity-25 text-uppercase x-small-badge">
+                                                    {player.team || 'Svincolato'}
+                                                </Badge>
+                                                <Badge bg="dark" className="bg-opacity-50 text-warning border border-warning border-opacity-25 x-small-badge">
+                                                    ⭐ RATING: {player.rating}
+                                                </Badge>
+                                            </div>
+                                        </div>
+
+                                        {/* Bottone d'azione Cyber-Red */}
+                                        <Button
+                                            className="btn-action-details-horizontal w-100 fw-bold text-uppercase rounded-3 py-1.5 small"
+                                            onClick={() => {
+                                                if (!localStorage.getItem('token')) {
+                                                    setShowLoginModal(true); // 🔥 Apre la modale se manca il token
+                                                } else {
+                                                    navigate(`/player-details/${player._id}`);
+
+                                                }
+                                            }}
+                                        >
+                                            📊 Vedi Scheda Scout
+                                        </Button>
+                                            {/* Modale di avviso login */}
+                                            <ModalHome
+                                                show={showLoginModal}
+                                                onHide={() => setShowLoginModal(false)}
+                                                title="Attenzione!"
+                                                body="Devi essere loggato per visualizzare i dettagli del giocatore."
+                                                onConfirm={() => {
+                                                    setShowLoginModal(false);
+                                                    navigate('/login');
+                                                }}
+                                                confirmText="Vai al Login"
+                                                />
+                                    </Card.Body>
+
+                                </Card>
                             </Col>
-                        )}
+                        ))}
                     </Row>
+
                 )}
 
                 <div className="d-flex justify-content-center mt-4 p-5 gap-2">
@@ -239,6 +249,7 @@ const Home = () => {
                         Successiva
                     </button>
                 </div>
+
 
                 <SoccerNews />
             </Container >

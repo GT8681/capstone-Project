@@ -1,14 +1,99 @@
-.spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    border-left-color: #000;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
+/* Card Principale Verticale della Home */
+.main-player-card-vertical {
+    background-color: #161922 !important; /* Grigio antracite scuro */
+    border-radius: 16px !important;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+.main-player-card-vertical:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.65) !important;
+    border-color: rgba(220, 53, 69, 0.25) !important; /* Sfumatura rossa sul bordo in hover */
+}
+
+/* Sfondo del corpo della card */
+.bg-main-card-dark {
+    background-color: #161922 !important;
+}
+
+/* Contenitore Immagine Verticale con altezza fissa proporzionata */
+.main-player-img-wrapper {
+    background: linear-gradient(180deg, #1f2330 0%, #0d0f14 100%);
+    height: 220px !important; /* Forza l'altezza della sezione foto per simmetria */
+    overflow: hidden;
+}
+
+/* FIX IMMAGINE VERTICALE: Evita l'effetto schiacciato o allungato */
+.main-player-avatar-vertical-fit {
+    height: 90% !important;
+    width: 100% !important;
+    object-fit: contain !important; /* Mantiene le proporzioni reali dell'atleta */
+    object-position: bottom center !important; /* Appoggia l'immagine alla base */
+    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.6));
+}
+
+/* Posizionamento del Cuore sopra la foto */
+.main-favorite-btn-position {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 4px 8px;
+    border-radius: 50%;
+    backdrop-filter: blur(4px);
+    transition: transform 0.2s ease;
+}
+.main-favorite-btn-position:hover {
+    transform: scale(1.15);
+}
+
+/* Badge Ruolo Verticale */
+.main-badge-role {
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    font-family: monospace;
+    font-weight: 700;
+    font-size: 0.65rem;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+/* Tipografia */
+.main-player-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.3px;
+}
+.main-small-name {
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: normal;
+}
+
+/* Mini Badge */
+.x-small-badge {
+    font-size: 0.6rem !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+}
+
+/* Pulsante Azione Verticale Premium */
+.btn-main-action-vertical {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease !important;
+}
+
+.btn-main-action-vertical:hover {
+    background-color: #dc3545 !important; /* Diventa rosso coordinato al resto della dashboard */
+    border-color: #dc3545 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4) !important;
 }
