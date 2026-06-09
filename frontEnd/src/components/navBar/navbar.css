@@ -1,140 +1,92 @@
-.navbar {
-    padding: 0.3rem;
-    border-bottom: 1px solid #198754;
-    background-color: aquamarine;
-    background-color: #99e9d5 !important;
-    cursor: pointer;
+/* Stile globale della Navbar con SFOCATURA (Glass effect) */
+.navbar-custom {
+    backdrop-filter: blur(10px);
+    z-index: 1050; /* Sopra tutto */
 }
 
-.navbar-brand {
-    font-size: 2rem;
-    letter-spacing: 1px;
-}
-
-.avatar-circle {
-    width: 50px;
-    height: 50px;
-    background-color: #872819;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    color: white;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
-}
-
-.nav-link:hover .avatar-circle {
-    transform: scale(1);
-    background-color: #157347;
-}
-.text-danger:hover {
-    background-color: #fff5f5 !important;
-}
-
+/* Fix: Rimuoviamo la freccetta standard di Bootstrap nel dropdown del profilo */
 .user-dropdown-container .dropdown-toggle::after {
     display: none !important;
 }
 
+/* Link Standard: Effetto HOVER con sfondo chiaro */
+.nav-link-custom:hover {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.06) !important;
+}
 
-.user-dropdown-container .nav-link {
-    display: flex !important;
-    align-items: center !important;
-    height: 100% !important;
-    padding: 10px 20px !important; 
-    background-color: transparent !important;
-    color: #000 !important;
-    transition: background-color 0.3s ease-out, color 0.3s ease !important;
+/* Link Dashboard: Effetto HOVER con sfondo rosso sfumato */
+.dashboard-link:hover {
+    background-color: rgba(220, 53, 69, 0.25) !important;
+    color: #ff4d5e !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2) !important;
+}
+
+/* Pillola del profilo utente */
+.profile-pill {
+    transition: all 0.2s ease;
     cursor: pointer;
 }
-
-/* Allineamento del contenuto dentro il titolo */
-.user-dropdown-container .dropdown-toggle div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.profile-pill:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    transform: translateY(-1px);
 }
 
-/* EFFETTO HOVER COMBINATO */
-
-.user-dropdown-container:hover .nav-link {
-    background-color: #18a680 !important;
-    color: #ffc107 !important; /* Giallo o Bianco */
+/* 🏢 IL MENU A TENDINA DROP-DOWN (Il Box Esterno) */
+.user-dropdown-container .dropdown-menu {
+    background-color: #1a1d27 !important; /* Colore scuro coordinato */
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 14px !important;
+    padding: 8px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    margin-top: 8px !important;
+    animation: fadeInDropdown 0.2s ease-out;
 }
 
-/* Il Menu Dropdown (Allineato e Nero) */
-.user-dropdown-container .dropdown-menu  {
-    
-    background-color: #18a680 !important;
-    border: none !important;
-    border-radius: 0 !important;
-    margin-top: 0 !important; 
-    padding: 0 !important;
-    min-width: 100% !important; 
-    animation: fadeIn 0.4s ease-out;
+/* Voci interne del dropdown */
+.dropdown-item-custom {
+    color: rgba(255, 255, 255, 0.75) !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease;
 }
 
-
-
-/* Animazione per la tendina che appare */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
+.dropdown-item-custom:hover {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-/* Le voci interne */
-.user-dropdown-container .dropdown-item {
-    
-    color: #ffc107 !important;
-    padding: 15px 20px !important;
-    text-transform: uppercase;
-    font-weight: 700;
-    
-    background-color: #18a680 !important;
-    transition: background 0.3s ease !important;
+/* Bottone di logout con hover rosso */
+.dropdown-item-custom-logout {
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease;
 }
 
-.btn-contact {
- 
-    font-weight: 600;
-    transition: all 0.3s ease-in-out;
-    position: relative;
-    cursor: pointer;
-
+.dropdown-item-custom-logout:hover {
+    color: #ffffff !important;
+    background-color: #dc3545 !important;
 }
 
-.btn-contact:hover {
-    background-color: #18a680 !important;
-    color: #ffc107 !important; /* Giallo o Bianco */
-    transform: translateY(-2px);
+/* Pulsante ACCEDI se l'utente non è loggato */
+.btn-accedi-custom {
+    transition: all 0.2s ease;
 }
-.dashboard{
-    font-weight: 600;
-    transition: all 0.3s ease-in-out;
-    position: relative;
-    cursor: pointer;
+.btn-accedi-custom:hover {
+    background-color: #bb2d3b !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
+}
 
-}
-.dashboard:hover{
-    background-color: #18a680 !important;
-    color: #ffc107 !important; /* Giallo o Bianco */
-    transform: translateY(-2px);
-
-}
-/* RESPONSIVE DESIGN */
-@media (max-width:991px) {
-    .user-section {
-        padding-top: 15px;
-        border-top: 1px solid #444;
-        margin-top: 10px;
+/* Animazione di comparsa fluida */
+@keyframes fadeInDropdown {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
     }
-
-    .avatar-circle {
-        width: 32px;
-        height: 32px;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-
 }

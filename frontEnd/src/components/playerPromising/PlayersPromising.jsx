@@ -24,22 +24,22 @@ const PromisingPlayers = ({ players }) => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     useEffect(() => {
-  setLoading(false);
+        
         const fetchUserFavorites = async () => {
             const token = localStorage.getItem('token');
-          
+
             if (!token) {
-                
+
                 return;
             }
-            try { 
-               
+            try {
+
                 const resp = await customFetch('users/me', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await resp.json();
                 setUserFavorites(data.favorites || []);
-                
+
             } catch (err) {
                 console.error("Errore nel recupero dei preferiti:", err);
 
@@ -128,9 +128,9 @@ const PromisingPlayers = ({ players }) => {
                                             <Badge bg="primary" style={{ fontSize: '0.7rem' }}>TOP PROSPECT</Badge>
                                         </div>
                                         <div className="d-flex flex-column justify-content-between align-items-start">
-                                                <Card.Title className="text-success">{player.name}</Card.Title>
-                                                <Card.Title className="text-success">{player.surname}</Card.Title>
-                                                
+                                            <Card.Title className="text-success">{player.name}</Card.Title>
+                                            <Card.Title className="text-success">{player.surname}</Card.Title>
+
                                         </div>
                                         <div className="mb-3">
                                             <small className="text-secondary">Rating: </small>
