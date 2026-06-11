@@ -49,6 +49,7 @@ const PromisingPlayers = ({ players }) => {
 
         fetchUserFavorites();
     }, []);
+    const isComponentLoading = loading || !players;
 
     const handleFavorite = async (playerId) => {
         const token = localStorage.getItem('token');
@@ -84,7 +85,7 @@ const PromisingPlayers = ({ players }) => {
                 🌟 PROSPETTI <span className="text-danger">TOP PROSPECT</span> 🌟
             </h2>
 
-            {loading ? (
+            {isComponentLoading ? (
                 <div className="d-flex justify-content-center my-5">
                     <Button variant="outline-danger" disabled className="px-4 py-2 rounded-pill shadow">
                         <Spinner
