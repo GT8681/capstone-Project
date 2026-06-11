@@ -1,4 +1,4 @@
-import { Card, Badge, Container, Row, Col, Button, Spinner,Modal } from 'react-bootstrap';
+import { Card, Badge, Container, Row, Col, Button, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { customFetch } from '../../API/api';
 import React, { useEffect, useState } from "react";
@@ -7,7 +7,7 @@ import '../playerPromising/playerPromising.css';
 import ModalHome from '../modale /ModalHome.jsx';
 
 const PromisingPlayers = ({ players }) => {
-    // Filtriamo i "promettenti" (voto >= 9 o >= 10 in base alla tua logica)
+    // Filtriamo i "promettenti" (voto >= 10 in base alla tua logica)
     const topProspects = (players || []).filter(player => Number(player.rating) >= 10);
 
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ const PromisingPlayers = ({ players }) => {
     const [playersForPage] = useState(3);
     const [userFavorites, setUserFavorites] = useState([]);
     const [loading, setLoading] = useState(true);
-    // 🚀 STATO PER LA MODALE DI AVVISO LOGIN
+    // STATO PER LA MODALE DI AVVISO LOGIN
     const [showLoginModal, setShowLoginModal] = useState(false);
 
     const indexOfLastPlayer = currentPage * playersForPage;
@@ -28,7 +28,7 @@ const PromisingPlayers = ({ players }) => {
 
             if (!token) {
                 setUserFavorites([]);
-                setLoading(false); // 🔥 FIX fondamentale: spegne lo spinner anche se non sei loggato!
+                setLoading(false); 
                 return;
             }
             try {
@@ -49,6 +49,8 @@ const PromisingPlayers = ({ players }) => {
 
         fetchUserFavorites();
     }, []);
+
+    // Sfruttiamo sia il loading delle API sia l'effettiva presenza della prop players
     const isComponentLoading = loading || !players;
 
     const handleFavorite = async (playerId) => {
@@ -85,32 +87,27 @@ const PromisingPlayers = ({ players }) => {
                 🌟 PROSPETTI <span className="text-danger">TOP PROSPECT</span> 🌟
             </h2>
 
+            {/* Usiamo isComponentLoading per sicurezza complessiva */}
             {isComponentLoading ? (
-                <div className="d-flex justify-content-center my-5">
-                    <Button variant="outline-danger" disabled className="px-4 py-2 rounded-pill shadow">
-                        <Spinner
-                            as="span"
-                            animation="grow"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                            className="me-2"
-                        />
+                <div className="d-flex flex-column align-items-center justify-content-center my-5 gap-3">
+                    <Spinner
+                        animation="border"
+                        variant="danger" 
+                        style={{ width: '3rem', height: '3rem' }} 
+                        role="status"
+                    />
+                    <span className="text-muted fw-bold text-uppercase small tracking-wider">
                         Caricamento talenti...
-                    </Button>
+                    </span>
                 </div>
             ) : (
-                /* 🔥 FIX GRIGLIA: Sostituito il vecchio 'div' con un 'Row' nativo di Bootstrap */
                 <Row className="g-4 justify-content-center">
                     {currentPlayers.map((player) => (
                         <Col key={player._id} xs={12} md={6} xl={4}>
-                            {/* 🚀 FIX: Inserite le classi corrette player-card-horizontal e rimosso ombre chiare */}
                             <Card className="border-0 player-card-horizontal overflow-hidden">
-                                {/* 🚀 FIX: h-100 e w-100 sulla Row assicurano che le colonne riempiano i 160px di altezza */}
                                 <Row className="g-0 h-100 w-100 m-0">
 
                                     {/* 📸 LATO SINISTRO: IMMAGINE GIOCATORE */}
-                                    {/* Usiamo col-5 nativo per bloccare la proporzione orizzontale */}
                                     <div className="col-5 p-0 position-relative h-100">
                                         <div className="img-horizontal-wrapper">
                                             <img
@@ -119,7 +116,6 @@ const PromisingPlayers = ({ players }) => {
                                                 alt={`${player.name} ${player.surname}`}
                                             />
                                         </div>
-                                        {/* Badge Ruolo posizionato in absolute sopra l'immagine */}
                                         <span className="position-absolute bottom-2 start-2 main-badge-role">
                                             {player.role || 'ATT'}
                                         </span>
@@ -138,14 +134,13 @@ const PromisingPlayers = ({ players }) => {
                                                         e.stopPropagation();
                                                         handleFavorite(player._id);
                                                     }}
-                                                    className="main-favorite-btn-position-horizontal" // Classe per gestire il cuore in orizzontale
+                                                    className="main-favorite-btn-position-horizontal"
                                                     style={{ cursor: 'pointer' }}
                                                 >
                                                     <i className={`bi ${userFavorites?.includes(player._id) ? 'bi-heart-fill text-danger' : 'bi-heart text-white-50'}`} style={{ fontSize: '1rem' }}></i>
                                                 </div>
                                             </div>
 
-                                            {/* Nome e Cognome con le classi del tuo font Montserrat */}
                                             <h6 className="text-uppercase fw-bold mb-1 text-truncate text-white main-player-title">
                                                 <span className="text-white-50 d-block text-capitalize main-small-name">{player.name}</span>
                                                 {player.surname}
@@ -157,21 +152,18 @@ const PromisingPlayers = ({ players }) => {
                                             </div>
                                         </div>
 
-                                        {/* 🚀 FIX: Agganciata la classe btn-action-details-horizontal */}
                                         <Button
                                             className="btn-action-details-horizontal w-100 fw-bold text-uppercase rounded-3 py-1.5 small"
                                             onClick={() => {
                                                 if (!localStorage.getItem('token')) {
-                                                    setShowLoginModal(true); // 🔥 Apre la modale se manca il token
+                                                    setShowLoginModal(true);
                                                 } else {
                                                     navigate(`/player-details/${player._id}`);
-
                                                 }
                                             }}
                                         >
                                             👁️ Analizza
                                         </Button>
-                                        <ModalHome show={showLoginModal} onHide={() => setShowLoginModal(false)}/>
                                     </div>
 
                                 </Row>
@@ -179,15 +171,16 @@ const PromisingPlayers = ({ players }) => {
                         </Col>
                     ))}
 
+                    {/* Mostra il feedback "vuoto" solo se non sta caricando ed effettivamente non ci sono prospetti */}
                     {topProspects.length === 0 && (
-                        <Col className="text-center text-muted my-4">
-                            Nessun giocatore con valutazione Top (Voto 9 o 10) registrato.
+                        <Col xs={12} className="text-center text-muted my-4">
+                            Nessun giocatore con valutazione Top (Voto 10) registrato.
                         </Col>
                     )}
                 </Row>
             )}
 
-            {/* PAGINAZIONE AGGIORNATA E COERENTE */}
+            {/* PAGINAZIONE */}
             <div className="d-flex justify-content-center align-items-center mt-5 mb-5 gap-3">
                 <button
                     className="btn btn-outline-secondary px-3 py-1 rounded-pill text-uppercase small fw-bold"
@@ -198,7 +191,7 @@ const PromisingPlayers = ({ players }) => {
                 </button>
 
                 <span className="align-self-center text-dark font-monospace" style={{ fontSize: '0.9rem' }}>
-                    PAGINE: <strong className="text-danger  bg-opacity-40 px-1 py-1 rounded-3 mx-1">{currentPage}</strong>
+                    PAGINE: <strong className="text-danger bg-opacity-40 px-1 py-1 rounded-3 mx-1">{currentPage}</strong>
                 </span>
 
                 <button
@@ -209,6 +202,9 @@ const PromisingPlayers = ({ players }) => {
                     ▶
                 </button>
             </div>
+
+            {/* Modale globale fuori dai cicli */}
+            <ModalHome show={showLoginModal} onHide={() => setShowLoginModal(false)}/>
         </Container>
     );
 };
