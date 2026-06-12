@@ -26,20 +26,18 @@ const SoccerNews = () => {
         <Container className="my-5">
             <h2 className="text-danger text-center mb-5">📰 ULTIME NOTIZIE CALCIO</h2>
 
-            {loading ? (
-                <div className="d-flex justify-content-center my-5">
-                    <Button variant="primary" disabled>
-                        <Spinner
-                            as="span"
-                            animation="grow"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                        />
-                        Loading...
-                    </Button>
-
-                </div>
+           {loading ? (
+                          <div className="d-flex flex-column align-items-center justify-content-center my-5 gap-3">
+                              <Spinner
+                                  animation="border"
+                                  variant="danger" 
+                                  style={{ width: '3rem', height: '3rem' }} 
+                                  role="status"
+                              />
+                              <span className="text-muted fw-bold text-uppercase small tracking-wider">
+                                  Caricamento News...
+                              </span>
+                          </div>
             ) : (
                 <Row>
                     {news.map((article, index) => (
