@@ -50,9 +50,6 @@ const PromisingPlayers = ({ players }) => {
         fetchUserFavorites();
     }, []);
 
-    // Sfruttiamo sia il loading delle API sia l'effettiva presenza della prop players
-    const isComponentLoading = loading || !players;
-
     const handleFavorite = async (playerId) => {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -86,9 +83,8 @@ const PromisingPlayers = ({ players }) => {
             <h2 className="text-dark fw-black text-uppercase tracking-wide text-center mb-5" style={{ letterSpacing: '1px' }}>
                 🌟 PROSPETTI <span className="text-danger">TOP PROSPECT</span> 🌟
             </h2>
-
-            {/* Usiamo isComponentLoading per sicurezza complessiva */}
-            {isComponentLoading ? (
+            
+            {loading ? (
                 <div className="d-flex flex-column align-items-center justify-content-center my-5 gap-3">
                     <Spinner
                         animation="border"
