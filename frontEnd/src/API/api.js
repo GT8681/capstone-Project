@@ -1,5 +1,5 @@
 const BASE_URL='https://capstone-project-awft.onrender.com';
-
+// API call function with token and content type
 export const customFetch = async (endpoint ,options = {}) => {
     const token = localStorage.getItem('token');
 
