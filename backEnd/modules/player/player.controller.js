@@ -11,6 +11,7 @@ export const getPlayers = async (req, res) => {
             query.$or = [
                 { name: { $regex: search, $options: 'i' } },
                 { surname: { $regex: search, $options: 'i' } }
+            
             ];
         }
 
