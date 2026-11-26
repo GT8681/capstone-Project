@@ -37,7 +37,7 @@ const playerSchema = new Schema(
     height: {
         type : Number,
         required:false,
-        dafault:0
+        default:0
 
     },
     weight:{
